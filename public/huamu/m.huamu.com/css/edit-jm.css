@@ -1,0 +1,49 @@
+﻿
+.ui-checkbox, .ui-radio{
+    margin:0 !important;
+    position: static;
+}
+
+.ui-checkbox input, .ui-radio input{
+    position: static;
+    top:0;
+    left: 0;
+    margin: 0;
+}
+.ui-overlay-a, .ui-page-theme-a, .ui-page-theme-a .ui-panel-wrapper{
+    background: #eee !important;
+}
+
+.ui-bar-a, .ui-page-theme-a .ui-bar-inherit, html .ui-bar-a .ui-bar-inherit, html .ui-body-a .ui-bar-inherit, html body .ui-group-theme-a .ui-bar-inherit{
+    text-shadow: none !important;   
+}
+.ui-page-theme-a a:visited, html .ui-bar-a a:visited, html .ui-body-a a:visited, html body .ui-group-theme-a a:visited{
+    color:#797979 !important;
+}
+.ui-shadow-inset{
+    box-shadow: none;
+}
+
+.ui-page-theme-a .ui-focus{
+    box-shadow: none;
+}
+.ui-page-theme-a a{
+    font-weight: normal;
+}
+.ui-page-theme-a{
+    text-shadow: none !important; 
+}
+
+.ui-mobile label{
+    display: inline-block;
+    margin: 0;
+}
+	
+.ui-input-btn input{
+    position: static;
+    width: auto !important;
+}
+
+
+
+

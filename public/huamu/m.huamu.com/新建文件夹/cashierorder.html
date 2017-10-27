@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>地球村竞苗平台在线交易专业平台</title>
+<meta name="keywords" content="地球村竞苗平台网,花木网,花木,中国苗木网,花木交易,花木求购,花木资讯,花木论坛,花木销售,绿化苗木" />
+<meta name="description" content="地球村竞苗平台网，中国苗木网，地球村竞苗平台在线交易专业平台，致力于为花木行业从业者提供更真实的花木在线交易平台，让您没有买不到的，没有卖不掉的。" />
+    <link rel="stylesheet"  href="css/mobile-select-area.css">
+    <!--<link rel="stylesheet" href="css/larea.css">-->
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <!--<link rel="stylesheet" href="css/sm.min.css">-->
+    <!--<script type='text/javascript' src='js/zepto.min.js' charset='utf-8'></script>-->
+    <!--<script type='text/javascript' src='js/sm.min.js' charset='utf-8'></script>-->
+    <script src="js/jquery-1.11.2.js" type="text/javascript"></script>
+    <script src="js/layer.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script src="js/mlselection.js"></script>
+    <script src="js/huamu.js" type="text/javascript"></script>
+    <script src="js/jquery.validate.js" type="text/javascript"></script>
+    <script src="js/jquery.validate.extend.js" type="text/javascript"></script>
+    <script src="js/additional-methods-huamu.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/common.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/dialog.js"></script>
+    <script type="text/javascript" src="js/mobile-select-area.js"></script>
+    <script type="text/javascript" src="js/json2.js" ></script>
+    <script type="text/javascript" src="js/underscore-min.js" ></script>
+    <script src="js/ydbonline.js" type="text/javascript"></script>
+    <script>
+        //模板设置
+        _.templateSettings = {
+            interpolate: /\{(.+?)}/g
+        };
+        var SITE_URL = "http://m.huamu.com";
+        var REAL_SITE_URL = "http://m.huamu.com";
+        var PRICE_FORMAT = '¥%s';
+
+    </script>
+    <script type="text/javascript">
+        var lat = 0;
+        var lon = 0;
+        function getCookie(c_name)
+        {
+            if (document.cookie.length>0)
+            {
+                c_start=document.cookie.indexOf(c_name + "=");
+                if (c_start!=-1)
+                {
+                    c_start=c_start + c_name.length+1;
+                    c_end=document.cookie.indexOf(";",c_start);
+                    if (c_end==-1) c_end=document.cookie.length;
+                    return unescape(document.cookie.substring(c_start,c_end));
+                }
+            }
+            return "";
+        }
+
+        function setCookie(c_name,value,expiredays)
+        {
+            var exdate=new Date();
+            exdate.setDate(exdate.getDate()+expiredays);
+            document.cookie=c_name+ "=" +escape(value)+
+                ((expiredays==null) ? "" : ";expires="+exdate.toGMTString());
+        }
+
+        function checkCookie(ll_name)
+        {
+            cookie_v=getCookie(ll_name);
+            if (cookie_v!=null && cookie_v!="")
+            {
+                if(ll_name=="lat"){
+                    lat=cookie_v;
+                } else if(ll_name=="lon"){
+                    lon=cookie_v;
+                }
+            }
+        }
+    </script>
+
+</head>
+<body class="bg-f8">
+<header class="user_center_header">
+    <a class="go_back_btn" href="javascript:history.go(-1)">
+        <span class="iconfont">&#xe698;</span>
+    </a>
+    <h1>订单支付</h1>
+</header>
+<div class="padding_container bg-fff foot_border-top text_center should_pay">
+    <h3 class="color_34 font_3r fontWeight_5 " id="order_amount">应付金额 ¥ 2500.00</h3>
+    <div class="border_none">
+        <span class="font_24r color_67">含运费：¥0.00</span>
+    </div>
+</div>
+<div class="pay_mode_container">
+    <form id="form" action="" method="POST" style="background:none;" class='about-cancel'>
+        <input type="hidden" name="hm_csrf" value="bWuaezggsB9XggCaDuEWWxMoRFt6LLLt" />
+        <input type="hidden" name="choice" value="choice"/>
+        <input type="hidden" name="pay_type" value="x_pay"/>
+        <div class="form_item bg-fff user_store padding_flanks">
+            <span class="font_3r fontWeight_5 color_34">订单编号:</span>
+            <span class="fr font_26r">1729968676</span>
+        </div>
+        <div class="form_item padding_flanks user_store bg-fff">
+            <a class="input_checkbox-right a_full ">
+                <span class="font_3r">余额支付：<span class="color_ff710c" id="buyer_amount">¥ 0.00</span></span>
+                <input type="checkbox" class="input-select" id="use_buyer_amount" />
+                <input name="use_buyer_amount" value="0" type="hidden"/>
+
+            </a>
+        </div>
+                <div class="user_store bg-fff padding_flanks">
+            <div class="form_item user_store bg-fff">
+                <a class="a_full">
+                    <span class="font_3r">您还应支付：<span class="color_ff710c" id="need">¥ 2500.00</span></span>
+                </a>
+            </div>
+           <!-- <div class="form_item">
+                <a class="input_radio-right a_full">
+                    <span class="iconfont font_38r color_25ac39">&#xe6ae;</span>
+                    <span class="font_3r">易宝支付</span>
+                    <input type="radio" class="input-select" name="x_pay_type" id="yeepayOne" checked="checked" value="yeepay_one"/>
+                </a>
+            </div>//2017-5-19-->
+        </div>
+            </form>
+
+</div>
+<div class="padding_flanks">
+    <button class="secede_debark_btn" type="button" onclick="$('#form').trigger('submit');">立即支付</button>
+</div>
+
+<footer class="foot_border-top">
+    <div class="foot_member ">
+        <a href="http://m.huamu.com/index.php?ch=ibuy">
+            <span class="iconfont">&#xe692;</span>
+            <p>我要买</p>
+        </a>
+    </div>
+    <div class="foot_member ">
+        <a href="http://m.huamu.com/index.php?app=isell">
+            <span class="iconfont">&#xe68d;</span>
+            <p>我要卖</p>
+        </a>
+    </div>
+    <div class="foot_member ">
+        <!--<a href="url app=discover">-->
+            <!--<span class="iconfont" style="font-weight:900">&#xe694;</span>-->
+            <!--<p>发现</p>-->
+        <!--</a>-->
+        <a class="goods_car-header" href="http://m.huamu.com/index.php?app=cart">
+            <span class="iconfont position_relative" style="font-size: 26px;font-weight:400">
+                &#xe6cd;
+                <span class="foot_car_num goods_car">2</span>
+            </span>
+            <p>购物车</p>
+        </a>
+    </div>
+    <div class="foot_member ">
+        <a href="http://m.huamu.com/index.php?app=member">
+            <span class="iconfont">&#xe693;</span>
+            <p>我的</p>
+        </a>
+    </div>
+</footer>
+
+<span style='visible:hidden;'>
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?79ff8b04d2408694a6d3bf5a8f2d368e";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</span>
+<script type="text/javascript">
+    //支付方式选择
+    $(".pay_mode .input_radio-right input[type='radio']:checked").parent(".input_radio-right").addClass("input_radio_select");
+    $(".pay_mode .input_checkbox-right input[type='checkbox']:checked").parent(".input_checkbox-right").addClass("input_radio_select");
+    $(".pay_mode .input_radio-right").click(function () {
+        $(".pay_mode .input_radio-right").removeClass("input_radio_select").find("input[type='radio']").attr("checked", false);
+        $(this).addClass("input_radio_select").find("input[type='radio']").attr("checked", "checked");
+    });
+
+
+    $(document).ready(function(){
+        var order_amount = parseFloat('2500.00').toFixed(2);
+        var buyer_amount = parseFloat('0.00').toFixed(2);
+        var need_money = parseFloat(order_amount).toFixed(2);
+
+        $(".input_checkbox-right").click(function () {
+            if($(this).hasClass('input_radio_select')){
+                $(this).removeClass('input_radio_select');
+                $("#use_buyer_amount").attr('checked', false);
+                need_money = order_amount;
+                $('input[name=use_buyer_amount]').val(0);
+            }else{
+                $(this).addClass('input_radio_select');
+                $("#use_buyer_amount").attr('checked', true);
+                need_money = order_amount - buyer_amount;
+                $('input[name=use_buyer_amount]').val(1);
+            }
+            $('#need').text("¥ " + parseFloat(need_money).toFixed(2));
+        });
+    });
+
+</script>
+
+</body>
+</html>

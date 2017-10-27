@@ -1,0 +1,557 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>我要卖 - 竞苗平台</title>
+<meta name="keywords" content="竞苗平台,花木网,花木,中国苗木网,花木交易,花木求购,花木资讯,花木论坛,花木销售,绿化苗木" />
+<meta name="description" content="竞苗平台，中国苗木网，中国花木在线交易专业平台，致力于为花木行业从业者提供更真实的花木在线交易平台，让您没有买不到的，没有卖不掉的。" />
+    <link rel="stylesheet"  href="css/mobile-select-area.css">
+    <!--<link rel="stylesheet" href="css/larea.css">-->
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <!--<link rel="stylesheet" href="css/sm.min.css">-->
+    <!--<script type='text/javascript' src='js/zepto.min.js' charset='utf-8'></script>-->
+    <!--<script type='text/javascript' src='js/sm.min.js' charset='utf-8'></script>-->
+    <script src="js/jquery-1.11.2.js" type="text/javascript"></script>
+    <script src="js/layer.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script src="js/mlselection.js"></script>
+    <script src="js/huamu.js" type="text/javascript"></script>
+    <script src="js/jquery.validate.js" type="text/javascript"></script>
+    <script src="js/jquery.validate.extend.js" type="text/javascript"></script>
+    <script src="js/additional-methods-huamu.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/common.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/dialog.js"></script>
+    <script type="text/javascript" src="js/mobile-select-area.js"></script>
+    <script type="text/javascript" src="js/json2.js" ></script>
+    <script type="text/javascript" src="js/underscore-min.js" ></script>
+    <script>
+        //模板设置
+        _.templateSettings = {
+            interpolate: /\{(.+?)}/g
+        };
+        var SITE_URL = ".";
+        var REAL_SITE_URL = ".";
+        var PRICE_FORMAT = '¥%s';
+
+    </script>
+
+</head>
+<body style="padding:50px 0;">
+<header class="user_center_header sell_index-header text_left">
+    <img src="images/huamu_logo.png" class="header_logo"/>
+    <a class="sell_header_search_box">
+        <span class="iconfont color_96cec3">&#xe608;</span>
+        <input class="hunt_input" type="text" placeholder="搜索您想要的商品" value="搜索您想要的商品"/>
+    </a>
+</header>
+<div class="sell_index-main">
+    <ul class="sell_my_operation-list clearfix bg-00ad8b padding_top_bottom">
+        <li class="fl">
+            <a href="./index.php?app=my_goods&act=add">
+                <div class="icon_bg_container bg-fff">
+                    <span class="iconfont color_02c5a3">&#xe60d;</span>
+                </div>
+                <p class="color_fff">发布商品</p>
+            </a>
+        </li>
+        <li class="fl">
+            <a href="./index.php?app=my_goods&act=index">
+                <div class="icon_bg_container bg-fff">
+                    <span class="iconfont color_02c5a3">&#xe6a5;</span>
+                </div>
+                <p class="color_fff">我的商品</p>
+            </a>
+        </li>
+        <li class="fl">
+            <a href="./index.php?app=seller_order">
+                <div class="icon_bg_container bg-fff">
+                    <span class="iconfont color_02c5a3">&#xe6a6;</span>
+                </div>
+                <p class="color_fff">我的订单</p>
+            </a>
+        </li>
+    </ul>
+
+
+
+    <ul class="sell_nav-list bg-fff clearfix bd_top_bottom-eee">
+        <li class="fl">
+            <a href="/qiugou">
+                <div class="icon_bg_container bg-f9792a">
+                    <span class="iconfont">&#xe6e4;</span>
+                </div>
+                <p>采购大厅</p>
+            </a>
+        </li>
+        <li class="fl">
+            <a href="./index.php?app=my_rquote">
+                <div class="icon_bg_container bg-299bdc">
+                    <span class="iconfont">&#xe6a8;</span>
+                </div>
+                <p>我的报价</p>
+            </a>
+        </li>
+        <li class="fl">
+            <a href="./index.php?app=news&cate_id=6">
+                <div class="icon_bg_container bg-02c5a3">
+                    <span class="iconfont">&#xe6a3;</span>
+                </div>
+                <p>苗木资讯</p>
+            </a>
+        </li>
+        <li class="fl">
+            <a href="./index.php?app=brand&act=promotion_effects">
+                <div class="icon_bg_container bg-ff5b48">
+                    <span class="iconfont">&#xe6a7;</span>
+                </div>
+                <p>推广效果</p>
+            </a>
+        </li>
+    </ul>
+    <!--
+    <div class="bg-fff clearfix hmw_usage bd_top_bottom-eee">
+        <a href="#" class="fl">
+            <span>学用花木网</span>
+            <img class="relative_top" src="images/sell_audio_03.png"/>
+        </a>
+        <a href="#" class="fl offline_prefecture">
+            <span>线下服务专区</span>
+            <img src="images/sell_audio_05.png"/>
+        </a>
+    </div>
+    -->
+    
+    <div class="img_carousel">
+        <h1 class="font_3r color_34 bg-fff">精彩活动</h1>
+        <div class="slipping-area">
+            <div class="slipping-imgbox">
+                    <img  src="images/newyear_gift.jpg" alt=""/>
+                    <img  src="images/fupin.png" alt=""/>
+                    <img  src="images/mall-banner4.jpg" alt=""/>
+                    <img  src="images/mall-banner1.jpg" alt=""/>
+                    <img  src="images/mall-banner2.png">
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="padding_flanks bg-fff">
+            <div class="store_padding border_none">
+                <a class="a_full position_relative"  onclick="location='/qiugou';">
+                    <span class="font_3r fontWeight_5 color_34 goods_name-title">求购信息</span>
+                    <b class="iconfont select_arrows-icon">&#xe614;</b>
+                </a>
+            </div>
+        </div>
+        <ul class="purchase_information-list">
+                                                <li class="bg-fff bd_top_bottom-eee">
+                <a href="./qiugou/20171017_12718_9269.html">
+                    <h3>大叶女贞</h3>
+                    <p>
+                                                                        高度:450<b></b> &nbsp;
+                                                                                                                        米径:12<b></b> &nbsp;
+                                                                                            </p>
+                                        <p>苗源：不限地区</p>
+                                        <p class="purchase_information_quote">
+                        <span class="color_ff7414">已有2人报价</span>
+                        <span>截止日期：2017.11.16</span>
+                    </p>
+                    <span class="purchase_num"><span class="color_ff7414">30</span>棵</span>
+                    <a class="quote_btn" href="./qiugou/20171017_12718_9269.html">报价</a>
+                </a>
+            </li>
+                                                                        <li class="bg-fff bd_top_bottom-eee">
+                <a href="./qiugou/20171017_12719_9268.html">
+                    <h3>栾树</h3>
+                    <p>
+                                                                        高度:400<b></b> &nbsp;
+                                                                                                                        米径:15<b></b> &nbsp;
+                                                                                            </p>
+                                        <p>苗源：不限地区</p>
+                                        <p class="purchase_information_quote">
+                        <span class="color_ff7414">已有1人报价</span>
+                        <span>截止日期：2017.11.16</span>
+                    </p>
+                    <span class="purchase_num"><span class="color_ff7414">50</span>棵</span>
+                    <a class="quote_btn" href="./qiugou/20171017_12719_9268.html">报价</a>
+                </a>
+            </li>
+                                                                        <li class="bg-fff bd_top_bottom-eee">
+                <a href="./qiugou/20171017_12720_9267.html">
+                    <h3>红叶石楠球</h3>
+                    <p>
+                                                                        冠幅:150<b></b> &nbsp;
+                                                <span><b></b></span>
+                                                                                            </p>
+                                        <p>苗源：不限地区</p>
+                                        <p class="purchase_information_quote">
+                        <span class="color_ff7414">已有3人报价</span>
+                        <span>截止日期：2017.11.16</span>
+                    </p>
+                    <span class="purchase_num"><span class="color_ff7414">500</span>棵</span>
+                    <a class="quote_btn" href="./qiugou/20171017_12720_9267.html">报价</a>
+                </a>
+            </li>
+                                                                        <li class="bg-fff bd_top_bottom-eee">
+                <a href="./qiugou/20171017_12723_9266.html">
+                    <h3>紫玉兰</h3>
+                    <p>
+                                                                        高度:300<b></b> &nbsp;
+                                                                                                                        地径:15<b></b> &nbsp;
+                                                                                            </p>
+                                        <p>苗源：不限地区</p>
+                                        <p class="purchase_information_quote">
+                        <span class="color_ff7414">已有0人报价</span>
+                        <span>截止日期：2017.11.16</span>
+                    </p>
+                    <span class="purchase_num"><span class="color_ff7414">100</span>棵</span>
+                    <a class="quote_btn" href="./qiugou/20171017_12723_9266.html">报价</a>
+                </a>
+            </li>
+                                                                        <li class="bg-fff bd_top_bottom-eee">
+                <a href="./qiugou/20171017_12724_9265.html">
+                    <h3>国槐</h3>
+                    <p>
+                                                                        高度:3.3<b></b> &nbsp;
+                                                                                                                        米径:5<b></b> &nbsp;
+                                                                                            </p>
+                                        <p>苗源：不限地区</p>
+                                        <p class="purchase_information_quote">
+                        <span class="color_ff7414">已有1人报价</span>
+                        <span>截止日期：2017.11.16</span>
+                    </p>
+                    <span class="purchase_num"><span class="color_ff7414">10000</span>棵</span>
+                    <a class="quote_btn" href="./qiugou/20171017_12724_9265.html">报价</a>
+                </a>
+            </li>
+                                                                        <li class="bg-fff bd_top_bottom-eee">
+                <a href="./qiugou/20171017_12722_9263.html">
+                    <h3>白蜡</h3>
+                    <p>
+                                                                        高度:700<b></b> &nbsp;
+                                                                                                                        米径:15<b></b> &nbsp;
+                                                                                            </p>
+                                        <p>苗源：不限地区</p>
+                                        <p class="purchase_information_quote">
+                        <span class="color_ff7414">已有0人报价</span>
+                        <span>截止日期：2017.11.16</span>
+                    </p>
+                    <span class="purchase_num"><span class="color_ff7414">50</span>棵</span>
+                    <a class="quote_btn" href="./qiugou/20171017_12722_9263.html">报价</a>
+                </a>
+            </li>
+                                                                        <li class="bg-fff bd_top_bottom-eee">
+                <a href="./qiugou/20171017_12721_9262.html">
+                    <h3>迎春</h3>
+                    <p>
+                                                                        高度:80<b></b> &nbsp;
+                                                <span><b></b></span>
+                                                                                            </p>
+                                        <p>苗源：不限地区</p>
+                                        <p class="purchase_information_quote">
+                        <span class="color_ff7414">已有0人报价</span>
+                        <span>截止日期：2017.11.16</span>
+                    </p>
+                    <span class="purchase_num"><span class="color_ff7414">12300</span>棵</span>
+                    <a class="quote_btn" href="./qiugou/20171017_12721_9262.html">报价</a>
+                </a>
+            </li>
+                                                                        <li class="bg-fff bd_top_bottom-eee">
+                <a href="./qiugou/20171017_12717_9256.html">
+                    <h3>紫玉兰</h3>
+                    <p>
+                                                                        高度:400<b></b> &nbsp;
+                                                                                                                        地径:10<b></b> &nbsp;
+                                                                                                                                            </p>
+                                        <p>苗源：不限地区</p>
+                                        <p class="purchase_information_quote">
+                        <span class="color_ff7414">已有0人报价</span>
+                        <span>截止日期：2017.10.20</span>
+                    </p>
+                    <span class="purchase_num"><span class="color_ff7414">25</span>棵</span>
+                    <a class="quote_btn" href="./qiugou/20171017_12717_9256.html">报价</a>
+                </a>
+            </li>
+                        <li class="bg-fff bd_top_bottom-eee">
+                <a href="./qiugou/20171017_12717_9257.html">
+                    <h3>紫玉兰</h3>
+                    <p>
+                                                                        高度:400<b></b> &nbsp;
+                                                                                                                        地径:14<b></b> &nbsp;
+                                                                                                                                            </p>
+                                        <p>苗源：不限地区</p>
+                                        <p class="purchase_information_quote">
+                        <span class="color_ff7414">已有0人报价</span>
+                        <span>截止日期：2017.10.20</span>
+                    </p>
+                    <span class="purchase_num"><span class="color_ff7414">20</span>棵</span>
+                    <a class="quote_btn" href="./qiugou/20171017_12717_9257.html">报价</a>
+                </a>
+            </li>
+                        <li class="bg-fff bd_top_bottom-eee">
+                <a href="./qiugou/20171017_12717_9258.html">
+                    <h3>紫玉兰</h3>
+                    <p>
+                                                                        高度:400<b></b> &nbsp;
+                                                                                                                        地径:18<b></b> &nbsp;
+                                                                                                                                            </p>
+                                        <p>苗源：不限地区</p>
+                                        <p class="purchase_information_quote">
+                        <span class="color_ff7414">已有0人报价</span>
+                        <span>截止日期：2017.10.20</span>
+                    </p>
+                    <span class="purchase_num"><span class="color_ff7414">25</span>棵</span>
+                    <a class="quote_btn" href="./qiugou/20171017_12717_9258.html">报价</a>
+                </a>
+            </li>
+                                                                        <li class="bg-fff bd_top_bottom-eee">
+                <a href="./qiugou/20171017_12716_9253.html">
+                    <h3>西府海棠</h3>
+                    <p>
+                                                                        高度:400<b></b> &nbsp;
+                                                                                                                        米径:8<b></b> &nbsp;
+                                                                                                                                            </p>
+                                        <p>苗源：不限地区</p>
+                                        <p class="purchase_information_quote">
+                        <span class="color_ff7414">已有0人报价</span>
+                        <span>截止日期：2017.10.20</span>
+                    </p>
+                    <span class="purchase_num"><span class="color_ff7414">150</span>棵</span>
+                    <a class="quote_btn" href="./qiugou/20171017_12716_9253.html">报价</a>
+                </a>
+            </li>
+                        <li class="bg-fff bd_top_bottom-eee">
+                <a href="./qiugou/20171017_12716_9254.html">
+                    <h3>西府海棠</h3>
+                    <p>
+                                                                        高度:400<b></b> &nbsp;
+                                                                                                                        地径:11<b></b> &nbsp;
+                                                                                                                                            </p>
+                                        <p>苗源：不限地区</p>
+                                        <p class="purchase_information_quote">
+                        <span class="color_ff7414">已有0人报价</span>
+                        <span>截止日期：2017.10.20</span>
+                    </p>
+                    <span class="purchase_num"><span class="color_ff7414">100</span>棵</span>
+                    <a class="quote_btn" href="./qiugou/20171017_12716_9254.html">报价</a>
+                </a>
+            </li>
+                        <li class="bg-fff bd_top_bottom-eee">
+                <a href="./qiugou/20171017_12716_9255.html">
+                    <h3>西府海棠</h3>
+                    <p>
+                                                                        高度:3<b></b> &nbsp;
+                                                                                                                        地径:6<b></b> &nbsp;
+                                                                                                                                            </p>
+                                        <p>苗源：不限地区</p>
+                                        <p class="purchase_information_quote">
+                        <span class="color_ff7414">已有0人报价</span>
+                        <span>截止日期：2017.10.20</span>
+                    </p>
+                    <span class="purchase_num"><span class="color_ff7414">250</span>棵</span>
+                    <a class="quote_btn" href="./qiugou/20171017_12716_9255.html">报价</a>
+                </a>
+            </li>
+                                                                        <li class="bg-fff bd_top_bottom-eee">
+                <a href="./qiugou/20171016_12715_9252.html">
+                    <h3>栀子花</h3>
+                    <p>
+                                                                        高度:40<b></b> &nbsp;
+                                                                                                                        地径:20<b></b> &nbsp;
+                                                                                                                                            </p>
+                                        <p>苗源：不限地区</p>
+                                        <p class="purchase_information_quote">
+                        <span class="color_ff7414">已有3人报价</span>
+                        <span>截止日期：2017.10.19</span>
+                    </p>
+                    <span class="purchase_num"><span class="color_ff7414">320000</span>棵</span>
+                    <a class="quote_btn" href="./qiugou/20171016_12715_9252.html">报价</a>
+                </a>
+            </li>
+                                            </ul>
+    </div>
+    <div class="img_carousel">
+        <h1 class="font_3r color_34 bg-fff bd_bottom-eee">苗木资讯</h1>
+        <ul class="service_advantage-list bg-fff" id="article_list">
+
+        </ul>
+    </div>
+
+
+
+    <div class="margin-top_12 bg-fff text_center padding_top_bottom color_67 bd_top-eee">
+        <div class="copyright-con padding_top_bottom">
+            <p>
+                河南度网科技股份有限公司&nbsp;&nbsp;竞苗平台&nbsp;&nbsp;Huamu.com
+            </p>
+            <p>豫B2-20120012-8 &nbsp;&nbsp; 电话：4000-000-844</p>
+        </div>
+        <div class="facility_select clearfix">
+            <div>
+                <a href="http://www.huamu.com/">
+                    <span class="iconfont">&#xe6dc;</span>
+                    <p>电脑版</p>
+                </a>
+            </div>
+            <div>
+                <a href="./">
+                    <span class="iconfont">&#xe6da;</span>
+                    <p>手机版</p>
+                </a>
+            </div>
+            <div>
+                <a href="http://a.app.qq.com/o/simple.jsp?pkgname=com.wta.YdbDev.jiuwei30853#opened">
+                    <span class="iconfont">&#xe6db;</span>
+                    <p>APP</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="hunt_popup" style="display: none">
+    <header class="hunt_head">
+        <a class="hunt_header_abolish color_02c5a3">取消</a>
+        <div>
+            <input type="text" id="keyword"/>
+            <a class="color_fff" onclick="search_goods()">搜索</a>
+        </div>
+    </header>
+    <div class="hunt_main padding_flanks">
+        <p class="hunt_p">热门搜索</p>
+        <ul class="hunt_hot_list clearfix">
+                        <li><a href="./index.php?app=search&act=index&keyword=%E4%BA%94%E8%A7%92%E6%9E%AB">五角枫</a></li>
+                        <li><a href="./index.php?app=search&act=index&keyword=%E6%A1%82%E8%8A%B1">桂花</a></li>
+                        <li><a href="./index.php?app=search&act=index&keyword=%E9%A6%99%E6%A8%9F">香樟</a></li>
+                        <li><a href="./index.php?app=search&act=index&keyword=%E6%9C%B4%E6%A0%91">朴树</a></li>
+                        <li><a href="./index.php?app=search&act=index&keyword=%E9%93%B6%E6%9D%8F">银杏</a></li>
+                        <li><a href="./index.php?app=search&act=index&keyword=%E5%B9%BF%E7%8E%89%E5%85%B0">广玉兰</a></li>
+                        <li><a href="./index.php?app=search&act=index&keyword=%E7%B4%AB%E8%96%87">紫薇</a></li>
+                        <li><a href="./index.php?app=search&act=index&keyword=%E7%BD%97%E6%B1%89%E6%9D%BE">罗汉松</a></li>
+                        <li><a href="./index.php?app=search&act=index&keyword=%E5%9B%BD%E6%A7%90">国槐</a></li>
+                        <li><a href="./index.php?app=search&act=index&keyword=%E7%BA%A2%E8%B1%86%E6%9D%89">红豆杉</a></li>
+                        <li><a href="./index.php?app=search&act=index&keyword=%E6%A8%B1%E8%8A%B1">樱花</a></li>
+                        <li><a href="./index.php?app=search&act=index&keyword=%E7%BA%A2%E5%8F%B6%E7%9F%B3%E6%A5%A0">红叶石楠</a></li>
+                    </ul>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function search_goods(){
+        var keyword = $.trim($("#keyword").val());
+        var url = "/index.php?app=search&act=index&keyword=" + keyword;
+        location = url;
+    }
+    $("#keyword").keyup(function(event){
+        if(event.keyCode == 13){
+            search_goods();
+        }
+    });
+</script>
+<script type="text/javascript" src="js/slip.js"></script>
+<script>
+    window.onload=function(){
+        slip.iniT('.slipping-area',2000);
+    };
+    //模板设置
+    _.templateSettings = {
+        interpolate: /\{(.+?)}/g
+    };
+
+    var article_tpl = '' +
+            '<li>' +
+            '<a href="{article_url}"> ' +
+            '<dl class="clearfix service_advantage">' +
+            '<dt class="fl"> <img src="images/5729459f7fa54d45958d0344d88943ff.gif"/> </dt> ' +
+            '<dd class="fl"> ' +
+            '<h3 class="font_26r">{title}</h3>' +
+            ' <p>{summary}</p>' +
+            ' </dd>' +
+            '</dl>' +
+            ' </a>' +
+            '</li>';
+
+    $(function(){
+        //加载新闻公告
+        $.get("/index.php?app=news&act=index&ajax&cate_id=6&limit=6",function(result){
+            try{
+                var articles = result.data;
+                for(var i in articles){
+                    var article = articles[i];
+                    var tpl = _.template(article_tpl);
+                    $("#article_list").append(tpl(article));
+                }
+            }catch(e){
+            }
+        },'json');
+    });
+    //搜索弹出层
+    function popup_hunt(){
+        var ww=$(window).height();
+        $("body").css("height",ww).css("overflow","hidden");
+        $(".hunt_popup").show();
+        $(".hunt_head input").focus();
+    }
+    //关闭搜索弹出
+    function close_popup_hunt(){
+        $(".hunt_popup").hide();
+        $("body").css("height","").css("overflow","auto");
+    }
+    $(".hunt_input").click(function(){
+        popup_hunt();
+    });
+    $(".hunt_header_abolish").click(function(){
+        close_popup_hunt();
+    });
+</script>
+
+<footer class="foot_border-top">
+    <div class="foot_member ">
+        <a href="./index.php?ch=ibuy">
+            <span class="iconfont">&#xe692;</span>
+            <p>我要买</p>
+        </a>
+    </div>
+    <div class="foot_member foot_member_hover">
+        <a href="./index.php?app=isell">
+            <span class="iconfont">&#xe68d;</span>
+            <p>我要卖</p>
+        </a>
+    </div>
+    <div class="foot_member ">
+        <!--<a href="url app=discover">-->
+            <!--<span class="iconfont" style="font-weight:900">&#xe694;</span>-->
+            <!--<p>发现</p>-->
+        <!--</a>-->
+        <a class="goods_car-header" href="./index.php?app=cart">
+            <span class="iconfont position_relative" style="font-size: 26px;font-weight:400">
+                &#xe6cd;
+                <span class="foot_car_num goods_car">2</span>
+            </span>
+            <p>购物车</p>
+        </a>
+    </div>
+    <div class="foot_member ">
+        <a href="./index.php?app=member">
+            <span class="iconfont">&#xe693;</span>
+            <p>我的</p>
+        </a>
+    </div>
+</footer>
+
+<span style='visible:hidden;'>
+<script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?79ff8b04d2408694a6d3bf5a8f2d368e";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+</span>
+
+</body>
+</html>

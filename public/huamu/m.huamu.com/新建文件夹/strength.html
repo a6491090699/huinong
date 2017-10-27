@@ -1,0 +1,120 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>中国花木在线交易专业平台</title>
+<meta name="keywords" content="竞苗平台,花木网,花木,中国苗木网,花木交易,花木求购,花木资讯,花木论坛,花木销售,绿化苗木" />
+
+    <link rel="stylesheet"  href="css/mobile-select-area.css">
+    <!--<link rel="stylesheet" href="css/larea.css">-->
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <!--<link rel="stylesheet" href="css/sm.min.css">-->
+    <!--<script type='text/javascript' src='js/zepto.min.js' charset='utf-8'></script>-->
+    <!--<script type='text/javascript' src='js/sm.min.js' charset='utf-8'></script>-->
+    <script src="js/jquery-1.11.2.js" type="text/javascript"></script>
+    <script src="js/layer.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <script src="js/mlselection.js"></script>
+    <script src="js/huamu.js" type="text/javascript"></script>
+    <script src="js/jquery.validate.js" type="text/javascript"></script>
+    <script src="js/jquery.validate.extend.js" type="text/javascript"></script>
+    <script src="js/additional-methods-huamu.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/common.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/dialog.js"></script>
+    <script type="text/javascript" src="js/mobile-select-area.js"></script>
+    <script type="text/javascript" src="js/json2.js" ></script>
+    <script type="text/javascript" src="js/underscore-min.js" ></script>
+    <script>
+        //模板设置
+        _.templateSettings = {
+            interpolate: /\{(.+?)}/g
+        };
+        var SITE_URL = ".";
+        var REAL_SITE_URL = ".";
+        var PRICE_FORMAT = '¥%s';
+
+    </script>
+
+</head>
+<body class="bg-f8">
+<header class="user_center_header">
+    <a class="go_back_btn" href="javascript:history.go(-1)">
+        <span class="iconfont">&#xe698;</span>
+    </a>
+    <h1>实力展示</h1>
+</header>
+<div class="padding_flanks">
+    <div class="bg-fff font_24r padding_container store_synopsis_con" contenteditable="true">
+        <div class="store_synopsis" id="strength_text">
+                        <p class="hint_word text_center color_9a">点击添加店铺简介</p>
+                    </div>
+    </div>
+    <ul class="strength_show_con clearfix user_store">
+                <li class="bg-fff" id="btn_add_image">
+            <!--<span class="iconfont font_7r">&#xe69b;</span>-->
+            <iframe id='iframepage' src="index.php?app=comupload&act=view_iframe_mobile&id=90714&belong=3&instance=store_strength" width="85" height="85" scrolling="no" frameborder="0"></iframe>
+            <p class="font_24r color_9a upload_pictures_explain">最多可上传4张图片</p>
+        </li>
+    </ul>
+</div>
+<script>
+    var uploaded_img_tpl = '<li> <img src="images/57a4c2f7974749a1b6ae269b02e3b6ce.gif" alt="" /><input type="hidden" name="strength_images[]" value="{file_path}"/> <span class="iconfont close-x del_img" onclick="$(this).parent().remove();$("#btn_add_image").show();">&#xe66f;</span> </li>';
+
+    function display_image_upload_notice() {
+        $("#image_upload_notice").show();
+    }
+    function add_uploadedfile(file_data) {
+        var tpl = _.template(uploaded_img_tpl);
+        $('#btn_add_image').before(tpl(file_data));
+        if($("input[name='strength_images[]']").length >= 4){
+            $('#btn_add_image').hide();
+        }else{
+            $('#btn_add_image').show();
+        }
+
+        $("#image_upload_notice").hide();
+    }
+
+    function submit_strength(){
+        var description = $("#strength_text").html();
+        if(description == '<p class="hint_word text_center color_9a">点击添加店铺简介</p>'){
+            description = "";
+        }
+        var images = [];
+        $("input[name='strength_images[]']").each(function(){
+            images.push($(this).val());
+        });
+        var data = {description:description, images:images};
+        var url = "/index.php?app=my_store&act=strength&ajax";
+        $.post(url, data, function(response){
+            layer.open({content:response.info, time:3});
+            if(response.status == 0){
+                setTimeout(function(){
+                    location = "/index.php?app=my_store";
+                }, 3000);
+            }
+        },'json');
+    }
+
+    $(".store_synopsis_con").focus(function(){
+        var con=$(".store_synopsis");
+        if(con.children().eq(0).html()=="点击添加店铺简介"){
+            con.html("<p class='color_34'></br></p>");
+        }
+    });
+    var li=$(".strength_show_con li");
+    li.height(li.width());
+    $(window).resize(function() {
+        li.height(li.width());
+    });
+
+</script>
+<footer class="font_3r">
+    <a class="footer_btn color_fff bg-02c5a3" onclick="submit_strength()">完成</a>
+</footer>
+
+</body>
+</html>
