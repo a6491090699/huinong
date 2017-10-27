@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8f2120fa77d42a42b4210cdbe1c114e2",
+    "content-hash": "79cb5135b2286c16698221e117718c56",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -315,6 +315,57 @@
                 "trusted proxy"
             ],
             "time": "2017-06-15T17:19:42+00:00"
+        },
+        {
+            "name": "henter/wechat-oauth",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/henter/WeChat-OAuth.git",
+                "reference": "d51c050d63d4afb06c327812af2e20e1879a7202"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://files.phpcomposer.com/files/henter/WeChat-OAuth/d51c050d63d4afb06c327812af2e20e1879a7202.zip",
+                "reference": "d51c050d63d4afb06c327812af2e20e1879a7202",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.9"
+            },
+            "require-dev": {
+                "satooshi/php-coveralls": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Henter\\WeChat": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Henter",
+                    "email": "henter@henter.me"
+                }
+            ],
+            "description": "WeChat OAuth SDK",
+            "keywords": [
+                "login",
+                "oauth",
+                "wechat",
+                "wechat-oauth",
+                "wechatlogin",
+                "wechatoauth",
+                "weixin",
+                "weixin-oauth",
+                "weixinlogin",
+                "weixinoauth"
+            ],
+            "time": "2015-11-09T06:28:01+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",

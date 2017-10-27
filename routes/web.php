@@ -11,10 +11,19 @@
 |
 */
 use Illuminate\Http\Request;
+use Henter\WeChat\OAuth;
 Route::get('/', function () {
-    return view('welcome');
+    // echo config('wechat.appid');exit;
+    return view('home.index');
 });
+Route::get('/home' , function(){
+    $appid = config('wechat.appid');
+    $secret = config('wechat.appsecret');
+    $oauth = new \Henter\WeChat\OAuth($appid, $secret);
+    $callback_url = 'http://your_site.com/your_callback_url';
+    $url = $oauth->getAuthorizeURL($callback_url);
 
+});
 Route::get('uploadform' , function(){
     // echo asset('storage/hehe.png');exit;
     return view('upload');
