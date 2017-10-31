@@ -15,6 +15,21 @@ class CreateWantsTable extends Migration
     {
         Schema::create('wants', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('title');
+            $table->string('kind');
+            $table->integer('gaodu');
+            $table->integer('mijing');
+            $table->integer('guanfu');
+            $table->integer('number');
+            $table->tinyinteger('cutday');
+            $table->string('source');
+            $table->string('imgs');
+            $table->string('tip');
+            $table->tinyinteger('status');
+            $table->tinyinteger('status');
+
+
+            $table->string('title');
             $table->timestamps();
         });
     }

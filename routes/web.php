@@ -12,8 +12,38 @@
 */
 use Illuminate\Http\Request;
 use Henter\WeChat\OAuth;
+
+
+//多维数组
+function up($array , $pid=0){
+
+    //二维数组
+    foreach($array as $key=>$val){
+
+        $id = $val['id'];
+        $name = $val['name'];
+        $model =new \App\Model\Kind;
+        $model->id = $id;
+        $model->pid = $pid;
+        $model->name = $name;
+        $model->save();
+
+        if(isset($val['child']) && null!==$val['child']) up($val['child'],$val['id']);
+
+    }
+
+
+}
+
+
 Route::get('/', function () {
     // echo config('wechat.appid');exit;
+
+
+    $data =\App\Model\Member::all();
+
+
+    dd($data);
     return view('home.index');
 });
 Route::get('/home' , function(){
@@ -27,6 +57,21 @@ Route::get('/home' , function(){
 Route::get('uploadform' , function(){
     // echo asset('storage/hehe.png');exit;
     return view('upload');
+});
+
+//发布求购
+Route::group(['namespace'=>'order' ,'prefix'=>'want'] ,function (){
+    Route::get('index' , 'WantController@index');
+    Route::get('fabu' , 'WantController@fabu');
+    Route::post('fabu' , 'WantController@fabu');
+
+});
+
+
+//获取数据异步接口
+Route::group(['namespace'=>'api' ,'prefix'=>'api'] ,function (){
+    Route::get('kinds' , 'DataController@getKinds');
+
 });
 
 

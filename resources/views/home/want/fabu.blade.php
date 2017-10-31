@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>发布求购</title>
+<meta name="keywords" content="竞苗平台,花木网,花木,中国苗木网,花木交易,花木求购,花木资讯,花木论坛,花木销售,绿化苗木" />
+<meta name="description" content="竞苗平台，中国苗木网，中国花木在线交易专业平台，致力于为花木行业从业者提供更真实的花木在线交易平台，让您没有买不到的，没有卖不掉的。" />
+    <link rel="stylesheet"  href="/css/mobile-select-area.css">
+    <!--<link rel="stylesheet" href="/css/larea.css">-->
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/index.css"/>
+    <!--<link rel="stylesheet" href="/css/sm.min.css">-->
+    <!--<script type='text/javascript' src='/js/zepto.min.js' charset='utf-8'></script>-->
+    <!--<script type='text/javascript' src='/js/sm.min.js' charset='utf-8'></script>-->
+    <script src="/js/jquery-1.11.2.js" type="text/javascript"></script>
+    <script src="/js/layer.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
+    <script src="/js/mlselection.js"></script>
+    <script src="/js/huamu.js" type="text/javascript"></script>
+    <script src="/js/jquery.validate.js" type="text/javascript"></script>
+    <script src="/js/jquery.validate.extend.js" type="text/javascript"></script>
+    <script src="/js/additional-methods-huamu.js" type="text/javascript"></script>
+    <script src="/js/index.js" type="text/javascript"></script>
+    <script src="/js/common.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/dialog.js"></script>
+    <script type="text/javascript" src="/js/mobile-select-area.js"></script>
+    <script type="text/javascript" src="/js/json2.js" ></script>
+    <script type="text/javascript" src="/js/underscore-min.js" ></script>
+    <script>
+        //模板设置
+        _.templateSettings = {
+            interpolate: /\{(.+?)}/g
+        };
+        var SITE_URL = ".";
+        var REAL_SITE_URL = ".";
+        var PRICE_FORMAT = '¥%s';
+
+    </script>
+
+</head><body class="bg-f8">
+<header class="user_center_header bd_bottom-eee">
+    <a class="go_back_btn" href="javascript:history.go(-1)">
+        <span class="iconfont">&#xe698;</span>
+    </a>
+    <h1>发布求购</h1>
+</header>
+<script src="/js/common.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var page_initialized = false;
+
+    var require_id = '';
+
+    //过期时间
+    var expire_options = [];
+    if(parseInt(require_id) > 0){
+        expire_options.push({id:-1,name:""});
+    }
+    expire_options.push({id:1,name:"3天"});
+    expire_options.push({id:2,name:"5天"});
+    expire_options.push({id:3,name:"7天"});
+    expire_options.push({id:4,name:"10天"});
+    expire_options.push({id:5,name:"15天"});
+    expire_options.push({id:6,name:"30天"});
+
+    //地址
+    var addresses_json = [{"id":"4717","name":"\u65b9\u680b \u6cb3\u5317\t\u90af\u90f8\t\u5927\u540d\t\u9ec4\u91d1\u5824\u4e61 \u5927\u6728\u82d7\u6728"}];
+
+    //单位
+    var goods_unit_options = [{"id":"\u4ef6","name":"\u4ef6"},{"id":"\u68f5","name":"\u68f5"},{"id":"\u76c6","name":"\u76c6"},{"id":"\u7c73","name":"\u7c73"},{"id":"\u5398\u7c73","name":"\u5398\u7c73"},{"id":"\u514b","name":"\u514b"},{"id":"\u5343\u514b","name":"\u5343\u514b"},{"id":"\u5428","name":"\u5428"},{"id":"\u679d","name":"\u679d"}];
+
+    //商品分类
+    var gcategory_data_url = "/api/kinds";
+    var gcategory_search_url = "/index.php?app=mlselection&act=gcategory_breadpiece&keyword=";
+    var gcategory_data = [];
+
+    //此处必须用localStorage
+    localStorage.setItem('rcategory_old_value', '[,,]');
+
+    //滑动选择插件
+    var gcategorySelect = new MobileSelectArea();
+    var expireSelect = new MobileSelectArea();
+    var unitSelect = new MobileSelectArea();
+    var area_select = new MobileSelectArea();
+    var address_select = new MobileSelectArea();
+
+    var areas_data = new Array();
+
+    //商品属性数据
+    var goods_attr_data = new Array();
+
+
+    //模板
+    var spec_input_line_tpl = '<div class="specification"><span class="font_3r fontWeight_5 color_34 specification_name">{attr_name}({unit})</span> <span class="font_24r fontWeight_5 color_34 fr">以上</span> <input class="color_9a  border_none font_24r fr" type="number" fake_name="requirement_spec[attr][{attr_id}][]"  class="spec_attr_input mobiselect_item" value="" attr_id="{attr_id}" placeholder="请填写{attr_name}"/> </div>';
+
+    var spec_value_line_tpl = '<div class="goods_norms_con clearfix font_26r">{attribute_values}<b class="iconfont select_arrows-icon color_02c5a3" onclick="$(this).parent().remove();">&#xe607;</b></div>';
+
+    var spec_input_num_tpl = '<div class="form_item"> <span class="font_3r fontWeight_5 color_34 goods_name-title">采购数量</span> <span class="fr text_right"> <input type="text" class="buy_release_num font_28r text_right" fake_name="requirement_spec[num][]" value=""/> <input type="hidden" class="buy_release_num font_28r text_center requirement_unit" fake_name="requirement_spec[unit][]" value=""/> </span> </div>';
+
+    var error_msg_showed = false;
+    var error_msg = "";
+    var submited = false;
+
+    $(function(){
+        //表单校验
+        $('#requirement_form').validate({
+            onkeyup : false,
+            onclick : false,
+            onfocusin : false,
+            onfocusout : false,
+            onblur  : false,
+            errorPlacement: function(error, element){
+                error_msg+=error[0].textContent+'<br/>';
+            },
+            highlight:function(){
+                if(!error_msg_showed){
+                    setTimeout(function(){
+                        layer.open({content:error_msg,time:2});
+                        error_msg_showed = true;
+                    },200);
+                }
+                setTimeout(function(){
+                    error_msg = "";
+                    error_msg_showed = false;
+                },500);
+            },
+            ignore:'',
+            rules : {
+                title : {
+                    required:true,
+                    minlength:2
+                },
+                description: {
+                    required:true,
+                    minlength:10,
+                    maxlength:100
+                },
+                address_id: {
+                    required:true,
+                }
+            },
+            messages : {
+                title : {
+                    required:'请填写求购标题',
+                    minlength:'标题必须大于6个字符(2个汉字)'
+                },
+                description : {
+                    required:'请填写求购备注信息',
+                    minlength:'备注信息必须大于10个字',
+                    maxlength:'备注信息必须不能超过100个字'
+                },
+                address_id: {
+                    required:'联系人为空，请先添加联系人',
+                }
+            },
+            submitHandler:function(form){
+                if(!submited && check_spec_value()){
+                    submited = true;
+                    form.submit();
+                    $(this).attr('disabled', "true");
+                }else{
+                    return false;
+                }
+            }
+        });
+
+
+        //新旧地址选择
+        $('.address_control').click(function(){
+            var dataType=$(this).attr('data-type');
+            $('.address_content[data-type="'+dataType+'"]').show();
+            $('.address_content[data-type!="'+dataType+'"]').hide();
+            $(this).addClass('select');
+            $(this).siblings('.address_control').removeClass('select');
+            if(dataType=='new'){
+                $('input[name=address_id][value="0"]').trigger('click');
+            }else{
+                if(''!==''){
+                    $('input[name=address_id][value=""]').trigger('click');
+                }else{
+                    $('input[name=address_id]:first').trigger('click');
+                }
+            }
+        });
+
+        //jquery控制ifreame自适应高度
+        $("#iframepage").load(function(){
+            var mainheight = $(this).contents().find("body").height();
+            $(this).height(mainheight);
+        });
+
+    });
+
+
+    //新地址检验
+    function check_contact(){
+        var result = true;
+        if($('input[name=address_id]:checked').val()=='0'){
+            //联系人
+            if($.trim($("input[name='new_address[owner]']").val()) == ''){
+                show_notice('请填写新地址联系人');
+                $('#newAddressOwner').trigger('focus');
+                result = false;
+            }else{
+                //手机号
+                var value = $("input[name='new_address[tel]']").val();
+                if($.trim(value) == ''){
+                    show_notice('新联系人电话不能为空');
+                    $('#newAddressTel').trigger('focus');
+                    result = false;
+                }else{
+                    var tel = /^\d{3,4}[\-\d]{7,11}$/;
+                    var mobile = /^1[3-8]+\d{9}$/;
+                    if(!(tel.test(value) || (value.length == 11 && mobile.test(value)))){
+                        show_notice('新联系电话的格式不正确, ');
+                        $('#newAddressTel').trigger('focus');
+                        result = false;
+                    }else{
+                        if(!$('.region_id[name="new_address[region_id]"]').val()){
+                            //region
+                            var region_id=$("input[name='new_address[region_id]']").val();
+                            if(region_id==''){
+                                show_notice('新联系人地区不能为空');
+                                $('#newAddressAddress').trigger('focus');
+                                result = false;
+                            }else{
+                                if(!$.trim($("input[name='new_address[address]']").val())){
+                                    show_notice('请填写新地址具体地址');
+                                    $('#newAddressAddress').trigger('focus');
+                                    result = false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    //规格检验
+    function check_spec_input(){
+        var result = true;
+        var msg = '';
+        var count = 0;
+
+        $('#specs_input_div').children().each(function(){
+            $(this).find('input').each(function(){
+                //判断采购量
+                var value = $.trim($(this).val());
+                var fake_name = $(this).attr('fake_name');
+                if($(this).attr('fake_name') == 'requirement_spec[num][]'){
+                    if(value == ''){
+                        result = false;
+                        msg = '请填写采购量';
+                    }else if(!$.isNumeric(value)){
+                        result = false;
+                        msg = '采购量必须是数字';
+                    }
+                }else{
+                    if($(this).attr('fake_name') != 'requirement_spec[unit][]'){
+                        if(value != ''){
+                            if(!$.isNumeric(value)){
+                                result = false;
+                                msg = '规格属性值必须是数字';
+                            }else{
+                                count++;
+                            }
+                        }
+                    }
+                }
+            });
+        });
+
+        if(count == 0){
+            result = false;
+            msg = '每个规格至少填写一项属性';
+        }
+
+        if(msg != ''){
+            layer.open({content:msg, time:2});
+        }
+        return result;
+    }
+
+    function check_spec_value(){
+        if($("#specs_value_div").children().length < 2){
+            layer.open({content:"请至少添加一个规格", time:2});
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+</script>
+<script type="text/javascript" src="/js/my_requirement.form.new.js"></script>
+
+
+<form action="/want/fabu" method="post" id="requirement_form" action="index.php?app=my_requirement&act=add&requirement_id=">
+
+
+    <div class="padding_flanks bg-fff bd_bottom-eee">
+	        <div class="form_item">
+                <span class="font_3r color_34 goods_name-title">用苗地</span>
+                <!--<label style=""><input id="bxian" name="miaoy" type="radio"/>不限</label>-->
+                <label style="font-size: 10px"><input id="zdy" name="miaoy" type="radio" onclick="$('#zdytxt').css('display','inline');$('#region_name_select').css('display','none')"/>自定义 <input id="zdytxt" class="color_67  border_none" type="text" style="display: none;font-size: 10px" /></label>
+                <label style="font-size: 10px"><input id="xdq" name="miaoy" type="radio" onclick="$('#region_name_select').click();$('#zdytxt').css('display','none');$('#region_name_select').css('display','inline')"/>选地区
+                    <input class="color_67  border_none" style="display: inline;font-size: 10px" type="text" name="region_name_select" id="region_name_select" placeholder="" value=""/>
+                </label>
+                <input type="hidden" name="from_region_id" id="from_region_id" value="" class="region_id" />
+                <input type="hidden" name="from_region_id_full" id="from_region_id_full" value="" class="region_id" />
+                <input type="hidden" name="from_region_names" id="from_region_names" value="" class="region_names" />
+            </div>
+		<div class="form_item border_none">
+            <span class="font_3r color_34 goods_name-title">商品种类</span>
+            <a href="#" class="color_67 font_26r">
+                <input class="color_67  border_none font_26r goods_kind" type="text"   name="gcategory_full_text" id="gcategory_full_text" placeholder="请选择商品种类" value=""/>
+                <input type="hidden" id="gcategory_full_id" value=",,"/>
+                <b class="iconfont select_arrows-icon">&#xe614;</b>
+            </a>
+            <input type="hidden" name="cate_id" id="cate_id" value=""/>
+            <input type="hidden" name="cate_name" id="cate_name" value=""/>
+        </div>
+
+        <div class="form_item">
+            <span class="font_3r color_34 goods_name-title">求购标题</span>
+            <input class="color_67  border_none font_26r goods_name" type="text" name="title" id="title" value="" placeholder='请输入求购标题'/>
+        </div>
+         <div class="form_item">
+            <span class="font_3r color_34 goods_name-title">求购数量</span>
+            <input class="color_67  border_none font_26r goods_name" type="text" name="title" id="title" value="" placeholder='请输入求购数量'/>
+        </div>
+    </div>
+
+    <div class="user_store bg-fff padding_flanks bd_top_bottom-eee">
+        <div class="form_item">
+            <span class="font_3r color_34 goods_name-title">商品规格</span>
+            <a href="#" class="font_26r" id="goods_specification">
+                <span class="color_9a">添加商品规格</span>
+                <b class="iconfont select_arrows-icon color_02c5a3">&#xe604;</b>
+            </a>
+        </div>
+        <div class="bg-fff last_child-border" id="specs_value_div">
+            <div class="goods_norms_con clearfix font_26r color_67">
+                            </div>
+                    </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <div class="user_store bg-fff padding_flanks bd_top_bottom-eee padding_bottom">
+
+
+            <div class="form_item">
+                <span class="font_3r color_34 goods_name-title">联系人</span>
+                <a href="#" class="color_67 font_26r">
+                    <input class="color_67  border_none font_24r goods_kind" type="text"  readonly name="address_options" id="address_options" placeholder="请选择联系人" value=""/>
+                    <input type="hidden" id="address_id" name="address_id" value=""/>
+                    <b class="iconfont select_arrows-icon">&#xe614;</b>
+                </a>
+            </div>
+
+		<img src="/images/scan.jpg" width=100%>
+        <div class="padding_top_bottom">
+            <textarea name="description" class="add_remarks bg-f8 text_center font_28r" placeholder="添加备注"></textarea>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+    <div class="buy_release_btn text_center padding_flanks">
+        <button class="footer_btn color_fff bg-02c5a3" type="submit">确定发布</button>
+    </div>
+
+    <div class="mask_layer" id="mask_layer" style="display: none">
+
+        <div class="goods_specification-container" style="display: none">
+            <header class="user_center_header">
+                <a class="header_abolish color_67 font_3r" onclick="$('.goods_specification-container').hide();close_popup();">取消</a>
+                <h1>商品规格</h1>
+                <a class="univalence_affirm_btn font_3r">确认</a>
+            </header>
+				<div class="bg-fff padding_flanks" id="specs_input_div">
+					<div class="specification">
+						<span class="font_3r fontWeight_5 color_34 specification_name">
+							高度(厘米)
+						</span>
+						<span class="font_24r fontWeight_5 color_34 fr">
+							以上
+						</span>
+						<input class="color_9a  border_none font_24r fr" type="number" fake_name="requirement_spec[attr][9][]"
+						value="" attr_id="9" placeholder="请填写高度">
+					</div>
+					<div class="specification">
+						<span class="font_3r fontWeight_5 color_34 specification_name">
+							米径(厘米)
+						</span>
+						<span class="font_24r fontWeight_5 color_34 fr">
+							以上
+						</span>
+						<input class="color_9a  border_none font_24r fr" type="number" fake_name="requirement_spec[attr][29][]"
+						value="" attr_id="29" placeholder="请填写米径">
+					</div>
+					<div class="specification">
+						<span class="font_3r fontWeight_5 color_34 specification_name">
+							地径(厘米)
+						</span>
+						<span class="font_24r fontWeight_5 color_34 fr">
+							以上
+						</span>
+						<input class="color_9a  border_none font_24r fr" type="number" fake_name="requirement_spec[attr][31][]"
+						value="" attr_id="31" placeholder="请填写地径">
+					</div>
+					<div class="specification">
+						<span class="font_3r fontWeight_5 color_34 specification_name">
+							冠幅(厘米)
+						</span>
+						<span class="font_24r fontWeight_5 color_34 fr">
+							以上
+						</span>
+						<input class="color_9a  border_none font_24r fr" type="number" fake_name="requirement_spec[attr][51][]"
+						value="" attr_id="51" placeholder="请填写冠幅">
+					</div>
+					<div class="form_item">
+						<span class="font_3r fontWeight_5 color_34 goods_name-title">
+							采购数量
+						</span>
+						<span class="fr text_right">
+							<input type="text" class="buy_release_num font_28r text_right" fake_name="requirement_spec[num][]"
+							value="">
+							<input type="hidden" class="buy_release_num font_28r text_center requirement_unit"
+							fake_name="requirement_spec[unit][]" value="棵">
+						</span>
+					</div>
+				</div>
+
+        </div>
+    </div>
+</form>
+
+
+
+<script>
+    //商品规格输入
+    $("#goods_specification").click(function(){
+        popup_bg();
+        $(".goods_specification-container").show();
+    });
+    //关闭商品规格弹出
+    $(".univalence_affirm_btn").click(function(){
+        //添加规格
+        var attribute_values = "";
+        var test_passed = check_spec_input();
+        if(test_passed){
+            $("#specs_input_div").children().each(function(){
+                attribute_values += "<span>";
+                var inputs = $(this).find('input');
+                for(var i=0; i < inputs.length; i++){
+                    var input = inputs[i];
+                    var input_name = $(input).attr('fake_name');
+                    var input_value = $.trim($(input).val());
+                    var input_value_display = input_value != '' ? input_value : '&nbsp;';
+                    var input_tpl = _.template(general_input_tpl);
+                    if($(input).attr('type') == 'text' || $(input).attr('type') == 'number'){
+                        attribute_values += input_value_display;
+                    }
+                    attribute_values += input_tpl({type:'hidden', name:input_name, value:input_value});
+                }
+                attribute_values += '</span>';
+            });
+
+            var tpl_tmp = _.template(spec_value_line_tpl);
+            $("#specs_value_div").append(tpl_tmp({attribute_values:attribute_values}));
+
+            $(".goods_specification-container").hide();
+            close_popup();
+        }
+
+    });
+</script>
+</body>
+</html>
