@@ -11,10 +11,6 @@ class Want extends Model
         'source' ,
         'title' ,
         'number',
-        'gaodu' ,
-        'mijing' ,
-        'dijing' ,
-        'guanfu' ,
         'imgs' ,
         'tip' ,
         'is_emergency' ,
@@ -22,8 +18,38 @@ class Want extends Model
         'status',
         'kid',
         'member_id',
-        'addtime'
+        'addtime',
+        'phone',
+        'address',
     ];
 
-    
+
+    public $timestamps = false;
+
+    static public function getMemberWant($mid , $type = 'array')
+    {
+        $data = self::where('member_id' , $mid)->get();
+        if($type == 'array') return $data->toArray();
+        if($type == 'json') return $data->toJson();
+
+    }
+
+    public function wantAttrs(){
+        return $this->hasMany('App\Model\WantAttr' , 'good_attr_id');
+
+    }
+
+    public function kinds(){
+        return $this->belongsTo('App\Model\Kind','kid');
+    }
+
+    public function member(){
+        return $this->belongsTo('App\Model\Member');
+    }
+
+    public function quotes(){
+        return $this->hasMany('App\Model\Quote' ,'wants_id');
+    }
+
+
 }

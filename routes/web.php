@@ -14,28 +14,6 @@ use Illuminate\Http\Request;
 use Henter\WeChat\OAuth;
 
 
-//多维数组
-function up($array , $pid=0){
-
-    //二维数组
-    foreach($array as $key=>$val){
-
-        $id = $val['id'];
-        $name = $val['name'];
-        $model =new \App\Model\Kind;
-        $model->id = $id;
-        $model->pid = $pid;
-        $model->name = $name;
-        $model->save();
-
-        if(isset($val['child']) && null!==$val['child']) up($val['child'],$val['id']);
-
-    }
-
-
-}
-
-
 Route::get('/', function () {
     // echo config('wechat.appid');exit;
 
@@ -64,6 +42,13 @@ Route::group(['namespace'=>'order' ,'prefix'=>'want'] ,function (){
     Route::get('index' , 'WantController@index');
     Route::get('fabu' , 'WantController@fabu');
     Route::post('fabu' , 'WantController@fabu');
+    Route::get('view' , 'WantController@viewWant');
+
+});
+//报价
+Route::group(['namespace'=>'order' ,'prefix'=>'quote'] ,function (){
+    Route::get('add/{id}' , 'QuoteController@addQuote');
+
 
 });
 
@@ -71,6 +56,10 @@ Route::group(['namespace'=>'order' ,'prefix'=>'want'] ,function (){
 //获取数据异步接口
 Route::group(['namespace'=>'api' ,'prefix'=>'api'] ,function (){
     Route::get('kinds' , 'DataController@getKinds');
+    Route::get('guige' , 'DataController@getGuige');
+    Route::get('city' , 'DataController@getCity');
+    Route::get('get-want-list' , 'DataController@getMemberWantList');
+    Route::get('want-list' , 'DataController@getWantList');
 
 });
 

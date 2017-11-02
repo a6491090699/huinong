@@ -72,6 +72,7 @@
     //商品分类
     var gcategory_data_url = "/api/kinds";
     var gcategory_search_url = "/index.php?app=mlselection&act=gcategory_breadpiece&keyword=";
+    // var gcategory_search_url = "/api/guige";
     var gcategory_data = [];
 
     //此处必须用localStorage

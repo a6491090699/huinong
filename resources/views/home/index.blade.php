@@ -40,6 +40,7 @@
 
 </head>
 <body style="padding:50px 0">
+
 <header class="user_center_header sell_index-header text_left">
     <img src="images/huamu_logo.png" class="header_logo"/ style="bottom: 0rem;">
     <a class="sell_header_search_box">
@@ -57,9 +58,9 @@
         </div>
     </div>
 
-
-
-
+@if($errors->has('email'))
+<h1>{{$errors->first('email')}}</h1>
+@endif
 <div class="sell_index-main">
 
     <ul class="sell_nav-list bg-fff clearfix bd_top_bottom-eee">
