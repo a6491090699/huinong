@@ -4,29 +4,27 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Want extends Model
+class Supply extends Model
 {
     //
-    protected $fillable = [
-        'source' ,
-        'title' ,
+    public $timestamps = false;
+
+    public $fillable = [
+        'id',
+        'name',
+        'price',
         'number',
-        'imgs' ,
-        'tip' ,
-        'is_emergency' ,
-        'cutday' ,
-        'status',
+        'cutday',
+        'source',
         'kid',
         'member_id',
         'addtime',
-        'phone',
-        'address',
+        'imgs',
+        'is_emergency' ,
+        'status'
     ];
 
-
-    public $timestamps = false;
-
-    static public function getMemberWant($mid , $type = 'array')
+    static public function getMemberSupply($mid , $type = 'array')
     {
         $data = self::where('member_id' , $mid)->get();
         if($type == 'array') return $data->toArray();
@@ -34,8 +32,8 @@ class Want extends Model
 
     }
 
-    public function wantAttrs(){
-        return $this->hasMany('App\Model\WantAttr' , 'wants_id' );
+    public function supplyAttrs(){
+        return $this->hasMany('App\Model\SupplyAttr' , 'supplys_id' );
 
     }
 
@@ -45,10 +43,6 @@ class Want extends Model
 
     public function member(){
         return $this->belongsTo('App\Model\Member');
-    }
-
-    public function quotes(){
-        return $this->hasMany('App\Model\Quote' ,'wants_id');
     }
 
 

@@ -200,12 +200,15 @@ window.onload = function () {
 //发票类型选择
     $(".invoice_type .input_radio-right input[type='radio']:checked").parent(".input_radio-right").addClass("input_radio_select");
     $(".invoice_type .input_radio-right").click(function () {
+        console.log(123)
         $(".invoice_type .input_radio-right").removeClass("input_radio_select").find("input[type='radio']").attr("checked", false);
         $(this).addClass("input_radio_select").find("input[type='radio']").attr("checked", "checked");
         $("#invoice_type_text").html($(this).find('input').attr('text_value'));
     });
     $("#invoice_type").click(function () {
+        console.log(123)
         popup_bg();
+        console.log(123)
         $(".invoice_type").show();
     });
 
@@ -368,15 +371,3 @@ window.onload = function () {
        $(this).closest(".cart_goods_details").remove();
     });
 };
-
-
-
-
-
-
-
-
-
-
-
-

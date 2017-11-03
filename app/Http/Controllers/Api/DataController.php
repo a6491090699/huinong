@@ -8,6 +8,7 @@ use App\Model\Kind;
 use App\Model\Guige;
 use App\Model\MemberAddress;
 use App\Model\GoodCollect;
+use App\Model\Quote;
 use App\Model\Want;
 
 class DataController extends Controller
@@ -16,8 +17,11 @@ class DataController extends Controller
     protected $mid;
 
     public function __construct(){
+        //开发开启
+        $this->mid = session('mid')? session('mid'): 1;
 
-        if(!empty(session('mid'))) $this->mid = session('mid');
+        //线上开启
+        // if(!empty(session('mid'))) $this->mid = session('mid');
 
 
     }
@@ -48,7 +52,7 @@ class DataController extends Controller
     {
         // dd('/hehe');
         $data = require app_path('Common/city.json');
-        return $data;
+        // return response();
     }
 
     public function getAddress()
@@ -139,14 +143,14 @@ class DataController extends Controller
     //获取采购列表
     public function getWantList(Request $request)
     {
-        $page = empty($request->input('page'))? $request->input('page') : 1;
-        $keyword = empty($request->input('keyword'))? $request->input('keyword') : '';
-
+        $page = empty($request->input('page'))? 1: $request->input('page');
+        $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
+        $pagenum = 10; //每页显示数
         if($keyword)
         {
-            $return = Want::where('title', 'like', '%'.$keyword.'%')->with('wantAttrs.attrs','quotes','kinds')->paginate(10);
+            $return = Want::where('title', 'like', '%'.$keyword.'%')->with('wantAttrs.attrs','quotes','kinds')->paginate($pagenum);
         }else{
-            $return = Want::with('wantAttrs.attrs','quotes','kinds')->paginate(10);
+            $return = Want::with('wantAttrs.attrs','quotes','kinds')->paginate($pagenum);
         }
         // $return = $return->toArray();
         // $ret = array();
@@ -157,4 +161,57 @@ class DataController extends Controller
         // dd($return->toArray());
 
     }
+
+    //获取我的报价列表
+    public function getQuote(Request $request)
+    {
+        $page = empty($request->input('page'))? 1: $request->input('page') ;
+        $status = empty($request->input('type'))? '': $request->input('type') ;
+        // $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
+        $pagenum = 10; //每页显示数
+        if($status == 0){
+            $return = Quote::with('wants.wantAttrs.attrs','wants.kinds')->where('member_id',$this->mid)->paginate($pagenum);
+
+        }else{
+            $return = Quote::with('wants.wantAttrs.attrs','wants.kinds')->where('member_id',$this->mid)->where('status',$status)->paginate($pagenum);
+
+        }
+
+        // $return = $return->toArray();
+        // $ret = array();
+        // $ret['status'] = '1';
+        // $ret['data'] = $return;
+        return $return->toJson();
+        // dump($return->toJson());
+        // dd($return->toArray());
+
+    }
+
+
+    //获取采购列表
+    public function getSupplyAll(Request $request)
+    {
+        $page = empty($request->input('page'))? 1: $request->input('page');
+        $orderstring = empty($request->input('order'))? 1: $request->input('order');
+        $orderstring = explode(' ',$orderstring);
+        $order = $orderstring[0];
+        $orderway = $orderstring[1];
+        $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
+        $pagenum = 10; //每页显示数
+        if($keyword)
+        {
+            $return = Want::with('wantAttrs.attrs','quotes','kinds')->where('title', 'like', '%'.$keyword.'%')->orderBy($order ,$orderway)->paginate($pagenum);
+        }else{
+            $return = Want::with('wantAttrs.attrs','quotes','kinds')->orderBy($order ,$orderway)->paginate($pagenum);
+        }
+        // $return = $return->toArray();
+        // $ret = array();
+        // $ret['status'] = '1';
+        // $ret['data'] = $return;
+        return $return->toJson();
+        // dump($return->toJson());
+        // dd($return->toArray());
+
+    }
+
 }

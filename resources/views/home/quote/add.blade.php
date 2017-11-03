@@ -1,1 +1,262 @@
-{{$wid}}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>求购大量工程苗__大叶女贞求购 - 竞苗平台</title>
+<meta name="keywords" content="求购大量工程苗,未开通,,竞苗平台" />
+<meta name="description" content="求购大量工程苗}，{大叶女贞苗木求购信息，未开通苗木采购，更多大叶女贞求购信息，请到竞苗平台供求栏目查询最新信息。" />
+    <link rel="stylesheet"  href="/css/mobile-select-area.css">
+    <!--<link rel="stylesheet" href="/css/larea.css">-->
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/index.css"/>
+    <!--<link rel="stylesheet" href="/css/sm.min.css">-->
+    <!--<script type='text/javascript' src='/js/zepto.min.js' charset='utf-8'></script>-->
+    <!--<script type='text/javascript' src='/js/sm.min.js' charset='utf-8'></script>-->
+    <script src="/js/jquery-1.11.2.js" type="text/javascript"></script>
+    <script src="/js/layer.js"></script>
+    <script type="text/javascript" src="/js/index.js?{{time()}}"></script>
+    <script src="/js/mlselection.js"></script>
+    <script src="/js/huamu.js" type="text/javascript"></script>
+    <script src="/js/jquery.validate.js" type="text/javascript"></script>
+    <script src="/js/jquery.validate.extend.js" type="text/javascript"></script>
+    <script src="/js/additional-methods-huamu.js" type="text/javascript"></script>
+    <script src="/js/index.js" type="text/javascript"></script>
+    <script src="/js/common.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/dialog.js"></script>
+    <script type="text/javascript" src="/js/mobile-select-area.js"></script>
+    <script type="text/javascript" src="/js/json2.js" ></script>
+    <script type="text/javascript" src="/js/underscore-min.js" ></script>
+    <script>
+        //模板设置
+        _.templateSettings = {
+            interpolate: /\{(.+?)}/g
+        };
+        var SITE_URL = ".";
+        var REAL_SITE_URL = ".";
+        var PRICE_FORMAT = '¥%s';
+
+    </script>
+
+</head>
+<body class="bg-f8">
+<header class="user_center_header bd_bottom-eee">
+	<a class="go_back_btn" href="javascript:history.go(-1)">
+		<span class="iconfont">&#xe698;</span>
+	</a>
+	<h1>采购详情</h1>
+</header>
+<div class="sell_index-main">
+	<ul class="purchase_information-list">
+		<li class="bg-fff bd_bottom-eee">
+			<h3>{{$wdata->title}}</h3>
+			<p class="color_67">
+				苗源：{{$wdata->source}}				<span class="color_ff7414 fr margin_none">已有{{$wdata->quotes->count()}}人报价</span>
+			</p>
+			<p  class="color_67">
+				截止日期：{{date('Y-m-d' , $wdata->cutday)}}				<span class="color_ff7414 fr margin_none">
+					报价中				</span>
+			</p>
+			<span class="purchase_num">
+																		<span class="color_ff7414">{{$wdata->number}}</span>
+										{{$wdata->kinds->unit}}																			</span>
+			<p class="color_67">手机：<a href="./index.php?app=apply&act=upgrade">升级到金牌会员查看</a>{{$wdata->phone}}</p>
+			<p class="color_67">备注：{{$wdata->tip}}</p>
+		</li>
+	</ul>
+	<div class="bg-fff bd_top-eee padding_top">
+		<p class="color_34 font_3r padding_flanks">规格要求</p>
+		<div class="goods_norms_container clearfix font_26r">
+
+
+                        @foreach($wdata->wantAttrs as $value)
+                            <span>{{$value->attrs->attr_name}}({{$value->attrs->unit}})</span>
+
+                        @endforeach
+
+											</div>
+		<div class="goods_norms_container clearfix font_26r">
+            @foreach($wdata->wantAttrs as $val)
+            <span>{{$val->attr_value}}</span>
+            @endforeach
+
+		</div>
+	</div>
+                <div class="bg-fff bd_top-eee padding_top" style="text-align:center">
+		<img src=/images/201710171009503362.png>
+	</div>
+        	<form class="submit_price" id="quote_form" action="/quote/create" method="post">
+		<!-- <input type="hidden" name="ajax" value="1"/> -->
+		<input name="wid" value="{{$wdata->id}}" type="hidden" />
+        {{csrf_field()}}
+		<!-- <input name="rs_id" value="9269" type="hidden" /> -->
+		<div class="bd_top_bottom-eee bg-fff padding_flanks user_store">
+			<div class="form_item">
+				<span class="font_3r color_ff7414 goods_name-title">报价</span>
+			</div>
+			<div class="form_item">
+				<span class="font_3r color_34 goods_name-title">商品单价</span>
+				<input class="color_9a  border_none font_24r goods_name" type="text" name="price" placeholder="请填写您的商品单价"/>
+				<b class="select_arrows-icon font_3r">元</b>
+			</div>
+			<div class="form_item">
+				<span class="font_3r color_34 goods_name-title">供货量</span>
+				<input class="color_9a  border_none font_24r goods_name" type="text" name="number" placeholder="请填写您的供货量"/>
+			</div>
+			<div class="form_item border_none">
+				<span class="font_3r color_34 goods_name-title">备货时间</span>
+				<input class="color_9a  border_none font_24r goods_name" type="text" name="beihuo" placeholder="请填写您的备货时间"/>
+				<b class="select_arrows-icon font_3r">天</b>
+			</div>
+		</div>
+		<div class="padding_flanks bg-fff">
+			<div class="form_item">
+				<a href="#" class="a_full" id="invoice_type">
+					<span class="font_3r color_34 goods_name-title">发票类型</span>
+					<span class="fr user_enterprise color_67" id="invoice_type_text">普通</span>
+					<b class="iconfont select_arrows-icon">&#xe614;</b>
+				</a>
+			</div>
+		</div>
+
+		<div class="mask_layer" id="mask_layer" style="display:none">
+			<div class="bg-f8 invoice_type" style="display: none">
+				<div class="padding_container">
+					<p class="text_center font_28r">发票类型</p>
+					<div class="form_item user_store">
+						<a class="input_radio-right a_full">
+							<span class="font_3r">普通</span>
+							<input type="radio" class="input-select invoice_type_radio" name="fapiao_type" text_value="普通" value="1" checked/>
+						</a>
+					</div>
+					<div class="form_item">
+						<a class="input_radio-right a_full">
+							<span class="font_3r">增值</span>
+							<input type="radio" class="input-select invoice_type_radio" name="fapiao_type" text_value="增值" value="2"/>
+						</a>
+					</div>
+					<div class="form_item">
+						<a class="input_radio-right a_full">
+							<span class="font_3r">不提供</span>
+							<input type="radio" class="input-select invoice_type_radio" name="fapiao_type" text_value="不提供" value="0"/>
+						</a>
+					</div>
+				</div>
+
+				<div class="invoice_footer">
+					<a href="#" class="font_3r color_fff bg-ff863a abolish_select_btn">取消</a>
+					<a href="#" class="font_3r color_fff bg-02c5a3 abolish_select_btn">完成</a>
+				</div>
+			</div>
+		</div>
+	</form>
+
+</div>
+<footer class="font_3r">
+	<a class="footer_btn color_fff bg-02c5a3" onclick="$('#quote_form').trigger('submit');">提交报价</a>
+</footer>
+
+<script type="text/javascript">
+
+    var error_msg_showed = false;
+    var error_msg = "";
+    var submited = false;
+
+    $(function(){
+        //报价表单验证
+        $('#quote_form').validate({
+            ignore:'',
+            onkeyup : false,
+            onclick : false,
+            onfocusin : false,
+            onfocusout : false,
+			onblur  : false,
+            errorPlacement: function(error, element){
+                console.log(error);
+                error_msg+=error[0].textContent+'<br/>';
+            },
+            highlight:function(){
+                if(!error_msg_showed){
+                    setTimeout(function(){
+                        layer.open({content:error_msg,time:2});
+                        error_msg_showed = true;
+                    },200);
+                }
+                setTimeout(function(){
+                    error_msg = "";
+                    error_msg_showed = false;
+                },500);
+            },
+            rules : {
+                wid : {
+                    required:true,
+                    min:1
+                },
+                price :{
+                    required:true,
+                    number:true,
+                    min:0.01
+                },
+                number :{
+                    required:true,
+                    number:true
+                }
+            },
+            messages : {
+                wid : {
+                    required:true,
+                    min:'请选择要报价的求购'
+                },
+                price :{
+                    required:'请填写单价',
+                    number:'单价必须是数字',
+                    min:'单价至少0.01'
+                },
+                number :{
+                    required:'请填写供应量',
+                    number:'供应量必须是数字'
+                }
+            },
+            submitHandler:function(form){
+                if(1){
+                    //ajax提交表单
+                    $url = $('#quote_form').attr('action');
+                    if (!submited){
+                        $.ajax({
+                            type:'post',
+                            url:$url,
+                            data:$('#quote_form').serialize(),
+                            beforeSend:function(){
+                                //
+                            },
+                            error:function(){
+                                layer.open({content:'网络不给力', time:2});
+                            },
+                            success:function(data){
+                                // eval("data ="+data);
+                                layer.open({content:data.errMsg, time:2});
+                                if(data.errNum==0){
+                                    setTimeout(function(){
+                                        window.location.reload();
+                                    },1000);
+                                }
+                            },
+                            complete:function(){
+                                //
+                            }
+                        });
+                        submited = true;
+                        $(this).attr('disabled', "true");
+					}
+
+                }
+                // else{
+                //     window.location.assign('./index.php?app=member&act=login&ret_url='+encodeURIComponent(window.location.href));
+                // }
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

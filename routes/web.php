@@ -12,17 +12,19 @@
 */
 use Illuminate\Http\Request;
 use Henter\WeChat\OAuth;
+use App\Model\Want;
 
 
 Route::get('/', function () {
     // echo config('wechat.appid');exit;
 
-
-    $data =\App\Model\Member::all();
-
-
-    dd($data);
-    return view('home.index');
+    //
+    // $data =\App\Model\Member::all();
+    //
+    //
+    // dd($data);
+    $wdata = Want::with('wantAttrs.attrs','kinds','quotes')->limit(6)->get();
+    return view('home.index' , ['wdata'=>$wdata]);
 });
 Route::get('/home' , function(){
     $appid = config('wechat.appid');
@@ -48,6 +50,21 @@ Route::group(['namespace'=>'order' ,'prefix'=>'want'] ,function (){
 //报价
 Route::group(['namespace'=>'order' ,'prefix'=>'quote'] ,function (){
     Route::get('add/{id}' , 'QuoteController@addQuote');
+    Route::post('create' , 'QuoteController@createQuote');
+    Route::get('my' , 'QuoteController@myQuote');
+    Route::get('my-pass' , 'QuoteController@myQuotePass');
+    Route::get('my-nopass' , 'QuoteController@myQuoteNopass');
+    Route::get('my-lose' , 'QuoteController@myQuoteLose');
+
+
+});
+
+//商品供应
+Route::group(['namespace'=>'order' ,'prefix'=>'supply'] ,function (){
+    Route::get('index' , 'SupplyController@index');
+    Route::get('add' , 'SupplyController@addSupply');
+    Route::get('edit' , 'SupplyController@addSupply');
+
 
 
 });
@@ -60,6 +77,8 @@ Route::group(['namespace'=>'api' ,'prefix'=>'api'] ,function (){
     Route::get('city' , 'DataController@getCity');
     Route::get('get-want-list' , 'DataController@getMemberWantList');
     Route::get('want-list' , 'DataController@getWantList');
+    Route::get('quote-all' , 'DataController@getQuote');
+    Route::get('supply-all' , 'DataController@getSupplyAll');
 
 });
 

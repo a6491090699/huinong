@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class WantAttr extends Model
+class SupplyAttr extends Model
 {
     //
     public $table ="want-attr";
@@ -12,14 +12,14 @@ class WantAttr extends Model
     protected $fillable = [
         'good_attr_id',
         'attribute_id',
-        'wants_id',
+        'supplys_id',
         'attr_value',
     ];
 
 
-    static public function getWantAttr($wid)
+    static public function getSupplyAttr($sid)
     {
-        return self::where('wants_id' , $wid)->get();
+        return self::where('supplys_id' , $sid)->get();
     }
 
     public function attrs()
@@ -27,5 +27,4 @@ class WantAttr extends Model
         // return $this->belongsTo('App\Model\Attribute');
         return $this->belongsTo('App\Model\Attribute' ,'attribute_id');
     }
-
 }

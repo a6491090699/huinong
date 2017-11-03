@@ -67,6 +67,7 @@ $(function(){
     //商品规格 层切换
     $("#goods_specification").click(function(){
         popup_bg();
+        console.log(123213)
         $(".goods_specification-container").show();
         $('#wap_description').css('display','none');//2017-5-26
         //关闭商品规格弹出
@@ -457,5 +458,3 @@ function goods_name_changed(goods_name){
         }
     });
 }
-
-

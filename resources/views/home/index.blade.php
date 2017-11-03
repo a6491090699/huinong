@@ -6,27 +6,27 @@
     <title>竞苗平台 - 中国花木在线交易专业平台</title>
     <meta name="keywords" content="竞苗平台,花木网,花木,中国苗木网,花木交易,花木求购,花木资讯,花木论坛,花木销售,绿化苗木" />
     <meta name="description" content="竞苗平台，中国苗木网，中国花木在线交易专业平台，致力于为花木行业从业者提供更真实的花木在线交易平台，让您没有买不到的，没有卖不掉的。" />
-    <link rel="stylesheet"  href="css/mobile-select-area.css">
-    <!--<link rel="stylesheet" href="css/larea.css">-->
-    <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="css/index.css"/>
-    <!--<link rel="stylesheet" href="css/sm.min.css">-->
-    <!--<script type='text/javascript' src='js/zepto.min.js' charset='utf-8'></script>-->
-    <!--<script type='text/javascript' src='js/sm.min.js' charset='utf-8'></script>-->
-    <script src="js/jquery-1.11.2.js" type="text/javascript"></script>
-    <script src="js/layer.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script src="js/mlselection.js"></script>
-    <script src="js/huamu.js" type="text/javascript"></script>
-    <script src="js/jquery.validate.js" type="text/javascript"></script>
-    <script src="js/jquery.validate.extend.js" type="text/javascript"></script>
-    <script src="js/additional-methods-huamu.js" type="text/javascript"></script>
-    <script src="js/index.js" type="text/javascript"></script>
-    <script src="js/common.js" type="text/javascript"></script>
-    <script type="text/javascript" src="js/dialog.js"></script>
-    <script type="text/javascript" src="js/mobile-select-area.js"></script>
-    <script type="text/javascript" src="js/json2.js" ></script>
-    <script type="text/javascript" src="js/underscore-min.js" ></script>
+    <link rel="stylesheet"  href="/css/mobile-select-area.css">
+    <!--<link rel="stylesheet" href="/css/larea.css">-->
+    <link rel="stylesheet" href="/css/style.css"/>
+    <link rel="stylesheet" href="/css/index.css"/>
+    <!--<link rel="stylesheet" href="/css/sm.min.css">-->
+    <!--<script type='text/javascript' src='/js/zepto.min.js' charset='utf-8'></script>-->
+    <!--<script type='text/javascript' src='/js/sm.min.js' charset='utf-8'></script>-->
+    <script src="/js/jquery-1.11.2.js" type="text/javascript"></script>
+    <script src="/js/layer.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
+    <script src="/js/mlselection.js"></script>
+    <script src="/js/huamu.js" type="text/javascript"></script>
+    <script src="/js/jquery.validate.js" type="text/javascript"></script>
+    <script src="/js/jquery.validate.extend.js" type="text/javascript"></script>
+    <script src="/js/additional-methods-huamu.js" type="text/javascript"></script>
+    <script src="/js/index.js" type="text/javascript"></script>
+    <script src="/js/common.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/js/dialog.js"></script>
+    <script type="text/javascript" src="/js/mobile-select-area.js"></script>
+    <script type="text/javascript" src="/js/json2.js" ></script>
+    <script type="text/javascript" src="/js/underscore-min.js" ></script>
     <script>
         //模板设置
         _.templateSettings = {
@@ -42,7 +42,7 @@
 <body style="padding:50px 0">
 
 <header class="user_center_header sell_index-header text_left">
-    <img src="images/huamu_logo.png" class="header_logo"/ style="bottom: 0rem;">
+    <img src="/images/huamu_logo.png" class="header_logo"/ style="bottom: 0rem;">
     <a class="sell_header_search_box">
         <span class="iconfont color_96cec3" style="top: 0.4rem;">&#xe608;</span>
         <input class="hunt_input" type="text" placeholder="搜索您想要的商品" value="搜索您想要的商品"/>
@@ -52,8 +52,8 @@
     <div class="img_carousel">
         <div class="slipping-area">
             <div class="slipping-imgbox">
-                    <img  src="images/lunbo01.jpg" alt=""/>
-                    <img  src="images/lunbo01.jpg" alt=""/>
+                    <img  src="/images/lunbo01.jpg" alt=""/>
+                    <img  src="/images/lunbo01.jpg" alt=""/>
             </div>
         </div>
     </div>
@@ -66,12 +66,12 @@
     <ul class="sell_nav-list bg-fff clearfix bd_top_bottom-eee">
         <li class="fl" style="width:49%">
             <a href="#">
-			<img src="images/sydfl_03.jpg" width=100%>
+			<img src="/images/sydfl_03.jpg" width=100%>
             </a>
         </li>
         <li class="fl" style="width:49%">
             <a href="#">
-			<img src="images/sydfl_05.jpg" width=100%>
+			<img src="/images/sydfl_05.jpg" width=100%>
             </a>
         </li>
     </ul>
@@ -86,49 +86,49 @@
     <ul class="goods_classify_con">
         <li>
             <a href="./fenlei/9_changlvqiaomu.html">
-                <span class="iconfont color_02c5a3"><img src="images/syfltb_01.png" width=50%></span>
+                <span class="iconfont color_02c5a3"><img src="/images/syfltb_01.png" width=50%></span>
                 <p>独杆乔木</p>
             </a>
         </li>
         <li>
             <a href="./fenlei/11_changlvguanmu.html">
-                <span class="iconfont color_ff5b48"><img src="images/syfltb_02.png" width=50%></span>
+                <span class="iconfont color_ff5b48"><img src="/images/syfltb_02.png" width=50%></span>
                 <p>丛生乔木</p>
             </a>
         </li>
         <li>
             <a href="./fenlei/10_luoyeqiaomu.html">
-                <span class="iconfont color_f9792a"><img src="images/syfltb_03.png" width=50%></span>
+                <span class="iconfont color_f9792a"><img src="/images/syfltb_03.png" width=50%></span>
                 <p>色块花茎</p>
             </a>
         </li>
         <li>
             <a href="./fenlei/12_luoyeguanmu.html">
-                <span class="iconfont color_299bdc"><img src="images/syfltb_04.png" width=50%></span>
+                <span class="iconfont color_299bdc"><img src="/images/syfltb_04.png" width=50%></span>
                 <p>灌木球类</p>
             </a>
         </li>
         <li>
             <a href="./fenlei/9_changlvqiaomu.html">
-                <span class="iconfont color_02c5a3"><img src="images/syfltb_05.png" width=50%></span>
+                <span class="iconfont color_02c5a3"><img src="/images/syfltb_05.png" width=50%></span>
                 <p>景观造型</p>
             </a>
         </li>
         <li>
             <a href="./fenlei/11_changlvguanmu.html">
-                <span class="iconfont color_ff5b48"><img src="images/syfltb_06.png" width=50%></span>
+                <span class="iconfont color_ff5b48"><img src="/images/syfltb_06.png" width=50%></span>
                 <p>个人物流</p>
             </a>
         </li>
         <li>
             <a href="./fenlei/10_luoyeqiaomu.html">
-                <span class="iconfont color_f9792a"><img src="images/syfltb_07.png" width=50%></span>
+                <span class="iconfont color_f9792a"><img src="/images/syfltb_07.png" width=50%></span>
                 <p>道具配置</p>
             </a>
         </li>
         <li>
             <a href="./fenlei/12_luoyeguanmu.html">
-                <span class="iconfont color_299bdc"><img src="images/syfltb_08.png" width=50%></span>
+                <span class="iconfont color_299bdc"><img src="/images/syfltb_08.png" width=50%></span>
                 <p>其他用材</p>
             </a>
         </li>
@@ -137,12 +137,12 @@
     <ul class="sell_nav-list bg-fff clearfix bd_top_bottom-eee" style="margin-top: 9px;">
         <li class="fl" style="width:49%">
             <a href="#">
-			<img src="images/sydfl_07.jpg" width=100%>
+			<img src="/images/sydfl_07.jpg" width=100%>
             </a>
         </li>
         <li class="fl" style="width:49%">
             <a href="#">
-			<img src="images/sydfl_09.jpg" width=100%>
+			<img src="/images/sydfl_09.jpg" width=100%>
             </a>
         </li>
     </ul>
@@ -150,57 +150,37 @@
     <div class="store_able-container">
         <div class="padding_flanks bg-fff margin_top">
             <div class="store_padding border_none">
-                <a class="a_full position_relative" href="./index.php?app=brand&order=sgrade_order%20desc">
+                <a class="a_full position_relative" href="/want/index">
                     <span class="iconfont color_02c5a3"></span> <span class="font_3r color_34 fontWeight_5 goods_name-title">求购大厅</span>
                     <b class="iconfont select_arrows-icon">查看更多求购&#xe614;</b>
                 </a>
             </div>
         </div>
 			<!--首页求购循环开始-->
-			<div class="padding_container bg-fff margin_bottom bd_top_bottom-eee">
+            @foreach($wdata as $val)
+            <div class="padding_container bg-fff margin_bottom bd_top_bottom-eee">
 				<a href="#">
 					<dl class="clearfix goods_details_store">
 						<dt class="fl" style="width:60px">
-							<img src="images/201710161706347527.jpg"/>
+							<img src="/images/201710161706347527.jpg"/>
 						</dt>
 						<dd class="fl color_67 padding_flanks">
 							<div class="store_grade-div" style="    padding-left: 0px;">
-								<p class="font_3r overflow_omit">矮柿树</p>
+								<p class="font_3r overflow_omit">{{$val->title}}</p>
 							</div>
 
-							<p class="font_24r color_9a" style="margin-bottom: 5px;">共有<span style="color:#ff8c08;">0</span>人报价&nbsp;&nbsp;用苗地：山东</p>
-							<span class="enter_store_btn font_28r" style="    right: -30px;top: 20px;border: 1px solid #ff8f0c;color:#ff8f0c">报价</span>
-							<span class="enter_store_btn font_28r" style="right: -30px;top: -40px;border: 0px solid #02c5a3;color:#01b882">5棵</span>
+							<p class="font_24r color_9a" style="margin-bottom: 5px;">共有<span style="color:#ff8c08;">{{$val->quotes->count()}}</span>人报价&nbsp;&nbsp;用苗地：{{$val->source}}</p>
+							<a href="/quote/add/{{$val->id}}"><span class="enter_store_btn font_28r" style="    right: -30px;top: 20px;border: 1px solid #ff8f0c;color:#ff8f0c">报价</span></a>
+							<span class="enter_store_btn font_28r" style="right: -30px;top: -40px;border: 0px solid #02c5a3;color:#01b882">{{$val->number}}{{$val->kinds->unit}}</span>
 						</dd>
 					</dl>
 				</a>
 			</div>
+            @endforeach
 
-
-			<div class="padding_container bg-fff margin_bottom bd_top_bottom-eee">
-				<a href="#">
-					<dl class="clearfix goods_details_store">
-						<dt class="fl" style="width:60px">
-							<img src="images/201508271728352948.jpg"/>
-						</dt>
-						<dd class="fl color_67 padding_flanks">
-							<div class="store_grade-div" style="    padding-left: 0px;">
-								<p class="font_3r overflow_omit">中国红枫</p>
-							</div>
-
-							<p class="font_24r color_9a" style="margin-bottom: 5px;">共有<span style="color:#ff8c08;">6</span>人报价&nbsp;&nbsp;用苗地：浙江宁波</p>
-							<span class="enter_store_btn font_28r" style="    right: -30px;top: 20px;border: 1px solid #ff8f0c;color:#ff8f0c">报价</span>
-							<span class="enter_store_btn font_28r" style="right: -30px;top: -40px;border: 0px solid #02c5a3;color:#01b882">5棵</span>
-						</dd>
-					</dl>
-				</a>
-			</div>
+			
 			<!--首页求购循环结束-->
      </div>
-
-
-
-
 
 
 
@@ -219,7 +199,7 @@
 							<a href="#">
 								<dl class="clearfix goods_details_store">
 									<dt class="fl" style="width:70px;">
-										<img src="images/201502081354294549.jpg"/>
+										<img src="/images/201502081354294549.jpg"/>
 									</dt>
 									<dd class="fl color_67 padding_flanks">
 																<div class="store_grade-div">
@@ -227,7 +207,7 @@
 											<p class="font_3r overflow_omit">白蜡</p>
 										</div>
 																<p class="font_24r overflow_omit color_9a" style="margin-top:8px;">胸径：12厘米</p>
-										<p class="font_24r color_9a" style="margin-bottom: 5px;">供应商信用：<img src="images/star_1.png" height="12px"><img src="images/star_1.png" height="12px"><img src="images/star_1.png" height="12px"><img src="images/star_1.png" height="12px"><img src="images/star_1h.png" height="12px"></p>
+										<p class="font_24r color_9a" style="margin-bottom: 5px;">供应商信用：<img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1h.png" height="12px"></p>
 										<div>
 											山东聊城
 										</div>
@@ -371,12 +351,12 @@
 <footer class="foot_border-top" style="background-color: #00ad8b;">
     <div class="foot_member foot_member_hover">
         <a href="#">
-            <p><img src="images/dh_01.png" width=50%></p>
+            <p><img src="/images/dh_01.png" width=50%></p>
         </a>
     </div>
     <div class="foot_member ">
         <a href="#">
-            <p><img src="images/dh_02.png" width=50%></p>
+            <p><img src="/images/dh_02.png" width=50%></p>
         </a>
     </div>
     <div class="foot_member ">
@@ -386,19 +366,19 @@
         <!--</a>-->
         <a class="goods_car-header" href="#">
 
-            <p><img src="images/dh_03.png" width=50%></p>
+            <p><img src="/images/dh_03.png" width=50%></p>
         </a>
     </div>
     <div class="foot_member ">
         <a href="/home">
-            <p><img src="images/dh_04.png" width=50%></p>
+            <p><img src="/images/dh_04.png" width=50%></p>
         </a>
     </div>
 </footer>
 
 <span style='visible:hidden;'>
 
-<script type="text/javascript" src="js/slip.js"></script>
+<script type="text/javascript" src="/js/slip.js"></script>
 
 <script>
     window.onload=function(){
@@ -413,7 +393,7 @@
             '<li>' +
             '<a href="{article_url}"> ' +
             '<dl class="clearfix service_advantage">' +
-            '<dt class="fl"> <img src="images/5729459f7fa54d45958d0344d88943ff.gif"/> </dt> ' +
+            '<dt class="fl"> <img src="/images/5729459f7fa54d45958d0344d88943ff.gif"/> </dt> ' +
             '<dd class="fl"> ' +
             '<h3 class="font_26r">{title}</h3>' +
             ' <p>{summary}</p>' +

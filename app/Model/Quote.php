@@ -20,6 +20,9 @@ class Quote extends Model
         'addtime',
         'wants_id',
     ];
+    public function wants(){
+        return $this->belongsTo('App\Model\Want','wants_id');
+    }
 
-    
+
 }

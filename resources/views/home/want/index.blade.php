@@ -102,156 +102,7 @@
         </a>
     </div>
     <ul class="purchase_information-list" id="data_list_div">
-	<li class="bg-fff bd_top_bottom-eee">
-	<h3>采购红枫</h3>
-	<p>
-		地径15厘米
-	</p>
-	<p>
-		苗源：贵州
-	</p>
-	<p>
-		手机号：137****5831
-	</p>
-	<p class="purchase_information_quote">
-		<span class="color_ff7414">已有2人报价</span><span>截止日期：2017.11.11</span>
-	</p>
-	<span class="purchase_num"><span class="color_ff7414">18</span>棵</span><a href="/qiugou/20171027_12819_9401.html" class="quote_btn">报价</a></li>
-	<li class="bg-fff bd_top_bottom-eee">
-	<h3>采购日本早樱</h3>
-	<p>
-		地径15厘米
-	</p>
-	<p>
-		苗源：贵州
-	</p>
-	<p>
-		手机号：137****5831
-	</p>
-	<p class="purchase_information_quote">
-		<span class="color_ff7414">已有1人报价</span><span>截止日期：2017.11.11</span>
-	</p>
-	<span class="purchase_num"><span class="color_ff7414">21</span>棵</span><a href="/qiugou/20171027_12818_9400.html" class="quote_btn">报价</a></li>
-	<li class="bg-fff bd_top_bottom-eee">
-	<h3>采购白玉兰</h3>
-	<p>
-		米径22厘米
-	</p>
-	<p>
-		苗源：贵州
-	</p>
-	<p>
-		手机号：137****5831
-	</p>
-	<p class="purchase_information_quote">
-		<span class="color_ff7414">已有0人报价</span><span>截止日期：2017.11.11</span>
-	</p>
-	<span class="purchase_num"><span class="color_ff7414">21</span>棵</span><a href="/qiugou/20171027_12817_9399.html" class="quote_btn">报价</a></li>
-	<li class="bg-fff bd_top_bottom-eee">
-	<h3>工程采购红叶李</h3>
-	<p>
-		地径16厘米
-	</p>
-	<p>
-		苗源：贵州
-	</p>
-	<p>
-		手机号：137****5831
-	</p>
-	<p class="purchase_information_quote">
-		<span class="color_ff7414">已有1人报价</span><span>截止日期：2017.11.11</span>
-	</p>
-	<span class="purchase_num"><span class="color_ff7414">20</span>棵</span><a href="/qiugou/20171027_12816_9398.html" class="quote_btn">报价</a></li>
-	<li class="bg-fff bd_top_bottom-eee">
-	<h3>采购金丝柳</h3>
-	<p>
-		米径20厘米
-	</p>
-	<p>
-		苗源：贵州
-	</p>
-	<p>
-		手机号：137****5831
-	</p>
-	<p class="purchase_information_quote">
-		<span class="color_ff7414">已有1人报价</span><span>截止日期：2017.11.11</span>
-	</p>
-	<span class="purchase_num"><span class="color_ff7414">20</span>棵</span><a href="/qiugou/20171027_12815_9397.html" class="quote_btn">报价</a></li>
-	<li class="bg-fff bd_top_bottom-eee">
-	<h3>采购火棘球</h3>
-	<p>
-		冠幅120厘米
-	</p>
-	<p>
-		苗源：贵州
-	</p>
-	<p>
-		手机号：137****5831
-	</p>
-	<p class="purchase_information_quote">
-		<span class="color_ff7414">已有0人报价</span><span>截止日期：2017.11.11</span>
-	</p>
-	<span class="purchase_num"><span class="color_ff7414">20</span>棵</span><a href="/qiugou/20171027_12814_9396.html" class="quote_btn">报价</a></li>
-	<li class="bg-fff bd_top_bottom-eee">
-	<h3>采购木槿</h3>
-	<p>
-		高度200厘米
-	</p>
-	<p>
-		苗源：贵州
-	</p>
-	<p>
-		手机号：137****5831
-	</p>
-	<p class="purchase_information_quote">
-		<span class="color_ff7414">已有0人报价</span><span>截止日期：2017.11.11</span>
-	</p>
-	<span class="purchase_num"><span class="color_ff7414">20</span>棵</span><a href="/qiugou/20171027_12813_9395.html" class="quote_btn">报价</a></li>
-	<li class="bg-fff bd_top_bottom-eee">
-	<h3>采购银杏</h3>
-	<p>
-		米径30厘米
-	</p>
-	<p>
-		苗源：贵州
-	</p>
-	<p>
-		手机号：137****5831
-	</p>
-	<p class="purchase_information_quote">
-		<span class="color_ff7414">已有2人报价</span><span>截止日期：2017.11.11</span>
-	</p>
-	<span class="purchase_num"><span class="color_ff7414">20</span>棵</span><a href="/qiugou/20171027_12812_9394.html" class="quote_btn">报价</a></li>
-	<li class="bg-fff bd_top_bottom-eee">
-	<h3>采购国槐</h3>
-	<p>
-		米径35厘米
-	</p>
-	<p>
-		苗源：贵州
-	</p>
-	<p>
-		手机号：137****5831
-	</p>
-	<p class="purchase_information_quote">
-		<span class="color_ff7414">已有1人报价</span><span>截止日期：2017.11.11</span>
-	</p>
-	<span class="purchase_num"><span class="color_ff7414">20</span>棵</span><a href="/qiugou/20171027_12811_9393.html" class="quote_btn">报价</a></li>
-	<li class="bg-fff bd_top_bottom-eee">
-	<h3>香叶天竺葵(驱蚊草)</h3>
-	<p>
-		高度35厘米
-	</p>
-	<p>
-		苗源：湖南
-	</p>
-	<p>
-		手机号：155****2398
-	</p>
-	<p class="purchase_information_quote">
-		<span class="color_ff7414">已有0人报价</span><span>截止日期：2017.11.03</span>
-	</p>
-	<span class="purchase_num"><span class="color_ff7414">10000</span></span><a href="/qiugou/20171027_12809_9392.html" class="quote_btn">报价</a></li>
+	
 </ul>
     <p class="text_center font_24r color_9a" id="loading01" style="display: none;">点击加载更多</p>
     <div class="loadEffect" style="display: none">
@@ -334,14 +185,16 @@
                         for(var j=0; j<want_attrs.length;j++){
                             var jtem = want_attrs[j];
                             var attrs = jtem.attrs;
-                            item.spec += attrs.attr_name + jtem.attr_value + attrs.unit;
+                            item.spec += attrs.attr_name + jtem.attr_value + attrs.unit +' ';
 
                         }
                     }
 
                     item.quote_num = item.quotes.length;
+                    console.log(item.cutday);
                     myday = new Date(item.cutday*1000);
-                    item.cutday = myday.getFullYear() +'-'+myday.getMonth() +'-'+myday.getDay();
+
+                    item.cutday = myday.getFullYear() +'-'+(myday.getMonth()+1) +'-'+myday.getDate();
                     item.unit = item.kinds.unit;
                     item.number = item.number
                     item.url = '/quote/add/'+item.id;
