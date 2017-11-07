@@ -58,19 +58,17 @@
         </div>
     </div>
 
-@if($errors->has('email'))
-<h1>{{$errors->first('email')}}</h1>
-@endif
+
 <div class="sell_index-main">
 
     <ul class="sell_nav-list bg-fff clearfix bd_top_bottom-eee">
         <li class="fl" style="width:49%">
-            <a href="#">
+            <a href="/supply/index">
 			<img src="/images/sydfl_03.jpg" width=100%>
             </a>
         </li>
         <li class="fl" style="width:49%">
-            <a href="#">
+            <a href="/want/index">
 			<img src="/images/sydfl_05.jpg" width=100%>
             </a>
         </li>
@@ -136,12 +134,12 @@
 
     <ul class="sell_nav-list bg-fff clearfix bd_top_bottom-eee" style="margin-top: 9px;">
         <li class="fl" style="width:49%">
-            <a href="#">
+            <a href="/supply/add">
 			<img src="/images/sydfl_07.jpg" width=100%>
             </a>
         </li>
         <li class="fl" style="width:49%">
-            <a href="#">
+            <a href="/want/fabu">
 			<img src="/images/sydfl_09.jpg" width=100%>
             </a>
         </li>
@@ -178,7 +176,7 @@
 			</div>
             @endforeach
 
-			
+
 			<!--首页求购循环结束-->
      </div>
 
@@ -187,7 +185,7 @@
 	     <div class="store_able-container">
 						<div class="padding_flanks bg-fff margin_top">
 							<div class="store_padding border_none">
-								<a class="a_full position_relative" href="./index.php?app=brand&order=sgrade_order%20desc">
+								<a class="a_full position_relative" href="/supply/index">
 									<span class="iconfont color_02c5a3"></span> <span class="font_3r color_34 fontWeight_5 goods_name-title">供应大厅</span>
 									<b class="iconfont select_arrows-icon">查看更多供应&#xe614;</b>
 								</a>
@@ -195,8 +193,9 @@
 						</div>
 
 						<!--首页供应循环开始-->
+                        @foreach($supplys as $val)
 						<div class="padding_container bg-fff margin_bottom bd_top_bottom-eee">
-							<a href="#">
+							<a href="/supply/view/{{$val->id}}">
 								<dl class="clearfix goods_details_store">
 									<dt class="fl" style="width:70px;">
 										<img src="/images/201502081354294549.jpg"/>
@@ -204,19 +203,21 @@
 									<dd class="fl color_67 padding_flanks">
 																<div class="store_grade-div">
 											<span class="store_grade_con grade-3"></span>
-											<p class="font_3r overflow_omit">白蜡</p>
+											<p class="font_3r overflow_omit">{{$val->goods_name}}</p>
 										</div>
+
 																<p class="font_24r overflow_omit color_9a" style="margin-top:8px;">胸径：12厘米</p>
 										<p class="font_24r color_9a" style="margin-bottom: 5px;">供应商信用：<img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1h.png" height="12px"></p>
 										<div>
 											山东聊城
 										</div>
-										<span class="enter_store_btn font_18r" style="top: -40px;border: 0px solid #02c5a3;color:#727272;right: -15px;">刚刚</span>
+										<span class="enter_store_btn font_18r" style="top: -40px;border: 0px solid #02c5a3;color:#727272;right: -15px;">{{formate_time($val->addtime)}}</span>
 										<span class="enter_store_btn border_color-67 font_18r" style="top: 40px;padding: 0 5px;right: -15px;">查看详情</span>
 									</dd>
 								</dl>
 							</a>
 						</div>
+                        @endforeach
 					<!--首页供应循环结束-->
         </div>
 
@@ -251,7 +252,7 @@
     <div class="hunt_main padding_flanks">
         <p class="hunt_p">热门搜索</p>
         <ul class="hunt_hot_list clearfix">
-                        <li><a href="#">五角枫</a></li>
+                        <li><a href="/">五角枫</a></li>
                         <li><a href="#">桂花</a></li>
                         <li><a href="#">香樟</a></li>
                         <li><a href="#">朴树</a></li>
@@ -270,7 +271,8 @@
 <script type="text/javascript">
     function search_goods(){
         var keyword = $.trim($("#keyword").val());
-        var url = "/index.php?app=search&act=index&keyword=" + keyword;
+        // var url = "/index.php?app=search&act=index&keyword=" + keyword;
+        var url = "/supply/index?keyword=" + keyword;
         location = url;
     }
     $("#keyword").keyup(function(event){
@@ -404,17 +406,17 @@
 
     $(function(){
         //加载新闻公告
-        $.get("/index.php?app=news&act=index&ajax&cate_id=6&limit=6",function(result){
-            try{
-                var articles = result.data;
-                for(var i in articles){
-                    var article = articles[i];
-                    var tpl = _.template(article_tpl);
-                    $("#article_list").append(tpl(article));
-                }
-            }catch(e){
-            }
-        },'json');
+        // $.get("/index.php?app=news&act=index&ajax&cate_id=6&limit=6",function(result){
+        //     try{
+        //         var articles = result.data;
+        //         for(var i in articles){
+        //             var article = articles[i];
+        //             var tpl = _.template(article_tpl);
+        //             $("#article_list").append(tpl(article));
+        //         }
+        //     }catch(e){
+        //     }
+        // },'json');
     });
     //搜索弹出层
     function popup_hunt(){

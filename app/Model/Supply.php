@@ -23,6 +23,7 @@ class Supply extends Model
         'is_emergency' ,
         'status'
     ];
+    public $table = 'supplys';
 
     static public function getMemberSupply($mid , $type = 'array')
     {
@@ -43,6 +44,10 @@ class Supply extends Model
 
     public function member(){
         return $this->belongsTo('App\Model\Member');
+    }
+
+    public function orders(){
+        return $this->hasMany('App\Model\SupplyOrder' ,'supplys_id');
     }
 
 

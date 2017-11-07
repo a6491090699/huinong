@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Kind;
-use App\Model\Guige;
+use App\Model\Attribute;
 use App\Model\MemberAddress;
 use App\Model\GoodCollect;
 use App\Model\Quote;
 use App\Model\Want;
+use App\Model\MemberStoreinfo;
+use App\Model\Supply;
 
 class DataController extends Controller
 {
@@ -40,18 +42,38 @@ class DataController extends Controller
     }
 
 
-    public function getGuige()
+    public function getAttribute(Request $request)
     {
+        $full_kind_id = $request->input('cate_full_id');
+        $arr =explode(',', $full_kind_id);
+        $pid = $arr[0];
+        // $kid = $request->input('kid');
 
-        $data = Guige::all();
-        dd($data);
-
+        // $data = $obj->getParentGuige($kid);
+        $data = Attribute::where('kinds_id' , $pid)->get();
+        return response()->json(['data'=>$data ,'code'=>0]);
+        // dd($data);
     }
 
     public function getCity()
     {
         // dd('/hehe');
         $data = require app_path('Common/city.json');
+        // return response();
+    }
+    public function getSubCity(Request $request)
+    {
+        $pid = $request->input('pid');
+        $city = file_get_contents(app_path().'/Common/city.json');
+        $city = json_decode($city , true);
+        dump($city);
+        foreach($city['data'] as $val){
+            if($val['id'] == $pid) $sub = $val['child'];
+        }
+        return response()->json(['data'=>$sub ,'code'=>0,'select_pls'=>'请选择...']);
+
+        dd($sub);
+        // return $city;
         // return response();
     }
 
@@ -192,18 +214,58 @@ class DataController extends Controller
     public function getSupplyAll(Request $request)
     {
         $page = empty($request->input('page'))? 1: $request->input('page');
-        $orderstring = empty($request->input('order'))? 1: $request->input('order');
-        $orderstring = explode(' ',$orderstring);
-        $order = $orderstring[0];
-        $orderway = $orderstring[1];
+        $kind_id = empty($request->input('page'))? 1: $request->input('kind_id');
+        $region_id = empty($request->input('page'))? 1: $request->input('region_id');
+        $orderstring =  $request->input('order');
+        // $order = 'id';
+        // $orderway = 'desc';
+
+        // if($orderstring != null){
+        //     $orderstring = explode(' ',$orderstring);
+        //     $order = $orderstring[0];
+        //     $orderway = $orderstring[1];
+        // }
+
         $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
         $pagenum = 10; //每页显示数
-        if($keyword)
-        {
-            $return = Want::with('wantAttrs.attrs','quotes','kinds')->where('title', 'like', '%'.$keyword.'%')->orderBy($order ,$orderway)->paginate($pagenum);
+        $obj = Supply::with('supplyAttrs.attrs','kinds','orders');
+
+
+        if($keyword) $obj= $obj->where('goods_name' ,'like','%'.$keyword.'%');
+
+        if($orderstring){
+            $orderstring = explode(' ',$orderstring);
+            $order = $orderstring[0];
+            $orderway = $orderstring[1];
+            $obj= $obj->orderBy($order ,$orderway);
         }else{
-            $return = Want::with('wantAttrs.attrs','quotes','kinds')->orderBy($order ,$orderway)->paginate($pagenum);
+            $obj= $obj->orderBy('id' ,'desc');
         }
+
+        if($region_id){
+
+            $obj= $obj->where('region_id' ,$region_id);
+        }
+        if($kind_id){
+            $obj= $obj->where('kid' ,$kid);
+        }
+
+        $obj->withCount(['orders'=>function($query){
+            $query->where('status',3);//完成的状态量
+        }]);
+
+        $return = $obj->paginate($pagenum);
+
+
+
+        // if($keyword)
+        // {
+        //     $return = Supply::with('supplyAttrs.attrs','kinds','orders')->where('goods_name', 'like', '%'.$keyword.'%')->orderBy($order ,$orderway)->paginate($pagenum);
+        // }else{
+        //     $return = Supply::with('supplyAttrs.attrs','kinds')->withCount(['orders'=>function($query){
+        //         $query->where('status',3);//完成的状态量
+        //     }])->orderBy($order ,$orderway)->paginate($pagenum);
+        // }
         // $return = $return->toArray();
         // $ret = array();
         // $ret['status'] = '1';
@@ -211,6 +273,16 @@ class DataController extends Controller
         return $return->toJson();
         // dump($return->toJson());
         // dd($return->toArray());
+
+    }
+
+    public function getBase()
+    {
+        //获取用户基地
+        // $mid = $this->mid;
+        // return MemberStoreinfo::where('member_id' ,$mid)->field('base_address')->first()->toArray();
+
+
 
     }
 

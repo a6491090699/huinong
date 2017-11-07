@@ -102,7 +102,7 @@
         </a>
     </div>
     <ul class="purchase_information-list" id="data_list_div">
-	
+
 </ul>
     <p class="text_center font_24r color_9a" id="loading01" style="display: none;">点击加载更多</p>
     <div class="loadEffect" style="display: none">
@@ -191,7 +191,7 @@
                     }
 
                     item.quote_num = item.quotes.length;
-                    console.log(item.cutday);
+                    // console.log(item.cutday);
                     myday = new Date(item.cutday*1000);
 
                     item.cutday = myday.getFullYear() +'-'+(myday.getMonth()+1) +'-'+myday.getDate();

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SupplyAttr extends Model
 {
     //
-    public $table ="want-attr";
+    public $table ="supply-attr";
     public $timestamps = false;
     protected $fillable = [
         'good_attr_id',

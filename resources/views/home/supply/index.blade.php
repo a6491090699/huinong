@@ -78,11 +78,11 @@
                     <span>距离</span><span class="iconfont font_35r">&#xe6a0;</span>
                     <!--  向上箭头  <span class="iconfont font_35r">&#xe6c9;</span>-->
                 </li>
-                <li class="" order="gst.sales desc">
+                <li class="" order="orders_count asc">
                     <span>销量</span><span class="iconfont font_35r">&#xe6a0;</span>
                     <!--  向上箭头  <span class="iconfont font_35r">&#xe6c9;</span>-->
                 </li>
-                <li class="" order="g.price">
+                <li class="" order="price asc">
                     <span>价格</span><span class="iconfont font_35r">&#xe6a0;</span>
                     <!--  向上箭头  <span class="iconfont font_35r">&#xe6c9;</span>-->
                 </li>
@@ -96,7 +96,7 @@
 
 			<ul class="supply_information-list bg-fff" style="display: block" id="data_list_div">
 
-				<li class="border_top_none">
+				<!-- <li class="border_top_none">
 					<a href="#">
 						<dl class="clearfix hot_goods">
 							<dt class="fl">
@@ -143,7 +143,7 @@
 							</dd>
 						</dl>
 					</a>
-				</li>
+				</li> -->
 
 
 
@@ -160,7 +160,7 @@
         var search_goods_tpl = '<li class="border_top_none">';
         search_goods_tpl += '<a href="{goods_url}">';
         search_goods_tpl += '    <dl class="clearfix hot_goods">';
-        search_goods_tpl += '    <dt class="fl"><img src="/images/746f74e019a64e24929f8975fa9a7d4c.gif"/></dt>';
+        search_goods_tpl += '    <dt class="fl"><img src="/images/201603031620589785.gif"/></dt>';
         search_goods_tpl += '    <dd class="fl position_relative">';
         search_goods_tpl += ' {store_name_info} ';
         search_goods_tpl += '<div class="goods_prop color_ff7414">{spec_info}</div>';
@@ -169,7 +169,7 @@
 //        search_goods_tpl += '    <span class="min_sell-num">库存：{stock}{goods_unit}</span>';
         search_goods_tpl += '</div>';
         search_goods_tpl += '<p>';
-        search_goods_tpl += '<span class="">已售{sales}件</span>';
+        search_goods_tpl += '<span class="">已售{sales}单</span>';
         search_goods_tpl += '    <span class="fr">截止日期:{formated_expire}</span>';
         search_goods_tpl += '</p>';
         search_goods_tpl += '<span class="color_ff7414 distance_icon font_26r">{distance_val}</span>';
@@ -178,10 +178,34 @@
         search_goods_tpl += '</a>';
         search_goods_tpl += '</li>';
 
+        var goods_tpl = '<li class="border_top_none">';
+        goods_tpl += '<a href="{goods_url}">';
+        goods_tpl += '<dl class="clearfix hot_goods">';
+        goods_tpl += '<dt class="fl">';
+        goods_tpl += '<img src="/images/201603031620589785.gif">';
+        goods_tpl += '</dt>';
+        goods_tpl += '<dd class="fl position_relative">';
+        goods_tpl += '<div class="store_grade-div" style="padding-left: 0px;">';
+        goods_tpl += '<p class="font_3r color_34 overflow_omit-8" style="width: 12em; font-size: 2.5rem !important;">【{kind_name}】{goods_name}</p>';
+        goods_tpl += '</div>';
+        goods_tpl += '<div class="goods_prop color_ff7414" style="float: right;margin-top: -1.8em;"><span><b>{formate_time}</b></span></div>';
+        goods_tpl += '<div class="goods_prop color_ff7414" style="float: right;margin-top: 2.5em;"><span><b style="    font-size: 1.2em;color: #585252;">查看详情</b></span></div>';
+        goods_tpl += '<p style="    margin-top: 10px;">可供现货:{number}</p>';
+        goods_tpl += '<p class="font_24r color_9a" style="margin-bottom: 5px;">供应商信用：{star}</p>';
+        // goods_tpl += '<p class="font_24r color_9a" style="margin-bottom: 5px;">供应商信用：<img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1h.png" height="12px"></p>';
+        goods_tpl += '<p>';
+        goods_tpl += '<span class="">{address}</span>';
+        goods_tpl += '</p>';
+        goods_tpl += '</dd>';
+        goods_tpl += '</dl>';
+        goods_tpl += '</a>';
+        goods_tpl += '</li>';
+
+
 		var search_tuiguang_goods_tpl = '<li class="border_top_none">';
         search_tuiguang_goods_tpl += '<a href="{goods_url}">';
         search_tuiguang_goods_tpl += '    <dl class="clearfix hot_goods">';
-        search_tuiguang_goods_tpl += '    <dt class="fl"><img src="/images/746f74e019a64e24929f8975fa9a7d4c.gif"/></dt>';
+        search_tuiguang_goods_tpl += '    <dt class="fl"><img src="/images/201603031620589785.gif"/></dt>';
         search_tuiguang_goods_tpl += '    <dd class="fl position_relative">';
         search_tuiguang_goods_tpl += ' {store_name_info} ';
         search_tuiguang_goods_tpl += '<div class="goods_prop color_ff7414">{spec_info}</div>';
@@ -190,7 +214,7 @@
 //        search_tuiguang_goods_tpl += '    <span class="min_sell-num">库存：{stock}{goods_unit}</span>';
         search_tuiguang_goods_tpl += '</div>';
         search_tuiguang_goods_tpl += '<p>';
-        search_tuiguang_goods_tpl += '<span class="">已售{sales}件</span>';
+        search_tuiguang_goods_tpl += '<span class="">已售{sales}单</span>';
         search_tuiguang_goods_tpl += '    <span class="fr">推广产品</span>';
         search_tuiguang_goods_tpl += '</p>';
         search_tuiguang_goods_tpl += '<span class="color_ff7414 distance_icon font_26r">{distance_val}</span>';
@@ -256,8 +280,9 @@
                 lat = parseFloat($("#lat").val());
                 lon = parseFloat($("#lon").val());
                 page++;
+
                 // var url = SITE_URL + '/index.php?app=search&act=index&ajax&cate_id=' + cate_id + '&region_id=' + region_id + '&price=' + price + '&keyword=' + keyword + '&page=' + page + '&order=' + order + '&lat=' + lat + '&lon=' + lon;
-                var url = '/api/supply-all?keyword=' + keyword + '&page=' + page+'&order='+order ;
+                var url = '/api/supply-all?keyword=' + keyword + '&page=' + page+'&order='+order+'&region_id='+region_id;
                 $.getJSON(url, function (result) {
                     if (result.tuiguang_goods_list) {
                         //加载推广商品列表
@@ -267,21 +292,25 @@
 
                         for (var i in tuiguang_goods_list) {
                             var goods = tuiguang_goods_list[i];
-                            var this_lat = parseFloat(goods.lat);
-                            var this_lon = parseFloat(goods.lon);
+                            // var this_lat = parseFloat(goods.lat);
+                            // var this_lon = parseFloat(goods.lon);
 							//alert(this_lat);alert(this_lon);
 							//console.log(this_lat,this_lon);
-                            if (!(this_lat!=0 && this_lon!=0 && lat!=0 && lon!=0)) {
-                                var distance_val = "";
-                            } else {
-                                var distance_val = get_great_circle_distance(lat,lon,this_lat,this_lon);
-                                if(distance_val == 'NaN(km)'){
-                                    distance_val = "";
-                                }else{
-                                    distance_val= '<span class="iconfont font_26r">&#xe6c0;</span>&nbsp;' + distance_val;
-                                }
-                            }
-                            goods.distance_val = distance_val;
+
+
+
+
+                            // if (!(this_lat!=0 && this_lon!=0 && lat!=0 && lon!=0)) {
+                            //     var distance_val = "";
+                            // } else {
+                            //     var distance_val = get_great_circle_distance(lat,lon,this_lat,this_lon);
+                            //     if(distance_val == 'NaN(km)'){
+                            //         distance_val = "";
+                            //     }else{
+                            //         distance_val= '<span class="iconfont font_26r">&#xe6c0;</span>&nbsp;' + distance_val;
+                            //     }
+                            // }
+                            // goods.distance_val = distance_val;
 
                             if(goods.sgrade > 1){
                                 var store_name_tpl = _.template( store_name_gt1_tpl );
@@ -295,7 +324,7 @@
                                 spec_info += "<span><b>" + spec_short + "</b></span>";
                             }
                             goods.spec_info = spec_info;
-
+                            go
                             goods.store_name_info = store_name_tpl(goods);
 
                             goods.goods_url = goods.url;
@@ -306,7 +335,7 @@
                     }
 
                     //加载商品列表
-                    var goods_list = result.goods_list;
+                    var goods_list = result.data;
                     if (goods_list.length == 0) {
                         if(page == 1){
                             layer.open({content:"没有相关记录", time:2});
@@ -316,39 +345,97 @@
                         $('#loading01').hide();
                         return true;
                     } else {
-                        var tpl = _.template(search_goods_tpl);
+                        // var tpl = _.template(search_goods_tpl);
+                        var tpl = _.template(goods_tpl);
                         for (var i in goods_list) {
                             var goods = goods_list[i];
                             var this_lat = parseFloat(goods.lat);
                             var this_lon = parseFloat(goods.lon);
-                            if (!(this_lat!=0 && this_lon!=0 && lat!=0 && lon!=0)) {
-                                var distance_val = "";
-                            } else {
-                                var distance_val = get_great_circle_distance(lat,lon,this_lat,this_lon);
-                                if(distance_val == 'NaN(km)'){
-                                    distance_val = "";
-                                }else{
-                                    distance_val= '<span class="iconfont font_26r">&#xe6c0;</span>&nbsp;' + distance_val;
-                                }
-                            }
-                            goods.distance_val = distance_val;
 
+
+                            goods.goods_url = "/supply/view/"+goods.id;
+                            goods.kind_name = goods.kinds.name;
+
+                            function formate_time(t){
+                                var date = new Date();
+                                var now = date.getTime();
+                                var tt = t*1000;
+                                nstring = '';
+
+
+
+                                if( (now-tt)>0 && (now-tt)<60000){
+                                    nstring = '刚刚';
+                                }
+                                if( (now-tt)>=60000 && (now-tt)<60000*60){
+                                    nstring = Math.floor((now-tt)/60000)+'分钟前';
+                                }
+
+                                if( (now-tt)>=60000*60 && (now-tt)<60000*60*24){
+                                    nstring = Math.floor((now-tt)/(60000*60))+'小时前';
+                                }
+
+                                if( (now-tt)>=60000*60*24 && (now-tt)<60000*60*24*2){
+                                    nstring = '昨天';
+                                }
+                                if(nstring == ''){
+                                    myday = new Date(t*1000);
+                                    nstring = myday.getFullYear() +'-'+(myday.getMonth()+1) +'-'+myday.getDate();
+                                }
+                                return nstring;
+
+                            }
+
+                            goods.formate_time = formate_time(goods.addtime);
+
+                            goods.address = goods.source;
+                            goods.star = '<img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1h.png" height="12px">';
+
+                            goods.store_name_info = 1;
+                            attrspec = '';
+                            for(var i=0;i<goods.supply_attrs.length ;i++){
+                                attr = goods.supply_attrs[i];
+                                attrspec += '<span><b>'+ attr.attrs.attr_name +':'+ attr.attr_value + "</b></span>";
+                            }
+                            goods.spec_info = attrspec;
+
+                            goods.goods_unit = goods.kinds.unit;
+                            goods.stock = goods.number;
+                            goods.sales = goods.orders_count;
+                            goods.distance_val = '';
+
+                            myday = new Date(goods.cutday*1000);
+
+
+                            goods.formated_expire = myday.getFullYear() +'-'+(myday.getMonth()+1) +'-'+myday.getDate();
+                            // if (!(this_lat!=0 && this_lon!=0 && lat!=0 && lon!=0)) {
+                            //     var distance_val = "";
+                            // } else {
+                            //     var distance_val = get_great_circle_distance(lat,lon,this_lat,this_lon);
+                            //     if(distance_val == 'NaN(km)'){
+                            //         distance_val = "";
+                            //     }else{
+                            //         distance_val= '<span class="iconfont font_26r">&#xe6c0;</span>&nbsp;' + distance_val;
+                            //     }
+                            // }
+                            // goods.distance_val = distance_val;
+                            //
                             if(goods.sgrade > 1){
                                 var store_name_tpl = _.template( store_name_gt1_tpl );
                             }else{
                                 var store_name_tpl = _.template( store_name_1_tpl );
                             }
-
-                            var spec_info = "";
-                            for(var j  in goods.goods_spec_short){
-                                var spec_short = goods.goods_spec_short[j];
-                                spec_info += "<span><b>" + spec_short + "</b></span>";
-                            }
-                            goods.spec_info = spec_info;
-
+                            //
+                            // var spec_info = "";
+                            // for(var j  in goods.goods_spec_short){
+                            //     var spec_short = goods.goods_spec_short[j];
+                            //     spec_info += "<span><b>" + spec_short + "</b></span>";
+                            // }
+                            // goods.spec_info = spec_info;
+                            //
                             goods.store_name_info = store_name_tpl(goods);
-
-                            goods.goods_url = goods.url;
+                            //
+                            // goods.goods_url = goods.url;
                             $('#data_list_div').append(tpl(goods));
                         }
                     }
@@ -359,26 +446,40 @@
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(getPositionSuccess, getPositionError, position_option);
             } else {
-                //get_tuiguang_goods_list();
-                $("#lat").val("34.15718377");
-                $("#lon").val("113.48680406");
+                // get_tuiguang_goods_list();
+                // $("#lat").val("34.15718377");
+                // $("#lon").val("113.48680406");
                 $("#loading01").trigger('click');
             }
 
             $(".sort_nav_list").find("li").click(function () {
                 var order = $(this).attr('order');
+                console.log(order);
                 if(! _.isUndefined(order) && order != ''){
-                    if(order == 'g.price'){
+                    if(order == 'price asc'){
                         if($(this).hasClass("color_02c5a3")){
-                            if($("#order").val() == 'g.price asc'){
-                                $("#order").val('g.price desc');
+                            if($("#order").val() == 'price asc'){
+                                $("#order").val('price desc');
                                 $(this).find('span').eq(1).html('&#xe6a0;');
                             }else{
-                                $("#order").val('g.price asc');
+                                $("#order").val('price asc');
                                 $(this).find('span').eq(1).html(' &#xe6c9;');
                             }
                         }else{
-                            $("#order").val('g.price asc') ;
+                            $("#order").val('price asc') ;
+                            $(this).find('span').eq(1).html(' &#xe6c9;');
+                        }
+                    }else if(order == 'orders_count asc'){
+                        if($(this).hasClass("color_02c5a3")){
+                            if($("#order").val() == 'orders_count asc'){
+                                $("#order").val('orders_count desc');
+                                $(this).find('span').eq(1).html('&#xe6a0;');
+                            }else{
+                                $("#order").val('orders_count asc');
+                                $(this).find('span').eq(1).html(' &#xe6c9;');
+                            }
+                        }else{
+                            $("#order").val('orders_count asc') ;
                             $(this).find('span').eq(1).html(' &#xe6c9;');
                         }
                     }else{
@@ -454,45 +555,8 @@
     </script>
 
 </div>
+@include('home.common.footer')
 
-<footer class="foot_border-top" style="background-color: #00ad8b;">
-    <div class="foot_member foot_member_hover">
-        <a href="#">
-            <p><img src="/images/dh_01.png" width="50%"></p>
-        </a>
-    </div>
-    <div class="foot_member ">
-        <a href="#">
-            <p><img src="/images/dh_02.png" width="50%"></p>
-        </a>
-    </div>
-    <div class="foot_member ">
-        <!--<a href="url app=discover">-->
-            <!--<span class="iconfont" style="font-weight:900">&#xe694;</span>-->
-            <!--<p>发现</p>-->
-        <!--</a>-->
-        <a class="goods_car-header" href="#">
 
-            <p><img src="/images/dh_03.png" width="50%"></p>
-        </a>
-    </div>
-    <div class="foot_member ">
-        <a href="#">
-            <p><img src="/images/dh_04.png" width="50%"></p>
-        </a>
-    </div>
-</footer>
-
-<span style='visible:hidden;'>
-<script>
-var _hmt = _hmt || [];
-(function() {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?79ff8b04d2408694a6d3bf5a8f2d368e";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-})();
-</script>
-</span>
 </body>
 </html>

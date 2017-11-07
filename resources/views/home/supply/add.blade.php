@@ -98,8 +98,9 @@
     </a>
     <h1>发布商品</h1>
 </header>
-<form id="goods_form" method="POST" style="padding-top:1rem;">
-	<img src="/images//scan.jpg" width=100%>
+<form id="goods_form" method="POST" action="/supply/create" style="padding-top:1rem;">
+    {{csrf_field()}}
+	<img src="/images/scan.jpg" width=100%>
     <div class="padding_flanks">
         <div class="form_item">
             <span class="font_3r color_34 goods_name-title">商品名称</span>
@@ -114,6 +115,7 @@
             </a>
             <input type="hidden" name="cate_id" id="cate_id" />
             <input type="hidden" name="cate_name" id="cate_name" />
+            <!-- <input type="hidden" name="topid" id="topid" /> -->
         </div>
         <div class="form_item bg-fff">
             <span class="font_3r color_34 goods_name-title">商品规格</span>
@@ -152,7 +154,7 @@
             <span class="font_3r fontWeight_5 color_34 goods_name-title">基地</span>
             <a href="#" class="color_9a font_24r">
                 <input class="color_9a  border_none font_24r goods_kind" type="text"  readonly="readonly" name="baseaddress_options" id="baseaddress_options" placeholder="请选择基地" value="" onclick="$('#wap_description').css('display','none');"/>
-                <input type="hidden" id="baseaddress_id" value=""/>
+                <input type="hidden" id="baseaddress_id" name="baseaddress_id" value=""/>
                 <b class="iconfont select_arrows-icon">&#xe614;</b>
             </a>
         </div>
@@ -182,7 +184,7 @@
             <div>
                 <div class="clearfix univalence_input_container bg-fff">
                                         <input type="number" item="price" class="fl font_26r color_34 spec_attr_input" name="price[]" empty_name="price[]" placeholder="点这里填写单价"/>
-                                        <span class="fr font_26r color_34">元/
+                                        <span class="fr font_26r color_34">元
                         <input class="units" id="goods_unit_btn" type="button" value=""/>
                         <input type="hidden" id="goods_unit" name="goods_unit" value=""/>
                         <b class="iconfont">&#xe6a0;</b></span>
@@ -202,6 +204,7 @@
                 <a class="univalence_affirm_btn font_3r" id="spec_confirm_btn" onclick="$('#wap_description').css('display','block');">确认</a>
             </header>
             <div class="bg-fff padding_flanks" id="spec_editor">
+
 				<div class="specification">
 					<span class="font_3r color_34 specification_name">高度(厘米)</span><span class="font_24r fontWeight_5 color_34 fr">以上</span><input class="color_9a border_none font_24r fr" type="number" name="spec_attr_9[]" empty_name="spec_attr_9[]" value="" attr_id="9" placeholder="请填写高度">
 				</div>
@@ -291,7 +294,7 @@
 
     //商品分类
     var gcategory_data_url = "/api/kinds";
-    var gcategory_search_url = "/index.php?app=mlselection&act=gcategory_breadpiece&keyword=";
+    // var gcategory_search_url = "/index.php?app=mlselection&act=gcategory_breadpiece&keyword=";
     var gcategory_data = [];
 
     //此处必须用localStorage
@@ -322,7 +325,7 @@
             '<div class="specification">' +
             '<span class="font_3r color_34 specification_name">{attr_name}({unit})</span>' +
             ' <span class="font_24r fontWeight_5 color_34 fr">以上</span>' +
-            ' <input class="color_9a  border_none font_24r fr" type="number" name="spec_attr_{attr_id}[{spec_id}]" empty_name="spec_attr_{attr_id}[]" class="spec_attr_input mobiselect_item" value="{default_value}" attr_id="{attr_id}" placeholder="请填写{attr_name}"/> </div>';
+            ' <input class="color_9a  border_none font_24r fr spec_attr_input mobiselect_item" type="number" name="attr[{id}]" empty_name="attr[{id}]"  value="{default_value}" attr_id="{id}" placeholder="请填写{attr_name}"/> </div>';
     var gcategory_attribute_select_tpl = '' +
             '<div class="specification">' +
             '<span class="font_3r color_34 specification_name">{attr_name}</span> ' +
@@ -331,7 +334,8 @@
             '</div>';
     var goods_uploaded_img_tpl = '<li ectype="handle_pic" file_id="{file_id}" thumbnail="{thumbnail}"> <img src="/images//afd736a71c714714aa99f1297d56f12f.gif" alt="" /> <input type="hidden" name="goods_file_id[]" value="{file_id}" /> <span class="iconfont close-x del_img" onclick="drop_image({file_id})">&#xe66f;</span> </li>';
 
-    var baseaddress_list_json = [{"baseaddress_id":"35870","name":"\u9ed8\u8ba4\u57fa\u5730","region_id":"350503008","region_name":"\u798f\u5efa \u6cc9\u5dde \u4e30\u6cfd \u5317\u5cf0\u8857\u9053 ","detail":"\u6e05\u6e90\u5c71\u82b1\u535a\u56ed\u4e00\u671f","user_id":"0","store_id":"90714","lon":"118.580475","lat":"24.937429","first_letter":"","pinyin":"","main_goods":"","squre":"","phone":"","contact_name":"","region":["\u798f\u5efa","\u6cc9\u5dde","\u4e30\u6cfd","\u5317\u5cf0\u8857\u9053"],"id":"35870"},{"baseaddress_id":"35871","name":"\u9ed8\u8ba4\u57fa\u5730","region_id":"350503008","region_name":"\u798f\u5efa \u6cc9\u5dde \u4e30\u6cfd \u5317\u5cf0\u8857\u9053 ","detail":"\u6e05\u6e90\u5c71\u82b1\u535a\u56ed\u4e00\u671f","user_id":"0","store_id":"90714","lon":"118.580475","lat":"24.937429","first_letter":"","pinyin":"","main_goods":"","squre":"","phone":"","contact_name":"","region":["\u798f\u5efa","\u6cc9\u5dde","\u4e30\u6cfd","\u5317\u5cf0\u8857\u9053"],"id":"35871"}];
+    // var baseaddress_list_json = [{"baseaddress_id":"35870","name":"\u9ed8\u8ba4\u57fa\u5730","region_id":"350503008","region_name":"\u798f\u5efa \u6cc9\u5dde \u4e30\u6cfd \u5317\u5cf0\u8857\u9053 ","detail":"\u6e05\u6e90\u5c71\u82b1\u535a\u56ed\u4e00\u671f","user_id":"0","store_id":"90714","lon":"118.580475","lat":"24.937429","first_letter":"","pinyin":"","main_goods":"","squre":"","phone":"","contact_name":"","region":["\u798f\u5efa","\u6cc9\u5dde","\u4e30\u6cfd","\u5317\u5cf0\u8857\u9053"],"id":"35870"},{"baseaddress_id":"35871","name":"\u9ed8\u8ba4\u57fa\u5730","region_id":"350503008","region_name":"\u798f\u5efa \u6cc9\u5dde \u4e30\u6cfd \u5317\u5cf0\u8857\u9053 ","detail":"\u6e05\u6e90\u5c71\u82b1\u535a\u56ed\u4e00\u671f","user_id":"0","store_id":"90714","lon":"118.580475","lat":"24.937429","first_letter":"","pinyin":"","main_goods":"","squre":"","phone":"","contact_name":"","region":["\u798f\u5efa","\u6cc9\u5dde","\u4e30\u6cfd","\u5317\u5cf0\u8857\u9053"],"id":"35871"}];
+    var baseaddress_list_json = {!!$base_address!!};
     var EARTH_RADIUS = 6378137.0; //单位M
     var PI = Math.PI;
 
@@ -355,20 +359,20 @@
             stock: {
                 digits: true
             },
-            cate_id: {
-                remote: {
-                    url: 'index.php?app=my_goods&act=check_mgcate',
-                    type: 'get',
-                    data: {
-                        cate_id: function () {
-                            return $('#cate_id').val();
-                        }
-                    }
-                }
-            },
-            is_uploaded: {
-                required: true
-            }
+            // cate_id: {
+            //     remote: {
+            //         url: 'index.php?app=my_goods&act=check_mgcate',
+            //         type: 'get',
+            //         data: {
+            //             cate_id: function () {
+            //                 return $('#cate_id').val();
+            //             }
+            //         }
+            //     }
+            // },
+            // is_uploaded: {
+            //     required: true
+            // }
         };
         var validate_messages={
             goods_name: {
@@ -382,12 +386,12 @@
             stock: {
                 digits: '此项仅能为数字'
             },
-            cate_id: {
-                remote: '请选择商品分类（必须选到最后一级）'
-            },
-            is_uploaded: {
-                required: '您需要至少上传一张图片'
-            }
+            // cate_id: {
+            //     remote: '请选择商品分类（必须选到最后一级）'
+            // },
+            // is_uploaded: {
+            //     required: '您需要至少上传一张图片'
+            // }
         };
                         $('#goods_form').validate({
                     errorPlacement: function(error, element){

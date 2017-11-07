@@ -6,10 +6,10 @@
 
 $(function(){
     //初始化单位
-    if($('#goods_unit').val() == ''){
-        $('#goods_unit_btn').val(goods_unit_options[0].id);
-        $('#goods_unit').val(goods_unit_options[0].name);
-    }
+    // if($('#goods_unit').val() == ''){
+    //     $('#goods_unit_btn').val(goods_unit_options[0].id);
+    //     $('#goods_unit').val(goods_unit_options[0].name);
+    // }
 
     unitSelect.init({trigger:$('#goods_unit_btn'),value:$('#goods_unit').val(),data:goods_unit_options,position:"bottom",level:1,callback:goods_unit_changed});
     goods_unit_changed();
@@ -164,9 +164,11 @@ function gcategory_id_changed(){
 }
 
 
-//获取分类属性
+//获取分类属性 getGuige guige
 function get_gcategory_attributes(cate_id){
-    var get_attr_url = "/index.php?app=mlselection&act=gcategory_attributes&cate_id="+cate_id;
+    gcategory_full_id = $("#gcategory_full_id").val();
+    // var get_attr_url = "/index.php?app=mlselection&act=gcategory_attributes&cate_id="+cate_id;
+    var get_attr_url = "/api/attribute?kid="+cate_id+"&cate_full_id="+gcategory_full_id;
     $("#spec_editor").empty();
     $("#spec_attr_items").empty();
     $.getJSON(get_attr_url,function(result){
@@ -177,73 +179,79 @@ function get_gcategory_attributes(cate_id){
 
             for (var i = 0; i < data.length; i++) {
                 var attribute = data[i];
+                attribute.default_value = '';
+                var tpl = _.template(gcategory_attribute_text_tpl);
+
+                $("#spec_editor").append(tpl(attribute));
+
+
                 //销售属性 start
-                if(attribute.attr_type=='sell'){
-                    attribute.spec_id = "";
-                    var matched_attr_id = "";
-                    var matched_attr_value = "";
-                    if(! _.isUndefined(goods_specs_old.specs) && goods_specs_old.specs != null){
-                        var default_spec = goods_specs_old.specs[0];
-
-                        attribute.spec_id = default_spec.spec_id;
-
-                        if(attribute.attr_id == goods_spec_attr_1_old){
-                            matched_attr_id = attribute.attr_id;
-                            matched_attr_value = default_spec.spec_attr_1;
-                        }
-                        if(attribute.attr_id == goods_spec_attr_2_old){
-                            matched_attr_id = attribute.attr_id;
-                            matched_attr_value = default_spec.spec_attr_2;
-                        }
-                        if(attribute.attr_id == goods_spec_attr_3_old){
-                            matched_attr_id = attribute.attr_id;
-                            matched_attr_value = default_spec.spec_attr_3;
-                        }
-                        if(attribute.attr_id == goods_spec_attr_4_old){
-                            matched_attr_id = attribute.attr_id;
-                            matched_attr_value = default_spec.spec_attr_4;
-                        }
-                        if(attribute.attr_id == goods_spec_attr_5_old){
-                            matched_attr_id = attribute.attr_id;
-                            matched_attr_value = default_spec.spec_attr_5;
-                        }
-                    }
-
-                    if(attribute.input_mode == 'select'){
-                        var select_data = new Array();
-                        for(var k in attribute['attr_values']){
-                            var attr_value_tmp =attribute['attr_values'][k];
-                            select_data.push({id:attr_value_tmp.value_name, name:attr_value_tmp.value_name});
-                        }
-                        if(matched_attr_value !='' ){
-                            attribute.default_value = matched_attr_value;
-                        }else{
-                            attribute.default_value = select_data[0]['name'];
-                        }
-                        var attr_select_mp = new MobileSelectArea();
-                        var trigger_id = "spec_attr_" + attribute.attr_id + "_text";
-                        var value_id = "spec_attr_" + attribute.attr_id + "val";
-                        var tpl = _.template(gcategory_attribute_select_tpl);
-                        $("#spec_editor").append(tpl(attribute));
-                        attr_select_mp.init({trigger:$('#'+trigger_id),value:$('#'+value_id).val(),data:select_data,position:"bottom",level:1, callback: spec_confirm_btn_confirm});
-                        //goods_attr_data.push({id:attribute.attr_id,attribute:attribute,select_data:select_data,mobile_select_obj:attr_select_mp});
-                    }else{
-                        if(matched_attr_value !='' ){
-                            attribute.default_value = matched_attr_value;
-                        }else{
-                            attribute.default_value = "";
-                        }
-                        var tpl = _.template(gcategory_attribute_text_tpl);
-
-                        $("#spec_editor").append(tpl(attribute));
-                    }
-
-                    $("#spec_attr_items").append('<input type="hidden" style="display:none;" name="spec_attr_items[]" value="' + attribute.attr_id + '"/>');
-
-                    if(matched_attr_value != ''){
-                        $("#spec_attr_items").append('<input name="spec_id['+ default_spec.spec_id +']" item="spec_id" type="hidden" value="' + default_spec.spec_id + '" />');
-                    }
-                }
+                // if(attribute.attr_type=='sell'){
+                //     attribute.spec_id = "";
+                //     var matched_attr_id = "";
+                //     var matched_attr_value = "";
+                //     if(! _.isUndefined(goods_specs_old.specs) && goods_specs_old.specs != null){
+                //         var default_spec = goods_specs_old.specs[0];
+                //
+                //         attribute.spec_id = default_spec.spec_id;
+                //
+                //         if(attribute.attr_id == goods_spec_attr_1_old){
+                //             matched_attr_id = attribute.attr_id;
+                //             matched_attr_value = default_spec.spec_attr_1;
+                //         }
+                //         if(attribute.attr_id == goods_spec_attr_2_old){
+                //             matched_attr_id = attribute.attr_id;
+                //             matched_attr_value = default_spec.spec_attr_2;
+                //         }
+                //         if(attribute.attr_id == goods_spec_attr_3_old){
+                //             matched_attr_id = attribute.attr_id;
+                //             matched_attr_value = default_spec.spec_attr_3;
+                //         }
+                //         if(attribute.attr_id == goods_spec_attr_4_old){
+                //             matched_attr_id = attribute.attr_id;
+                //             matched_attr_value = default_spec.spec_attr_4;
+                //         }
+                //         if(attribute.attr_id == goods_spec_attr_5_old){
+                //             matched_attr_id = attribute.attr_id;
+                //             matched_attr_value = default_spec.spec_attr_5;
+                //         }
+                //     }
+                //
+                //     if(attribute.input_mode == 'select'){
+                //         var select_data = new Array();
+                //         for(var k in attribute['attr_values']){
+                //             var attr_value_tmp =attribute['attr_values'][k];
+                //             select_data.push({id:attr_value_tmp.value_name, name:attr_value_tmp.value_name});
+                //         }
+                //         if(matched_attr_value !='' ){
+                //             attribute.default_value = matched_attr_value;
+                //         }else{
+                //             attribute.default_value = select_data[0]['name'];
+                //         }
+                //         var attr_select_mp = new MobileSelectArea();
+                //         var trigger_id = "spec_attr_" + attribute.attr_id + "_text";
+                //         var value_id = "spec_attr_" + attribute.attr_id + "val";
+                //         var tpl = _.template(gcategory_attribute_select_tpl);
+                //         $("#spec_editor").append(tpl(attribute));
+                //         attr_select_mp.init({trigger:$('#'+trigger_id),value:$('#'+value_id).val(),data:select_data,position:"bottom",level:1, callback: spec_confirm_btn_confirm});
+                //         //goods_attr_data.push({id:attribute.attr_id,attribute:attribute,select_data:select_data,mobile_select_obj:attr_select_mp});
+                //     }else{
+                //         if(matched_attr_value !='' ){
+                //             attribute.default_value = matched_attr_value;
+                //         }else{
+                //             attribute.default_value = "";
+                //         }
+                //         var tpl = _.template(gcategory_attribute_text_tpl);
+                //
+                //         $("#spec_editor").append(tpl(attribute));
+                //     }
+                //
+                //     $("#spec_attr_items").append('<input type="hidden" style="display:none;" name="spec_attr_items[]" value="' + attribute.attr_id + '"/>');
+                //
+                //     if(matched_attr_value != ''){
+                //         $("#spec_attr_items").append('<input name="spec_id['+ default_spec.spec_id +']" item="spec_id" type="hidden" value="' + default_spec.spec_id + '" />');
+                //     }
+                // }
             }
 
             if(page_initialized){
@@ -374,7 +382,7 @@ function make_baseaddress_list_options(baseaddress_list_json) {
     var new_list = new Array();
     for (var i = 0; i < baseaddress_list_json.length; i++) {
         var baseaddress_a = baseaddress_list_json[i];
-        baseaddress_a['name'] = baseaddress_a.name+'【'+baseaddress_a.region_name+'】';
+        baseaddress_a['name'] = '【'+baseaddress_a.base_address+'】';
         if((edit_baseaddress_id > 0 && baseaddress_a.baseaddress_id == edit_baseaddress_id) || (edit_baseaddress_id ==0 && i==0)){
             $('#baseaddress_options').val(baseaddress_a['name']);
             $('#baseaddress_id').val(baseaddress_a['id']);

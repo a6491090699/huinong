@@ -9,7 +9,7 @@ function wap_regionInit(divId){
 }
 
 function wap_regionChange(){
-	
+
 	// 删除后面的select
     $(this).nextAll().detach(); //parents(".ui-select").
 	// 计算当前选中到id和拼起来的name
@@ -33,32 +33,33 @@ function wap_regionChange(){
     if($("#is_waiter_baseaddress_page").val()=='yes'){
         wap_get_region_geo_info(id);
     }
-    //添加银行卡页面，只显示两级分类   
+    //添加银行卡页面，只显示两级分类
     if($("#is_add_bankcard_form").val()=="yes"){
         if($("#region .ui-select").length>=2){
             return false;
         }
-    }            
+    }
     // ajax请求下级地区
     if (this.value > 0)
     {
         var _self = $(this);
-        var url = '/index.php?app=mlselection&type=region';
+        // var url = '/index.php?app=mlselection&type=region';
+        var url = '/api/sub-city';
         $.getJSON(url, {'pid':this.value}, function(data){
-            if (data.done)
+            if (data.code == 0)
             {
-                if (data.retval.length > 0)
+                if (data.data.length > 0)
                 {
 
-                    $("<select><option>" + lang.select_pls + "</option></select>").change(wap_regionChange).insertAfter(_self);
-					
-                    var data  = data.retval;
+                    $("<select><option>" + data.select_pls + "</option></select>").change(wap_regionChange).insertAfter(_self);
+
+                    var data  = data.data;
 
                     for (i = 0; i < data.length; i++)
                     {
-						 
-						$(_self).next("select").append("<option value='" + data[i].region_id + "'>" + data[i].region_name + "</option>");
-                     
+
+						$(_self).next("select").append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
+
                     }
 
 					$("#region").trigger("create");//样式
@@ -71,7 +72,7 @@ function wap_regionChange(){
             }
         });
     }
-    
+
     /*
     if($("#is_add_bankcard_form").val()=="yes"){
         console.log($("#region .ui-select").length);
@@ -167,7 +168,7 @@ function wap_get_region_geo_info(region_id){
         $.getJSON(url,{},function(region_info){
             if(region_info.region_id!=0){
                 $("#lon").val(region_info.lon);
-                $("#lat").val(region_info.lat);  
+                $("#lat").val(region_info.lat);
             }
         });
     }
@@ -182,7 +183,7 @@ function get_region_geo_info(region_id){
         $.getJSON(url,{},function(region_info){
             if(region_info.region_id!=0){
                 $("#lon").val(region_info.lon);
-                $("#lat").val(region_info.lat);  
+                $("#lat").val(region_info.lat);
             }
         });
     }
@@ -196,7 +197,7 @@ function gcategoryInit(divId)
 		elem_select.get(0).onchange = gcategoryChange; // select的onchange事件
 	    //$('#cate_id').onchange = gcategoryChange;
 	}
-    
+
     window.onerror = function(){return true;}; // 屏蔽jquery报错
     $("#" + divId + " .edit_gcategory").click(gcategoryEdit); // 编辑按钮的onclick事件
 }
@@ -244,7 +245,7 @@ function gcategoryChange()
         var player = typeof($(this).attr('layer'))=='undefined' ? 0 : parseInt($(this).attr('layer'));
         var clayer = player+1;
         var alayer =  (player==0) ? '' : ' layer="'+clayer+'"';
-        
+
         $.getJSON(url, {'pid':this.value}, function(data){
             if (data.done)
             {
@@ -295,7 +296,7 @@ function gcategoryChange()
             }
         });
     }
-    
+
     // 如果需要读取分类对应的属性列表
     if($(this).attr("nattr") == "1"){
     	var url = REAL_SITE_URL + '/index.php?app=mlselection&type=attribute';
@@ -318,7 +319,7 @@ function gcategoryChange()
                     	if(data[i].attr_type=='sell'){
                     		var is_checked = '';
                     		var is_hide = '';
-                    		
+
                     		if($('input.spec_choosen:checked').size() < 3){
                     			is_checked = ' checked="checked"';
                     		}else{
@@ -342,14 +343,14 @@ function gcategoryChange()
                     			is_hide = ' style="display:none;"';
                     		}
                     		$('.spec_choosen').change();
-                    		
+
                     		$('#spec_items > li.custom:first').before('<li class="attr_item" layer="'+layer+'"><label><input class="spec_choosen by_sys" name="spec_attr_items[]" type="checkbox" value="'+data[i].attr_id+'"'+is_checked+' /> '+data[i].attr_name+'</label></li>');
                     		var attr_name_desc = data[i].unit ? data[i].attr_name + '('+data[i].unit+')' : data[i].attr_name;
                     		$('#spec_editor > ul.th .custom:first').before('<li item="'+data[i].attr_id+'" class="distance1 attr_item  text_diy" layer="'+layer+'"'+is_hide+'>'+attr_name_desc+'<input name="spec_attr_'+($('#spec_items > li').length - 1)+'" type="hidden" value="'+data[i].attr_id+'" /></li>');
                     		$('#spec_editor > ul.td').each(function(){
                     			$(this).find('li.custom:first').before('<li item="'+data[i].attr_id+'" class="attr_item" layer="'+layer+'"'+is_hide+'><input name="spec_attr_'+data[i].attr_id+'[]" type="text" class=" text_diy width4 attr_'+data[i].input_mode+'" value="" /></li>');
                     		});
-                    		
+
                     	}else{
                     		// 非销售属性
                     		var item_input = '<h2>'+data[i].attr_name+': </h2>';
@@ -374,7 +375,7 @@ function gcategoryChange()
                     				if(options != ''){
                         				item_input += '<select name="attr_'+data[i].attr_id+'">'+options+'</select><input name="g_attr_elem_'+data[i].attr_id+'" type="hidden" value="" />';
                         			}
-                    				
+
                     			}else if(data[i].attr_values.length > 0){
                     				//用radio方式显示
                     				var options = '';
@@ -419,4 +420,3 @@ function gcategoryEdit()
     $(this).siblings("select").show();
     $(this).siblings("span").andSelf().remove();
 }
-

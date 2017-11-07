@@ -62,12 +62,12 @@
 	<div>
 		<div class="padding_container bg-fff bd_bottom-eee">
 			<p class="font_3r color_34">
-				【独杆乔木】速生红叶李				<span class="fr color_ff363e font_28r relative_top-2 iconfont" id="goods_collected_span" style="display:none">&#xe6d0;</span>
-				<span class="fr color_9a iconfont" onclick="collect_goods(4022);" id="goods_not_collected_span" >&#xe641;</span>
+				【{{$item->kinds->name}}】{{$item->goods_name}}				<span class="fr color_ff363e font_28r relative_top-2 iconfont" id="goods_collected_span" style="display:none">&#xe6d0;</span>
+				<span class="fr color_9a iconfont" onclick="collect_goods({{$item->id}});" id="goods_not_collected_span" >&#xe641;</span>
 			</p>
 			<div class="sell_information font_24r padding_top_bottom">
-				参考价：<span class="color_ff7414">¥<b class="font_35r">1.00</b>/棵</span>
-				<span class="min_sell-num  position_bottom-right">库存：97500</span>
+				参考价：<span class="color_ff7414">¥<b class="font_35r">{{$item->price}}</b>/{{$item->kinds->unit}}</span>
+				<span class="min_sell-num  position_bottom-right">库存：{{$item->number}}</span>
 			</div>
 			<p class="font_22r color_9a" style="text-align: center;">
 				<span class="">现货 1000 棵</span>
