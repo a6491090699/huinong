@@ -61,21 +61,49 @@ class DataController extends Controller
         $data = require app_path('Common/city.json');
         // return response();
     }
+
     public function getSubCity(Request $request)
     {
         $pid = $request->input('pid');
-        $city = file_get_contents(app_path().'/Common/city.json');
-        $city = json_decode($city , true);
-        dump($city);
-        foreach($city['data'] as $val){
-            if($val['id'] == $pid) $sub = $val['child'];
-        }
-        return response()->json(['data'=>$sub ,'code'=>0,'select_pls'=>'请选择...']);
+        $reid = $request->input('reid');
 
-        dd($sub);
+        $city = file_get_contents(app_path().'/Common/region_level4.json');
+        $city = json_decode($city , true);
+        $subarr = get_sub_value($city , $pid );
+        if(isset($subarr['child'])){
+            $sub =$subarr['child'];
+            return response()->json(['data'=>$sub ,'code'=>0,'select_pls'=>'请选择...']);
+        }
+        
+        // foreach($city['data'] as $val){
+        //     if($val['id'] == $pid) $sub = $val['child'];
+        // }
+
+
+
         // return $city;
         // return response();
     }
+
+    // public function getSubRegion(Request $request)
+    // {
+    //     $pid = $request->input('pid');
+    //     $city = file_get_contents(app_path().'/Common/region.json');
+    //     $city = json_decode($city , true);
+    //     // dump($city);
+    //     dd($val)
+    //     foreach($city as $val){
+    //         if($val['code'] == $pid) $sub = $val['sub'];
+    //     }
+    //     if(!isset($sub)){
+    //         foreach($city)
+    //     }
+    //     return response()->json(['data'=>$sub ,'code'=>0,'select_pls'=>'请选择...']);
+    //
+    //     // dd($sub);
+    //     // return $city;
+    //     // return response();
+    // }
 
     public function getAddress()
     {

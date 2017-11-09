@@ -6,6 +6,8 @@
     <title>用户中心 - 我的地址</title>
 <meta name="keywords" content="中国花木网,花木网,花木,中国苗木网,花木交易,花木求购,花木资讯,花木论坛,花木销售,绿化苗木" />
 <meta name="description" content="中国花木网，中国苗木网，中国花木在线交易专业平台，致力于为花木行业从业者提供更真实的花木在线交易平台，让您没有买不到的，没有卖不掉的。" />
+
+<meta name="_token" content="{{ csrf_token() }}"/>
     <link rel="stylesheet"  href="/css/mobile-select-area.css">
     <!--<link rel="stylesheet" href="/css/larea.css">-->
     <link rel="stylesheet" href="/css/style.css"/>
@@ -103,7 +105,8 @@
             <a href="javascript:delete_address({{$val->id}})" class="fr">
                 <span class="iconfont">&#xe603;</span>删除
             </a>
-            <a href="/member/address-edit/{{$val->id}}" class="fr">
+
+            <a href="/member/address-edit/{{$val->id}}" class="fr" >
                 <span class="iconfont">&#xe6a9;</span>编辑
             </a>
         </div>
@@ -112,15 +115,32 @@
 
     </ul>
 <script type="text/javascript">
+    $.ajaxSetup({
+       headers: {
+           'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+       }
+    });
+
     $(".input_radio input[type='radio']:checked").parent(".input_radio").addClass("input_radio_select");
     $(".input_radio").click(function(){
         $(".input_radio").removeClass("input_radio_select").find("input[type='radio']").attr("checked",false);
         $(this).addClass("input_radio_select").find("input[type='radio']").attr("checked","checked");
         var addr_id = $(this).find("input[type='radio']").val();
         // var url = "/index.php?app=my_address&act=set_default&ajax&addr_id=" + addr_id;
-        var url = "/member/address-setdefault/" + addr_id;//设置默认地址
-        $.get(url, function(result){
-            layer.open({content:result.info, time:2});
+        var url = "/member/address-setdefault" ;//设置默认地址
+        $.post(url,{'id':addr_id}, function(d){
+            if(d.status == 'success'){
+                layer.open({content:d.msg, time:2});
+                setTimeout(function(){
+                    location.reload();
+                },2000);
+            }else{
+                layer.open({content:d.msg, time:2});
+                setTimeout(function(){
+                    location.reload();
+                },2000);
+            }
+            
         }, 'json');
     });
 
@@ -130,9 +150,25 @@
             ,btn: ['确认', '取消']
             ,yes: function(index){
                 // var url="index.php?app=my_address&act=drop&addr_id="+addr_id;
-                var url="/member/address-del/"+addr_id;
+                var url="/member/address-del/";
                 layer.close(index);
-                location = url;
+                $.post(url , {'id':addr_id} , function(d){
+                    if(d.status == 'success'){
+                        layer.open({content:d.msg, time:2});
+                        setTimeout(function(){
+                            location.reload();
+                        },2000);
+                    }else{
+                        layer.open({content:d.msg, time:2});
+                        setTimeout(function(){
+                            location.reload();
+                        },2000);
+                    }
+                })
+
+
+
+
             }
         });
     }

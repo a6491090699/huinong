@@ -10,6 +10,11 @@ function wap_regionInit(divId){
 
 function wap_regionChange(){
 
+	console.log('wap region');
+
+        // alert(123213);
+
+
 	// 删除后面的select
     $(this).nextAll().detach(); //parents(".ui-select").
 	// 计算当前选中到id和拼起来的name
@@ -29,6 +34,8 @@ function wap_regionChange(){
     $(".region_mls_id").val(id);
     $(".region_mls_name").val(name);
     $(".region_mls_names").val(names.join("\t"));
+
+	$('input[name=dizhi]').val($('input[name=region_name]').val());
     //店小二的基地页面，获取所选地区的经纬度信息
     if($("#is_waiter_baseaddress_page").val()=='yes'){
         wap_get_region_geo_info(id);
@@ -45,7 +52,9 @@ function wap_regionChange(){
         var _self = $(this);
         // var url = '/index.php?app=mlselection&type=region';
         var url = '/api/sub-city';
-        $.getJSON(url, {'pid':this.value}, function(data){
+        // var url = '/api/sub-region';
+		var reid = $('#region_id').val();
+        $.getJSON(url, {'pid':this.value,'reid':reid}, function(data){
             if (data.code == 0)
             {
                 if (data.data.length > 0)
@@ -58,6 +67,7 @@ function wap_regionChange(){
                     for (i = 0; i < data.length; i++)
                     {
 
+						// $(_self).next("select").append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
 						$(_self).next("select").append("<option value='" + data[i].id + "'>" + data[i].name + "</option>");
 
                     }
@@ -117,6 +127,7 @@ function regionChange()
     $(".region_mls_id").val(id);
     $(".region_mls_name").val(name);
     $(".region_mls_names").val(names.join("\t"));
+	$('input[name=dizhi]').val($('input[name=region_name]').val());
     //店小二的基地页面，获取所选地区的经纬度信息
     if($("#is_waiter_baseaddress_page").val()=='yes'){
         get_region_geo_info(id);

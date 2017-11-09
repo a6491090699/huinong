@@ -158,6 +158,15 @@
                 <b class="iconfont select_arrows-icon">&#xe614;</b>
             </a>
         </div>
+
+        <div class="form_item">
+            <span class="font_3r color_34 goods_name-title">是否悬赏</span>
+            <!--<label style=""><input id="bxian" name="miaoy" type="radio"/>不限</label>-->
+            <label style="font-size: 10px"><input  name="emergency" type="radio" />&nbsp;否&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label>
+            <label style="font-size: 10px"><input  name="emergency" type="radio"/>是(悬赏加急,买家跟容易看到你的商品)
+            </label>
+
+        </div>
         <div id="wap_description" style="display: block">
             <div style="color: red;position: relative;top:0px;font-size: small">(必填项，优秀的商品描述为，①该苗木品种介绍②基地的优势介绍③内容排版美观。)</div>
         <textarea class="goods_detailed_information"  name="description" id="description"  placeholder="请添加您的商品的具体信息，如：商品特色、种植情况 包装及杂费情况等"></textarea>

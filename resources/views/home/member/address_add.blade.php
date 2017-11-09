@@ -16,7 +16,7 @@
     <script src="/js/jquery-1.11.2.js" type="text/javascript"></script>
     <script src="/js/layer.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
-    <script src="/js/mlselection.js"></script>
+    <script src="/js/mlselection.js?{{time()}}"></script>
     <script src="/js/huamu.js" type="text/javascript"></script>
     <script src="/js/jquery.validate.js" type="text/javascript"></script>
     <script src="/js/jquery.validate.extend.js" type="text/javascript"></script>
@@ -85,10 +85,11 @@
     <a class="go_back_btn" href="javascript:history.go(-1)">
         <span class="iconfont">&#xe698;</span>
     </a>
-    <h1>编辑地址</h1>
-    <a href="javascript:$('#address_form').trigger('submit')" class="address_save">保存</a>
+    <h1>新增地址</h1>
+    <a href="javascript:$('#address_form').trigger('submit')" class="address_save">确定</a>
 </header>
-<form method="post" id="address_form">
+<form method="post" id="address_form" action="/member/address-create">
+    {{csrf_field()}}
     <div class="bd_top_bottom-eee bg-fff padding_flanks">
         <div class="form_item">
             <span class="font_3r color_34 goods_name-title">收货人</span>
@@ -111,8 +112,8 @@
 
                                 <select>
                     <option>请选择...</option>
-                    <option value="1079">山东</option><option value="903">河南</option><option value="1000">江苏</option><option value="1186">浙江</option><option value="922" selected>河北</option><option value="1120">四川</option><option value="856">广东</option><option value="813">安徽</option><option value="952">湖南</option><option value="934">湖北</option><option value="1109">陕西</option><option value="831">福建</option><option value="878">广西</option><option value="1036">辽宁</option><option value="1097">山西</option><option value="1014">江西</option><option value="841">甘肃</option><option value="986">黑龙江</option><option value="1169">云南</option><option value="1026">吉林</option><option value="809">北京</option><option value="810">上海</option><option value="812">重庆</option><option value="811">天津</option><option value="1051">内蒙古</option><option value="893">贵州</option><option value="1064">宁夏</option><option value="967">海南</option><option value="1070">青海</option><option value="1150">新疆</option><option value="1142">西藏</option><option value="654326501">其他</option>                </select>
-                                                <select>
+                    <option value="1079">山东</option><option value="903">河南</option><option value="1000">江苏</option><option value="1186">浙江</option><option value="922" >河北</option><option value="1120">四川</option><option value="856">广东</option><option value="813">安徽</option><option value="952">湖南</option><option value="934">湖北</option><option value="1109">陕西</option><option value="831">福建</option><option value="878">广西</option><option value="1036">辽宁</option><option value="1097">山西</option><option value="1014">江西</option><option value="841">甘肃</option><option value="986">黑龙江</option><option value="1169">云南</option><option value="1026">吉林</option><option value="809">北京</option><option value="810">上海</option><option value="812">重庆</option><option value="811">天津</option><option value="1051">内蒙古</option><option value="893">贵州</option><option value="1064">宁夏</option><option value="967">海南</option><option value="1070">青海</option><option value="1150">新疆</option><option value="1142">西藏</option><option value="654326501">其他</option>                </select>
+                                                <!-- <select>
                     <option>请选择...</option>
                     <option value="923">石家庄</option><option value="924">唐山</option><option value="925">秦皇岛</option><option value="926" selected>邯郸</option><option value="927">邢台</option><option value="928">保定</option><option value="929">张家口</option><option value="930">承德</option><option value="931">沧州</option><option value="932">廊坊</option><option value="933">衡水</option>                </select>
                                                 <select>
@@ -120,11 +121,13 @@
                     <option value="130424">成安</option><option value="130427">磁县</option><option value="130403">丛台</option><option value="130425" selected>大名</option><option value="130428">肥乡</option><option value="130406">峰峰矿</option><option value="130404">复兴</option><option value="130432">广平</option><option value="130433">馆陶</option><option value="130421">邯郸</option><option value="130402">邯山</option><option value="130431">鸡泽</option><option value="130423">临漳</option><option value="130430">邱县</option><option value="130435">曲周</option><option value="130426">涉县</option><option value="130434">魏县</option><option value="130481">武安</option><option value="130429">永年</option>                </select>
                                                 <select>
                     <option>请选择...</option>
-                    <option value="130425210">北峰乡</option><option value="130425204">大街乡</option><option value="130425100">大名镇</option><option value="130425212">红庙乡</option><option value="130425203" selected>黄金堤乡</option><option value="130425105">金滩镇</option><option value="130425205">旧治乡</option><option value="130425103">龙王庙镇</option><option value="130425209">埝头乡</option><option value="130425202">铺上乡</option><option value="130425200">沙圪塔乡</option><option value="130425104">束馆镇</option><option value="130425207">孙甘店乡</option><option value="130425102">万堤镇</option><option value="130425201">王村乡</option><option value="130425208">西付集乡</option><option value="130425206">西未庄乡</option><option value="130425101">杨桥镇</option><option value="130425213">营镇回族乡</option><option value="130425211">张铁集乡</option>                </select>
+                    <option value="130425210">北峰乡</option><option value="130425204">大街乡</option><option value="130425100">大名镇</option><option value="130425212">红庙乡</option><option value="130425203" selected>黄金堤乡</option><option value="130425105">金滩镇</option><option value="130425205">旧治乡</option><option value="130425103">龙王庙镇</option><option value="130425209">埝头乡</option><option value="130425202">铺上乡</option><option value="130425200">沙圪塔乡</option><option value="130425104">束馆镇</option><option value="130425207">孙甘店乡</option><option value="130425102">万堤镇</option><option value="130425201">王村乡</option><option value="130425208">西付集乡</option><option value="130425206">西未庄乡</option><option value="130425101">杨桥镇</option><option value="130425213">营镇回族乡</option><option value="130425211">张铁集乡</option>                </select> -->
 
 
                             </fieldset>
         </div>
+        
+
         <div class="form_item border_none">
             <span class="font_3r color_34 goods_name-title">详细地址</span>
         </div>
@@ -138,7 +141,7 @@
             </a>
         </div>
     </div>
-    <input type="hidden" id="" name="is_default" value=""/>
+    <!-- <input type="hidden" id="" name="is_default" value=""/> -->
 </form>
 <script>
     $(".input_radio-right input[type='radio']:checked").parent(".input_radio-right").addClass("input_radio_select");
@@ -179,21 +182,21 @@
             onfocusout : false,
             onblur  : false,
 
-            submitHandler: function(form) {
-                if (!submited){
-                    // $.post('index.php?app=my_address&act=edit&addr_id=4717&store_id=&ajax=1',$('#address_form').serialize(),function(json){
-                    $.post('/member/address-create',$('#address_form').serialize(),function(json){
-                        if(json.status==0 || json == true){
-                            setTimeout(function(){
-                                window.location.href=json.ret_url;
-                            },2000);
-                        }
-                        layer.open({content:json.info,time:2});
-                    },'json');
-                    submited = true;
-                    $(this).attr('disabled', "true");
-                }
-            },
+            // submitHandler: function(form) {
+            //     if (!submited){
+            //         // $.post('index.php?app=my_address&act=edit&addr_id=4717&store_id=&ajax=1',$('#address_form').serialize(),function(json){
+            //         $.post('/member/address-create',$('#address_form').serialize(),function(json){
+            //             if(json.status==0 || json == true){
+            //                 setTimeout(function(){
+            //                     window.location.href=json.ret_url;
+            //                 },2000);
+            //             }
+            //             layer.open({content:json.info,time:2});
+            //         },'json');
+            //         submited = true;
+            //         $(this).attr('disabled', "true");
+            //     }
+            // },
             rules : {
                 consignee : {
                     required : true

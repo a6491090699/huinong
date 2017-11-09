@@ -21,6 +21,7 @@ class SupplyController extends Controller
     {
 
         $base_address = MemberStoreinfo::where('member_id' ,1)->select('base_address')->get()->toJson();
+        dd($base_address);
         // dd($base_address);exit;
         return view('home.supply.add',['base_address'=>$base_address]);
     }

@@ -28,6 +28,21 @@ function formate_time($time){
     if(($now-$time)>=60*60*24 && ($now-$time)<60*60*24*2) $string = '昨天';
     return $string;
 }
+function get_sub_value($array, $value , $param = 'id') {
+    if (!is_array($array)) return null;
+    //一维
+    if (isset($array[$param]) && $array[$param]==$value) return $array;
+    //多维
+    foreach ($array as $item) {
+        $return = get_sub_value($item, $value , $param = 'id');
+        if (!is_null($return)) {
+            return $return;
+        }
+    }
+    return null;
+}
+
+
 Route::get('/', function () {
 
     $wdata = Want::with('wantAttrs.attrs','kinds','quotes')->limit(6)->get();
@@ -86,6 +101,7 @@ Route::group(['namespace'=>'order' ,'prefix'=>'store'] ,function (){
     Route::get('showinfo' , 'StoreController@showinfo');
     Route::get('add' , 'StoreController@addStoreinfo');
     Route::post('create' , 'StoreController@create');
+    Route::post('check-name' , 'StoreController@checkName');
 
 
 
@@ -107,9 +123,10 @@ Route::group(['namespace'=>'order' ,'prefix'=>'member'] ,function (){
     //地址编辑
     Route::get('address-edit/{id}', 'MemberController@addressEdit');
     Route::get('address-add', 'MemberController@addressAdd');
-    Route::post('address-del/{id}', 'MemberController@addressDel');
-    Route::post('address-create/{id}', 'MemberController@addressCreate');
-    Route::post('address-save/{id}', 'MemberController@addressCreate');
+    Route::any('address-del', 'MemberController@addressDel');
+    Route::post('address-create', 'MemberController@addressCreate');
+    Route::post('address-save', 'MemberController@addressSave');
+    Route::post('address-setdefault', 'MemberController@setdefault');
 
 
 
@@ -118,14 +135,10 @@ Route::group(['namespace'=>'order' ,'prefix'=>'member'] ,function (){
 });
 
 Route::get('test',function(){
-    $obj = Supply::with('supplyAttrs');
-    if(1){
-        $obj = $obj->where('id','>',2);
-    }
-    if(1){
-        $obj = $obj->get();
-    }
-    dd($obj);
+    $data = file_get_contents(app_path('Common/region.json'));
+    $data = json_decode($data,true);
+    dd($data);
+    return response()->json(['data'=>$data]);
 
 
 });
@@ -140,6 +153,7 @@ Route::group(['namespace'=>'api' ,'prefix'=>'api'] ,function (){
     Route::get('quote-all' , 'DataController@getQuote');
     Route::get('supply-all' , 'DataController@getSupplyAll');
     Route::get('sub-city' , 'DataController@getSubCity');
+    Route::get('sub-region' , 'DataController@getSubRegion');
 
 });
 

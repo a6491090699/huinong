@@ -6,6 +6,7 @@
     <title>用户中心 - 店铺设置</title>
 <meta name="keywords" content="竞苗平台,花木网,花木,中国苗木网,花木交易,花木求购,花木资讯,花木论坛,花木销售,绿化苗木" />
 
+<meta name="_token" content="{{ csrf_token() }}"/>
     <link rel="stylesheet"  href="/css/mobile-select-area.css">
     <!--<link rel="stylesheet" href="/css/larea.css">-->
     <link rel="stylesheet" href="/css/style.css"/>
@@ -51,7 +52,7 @@
     <a href="javascript:$('#my_store_form').trigger('submit')" class="address_save">保存</a>
 </header>
 <div class="padding_flanks bg-fff">
-    <form id="my_store_form" method="post" action="/store/create">
+    <form id="my_store_form" method="post" >
         <div class="user_my_head" style="display: none;">
             <span class="font_3r color_34 goods_name-title">店铺Logo</span>
             <a><img src="/images/store_logo.png" alt="" id="store_logo_img"/></a>
@@ -79,8 +80,8 @@
 
                                 <select>
                     <option>请选择...</option>
-                    <option value="1079">山东</option><option value="903">河南</option><option value="1000">江苏</option><option value="1186">浙江</option><option value="922">河北</option><option value="1120">四川</option><option value="856">广东</option><option value="813">安徽</option><option value="952">湖南</option><option value="934">湖北</option><option value="1109">陕西</option><option value="831" selected>福建</option><option value="878">广西</option><option value="1036">辽宁</option><option value="1097">山西</option><option value="1014">江西</option><option value="841">甘肃</option><option value="986">黑龙江</option><option value="1169">云南</option><option value="1026">吉林</option><option value="809">北京</option><option value="810">上海</option><option value="812">重庆</option><option value="811">天津</option><option value="1051">内蒙古</option><option value="893">贵州</option><option value="1064">宁夏</option><option value="967">海南</option><option value="1070">青海</option><option value="1150">新疆</option><option value="1142">西藏</option><option value="654326501">其他</option>                </select>
-                                                <select>
+                    <option value="1079">山东</option><option value="903">河南</option><option value="1000">江苏</option><option value="1186">浙江</option><option value="922">河北</option><option value="1120">四川</option><option value="856">广东</option><option value="813">安徽</option><option value="952">湖南</option><option value="934">湖北</option><option value="1109">陕西</option><option value="831">福建</option><option value="878">广西</option><option value="1036">辽宁</option><option value="1097">山西</option><option value="1014">江西</option><option value="841">甘肃</option><option value="986">黑龙江</option><option value="1169">云南</option><option value="1026">吉林</option><option value="809">北京</option><option value="810">上海</option><option value="812">重庆</option><option value="811">天津</option><option value="1051">内蒙古</option><option value="893">贵州</option><option value="1064">宁夏</option><option value="967">海南</option><option value="1070">青海</option><option value="1150">新疆</option><option value="1142">西藏</option><option value="654326501">其他</option>                </select>
+                                                <!-- <select>
                     <option>请选择...</option>
                     <option value="832">福州</option><option value="833">厦门</option><option value="834">莆田</option><option value="835">三明</option><option value="836" selected>泉州</option><option value="837">漳州</option><option value="838">南平</option><option value="839">龙岩</option><option value="840">宁德</option>                </select>
                                                 <select>
@@ -89,7 +90,7 @@
                                                 <select>
                     <option>请选择...</option>
                     <option value="350503008" selected>北峰街道</option><option value="350503006">城东街道</option><option value="350503007">东海街道</option><option value="350503001">东湖街道</option><option value="350503002">丰泽街道</option><option value="350503005">华大街道</option><option value="350503004">清源街道</option><option value="350503003">泉秀街道</option>                </select>
-
+ -->
 
                             </fieldset>
 
@@ -97,7 +98,7 @@
                             <!-- <script type="text/javascript">
                             $(function() {
                                 //load city.json
-                                cityJson = {!!$city_json!!}
+                                cityJson = [];
                                 cityJson = cityJson.data;
                                 console.log(cityJson)
                                 var sb = new StringBuffer();
@@ -200,10 +201,10 @@
             <span class="font_3r color_34 goods_name-title">地址</span>
             <input type="text" placeholder="请填写您的地址" class="fr user_nickname primary_business" name="address" value=""/>
         </div>
-        <div class="form_item">
+        <!-- <div class="form_item">
             <span class="font_3r color_34 goods_name-title">二级域名</span>
             <input type="text" placeholder="请填写您的二级域名" class="fr user_nickname primary_business bg-fff" name="domain" value="" />
-        </div>
+        </div> -->
         <div class="form_item">
             <span class="font_3r color_34 goods_name-title">手机号码</span>
             <input type="number" placeholder="请填写您的手机号码" class="fr user_nickname primary_business" name="pc_mobile" value=""/>
@@ -237,7 +238,11 @@
 </div>
 
 <script type="text/javascript">
-
+    $.ajaxSetup({
+    headers: {
+       'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+    }
+    });
     var error_msg_showed = false;
     var error_msg = "";
     var submited = false;
@@ -269,7 +274,8 @@
             onblur  : false,
             submitHandler: function (form) {
                 if (!submited){
-                    $.post('index.php?app=my_store&ajax=true', $('#my_store_form').serialize(), function (json) {
+                    // $.post('index.php?app=my_store&ajax=true', $('#my_store_form').serialize(), function (json) {
+                    $.post('/store/create', $('#my_store_form').serialize(), function (json) {
                         layer.open({content:json.info, time:3});
                         if (json.status == 0) {
                             setTimeout(function () {
@@ -279,38 +285,38 @@
                         }
                     }, 'json');
                     submited = true;
-                    form.submit();
+                    // form.submit();
                     $(this).attr('disabled', "true");
                 }
             },
             rules: {
-                domain: {
-                    required: true,
-                    // remote: {
-                    //     url: 'index.php?app=apply&act=check_subdomain&ajax=1',
-                    //     type: 'get',
-                    //     data: {
-                    //         domain: function () {
-                    //             return $('#domain').val();
-                    //         },
-                    //         store_id: '90714'
-                    //     }
-                    // },
-                    rangelength: [3, 12],
-                    is_alphameric: true
-                },
+                // domain: {
+                //     required: true,
+                //     // remote: {
+                //     //     url: 'index.php?app=apply&act=check_subdomain&ajax=1',
+                //     //     type: 'get',
+                //     //     data: {
+                //     //         domain: function () {
+                //     //             return $('#domain').val();
+                //     //         },
+                //     //         store_id: '90714'
+                //     //     }
+                //     // },
+                //     rangelength: [3, 12],
+                //     is_alphameric: true
+                // },
                 store_name: {
                     required: true,
                     is_chinese: true,
                     rangelength: [2, 20],
                     remote: {
-                        url: 'index.php?app=apply&act=check_name&ajax=1',
-                        type: 'get',
+                        url: '/store/check-name',
+                        type: 'post',
                         data: {
                             store_name: function () {
                                 return $('#store_name').val();
                             },
-                            store_id: '90714'
+                            // store_id: '90714'
                         }
                     },
                     rangelength: [2, 20]
@@ -335,12 +341,12 @@
                 }
             },
             messages: {
-                domain: {
-                    required: '二级域名不能为空',
-                    // remote: '域名已存在',
-                    rangelength: '请填写3-12个英文字母或数字',
-                    is_alphameric: '只能填写字母和数字'
-                },
+                // domain: {
+                //     required: '二级域名不能为空',
+                //     // remote: '域名已存在',
+                //     rangelength: '请填写3-12个英文字母或数字',
+                //     is_alphameric: '只能填写字母和数字'
+                // },
                 store_name: {
                     required: '店铺名称不能为空',
                     rangelength: '请控制在2-20个字以内',
@@ -493,46 +499,7 @@
 
 
 </script>
-
-<footer class="foot_border-top" style="background-color: #00ad8b;">
-    <div class="foot_member foot_member_hover">
-        <a href="#">
-            <p><img src="/images/dh_01.png" width=50%></p>
-        </a>
-    </div>
-    <div class="foot_member ">
-        <a href="#">
-            <p><img src="/images/dh_02.png" width=50%></p>
-        </a>
-    </div>
-    <div class="foot_member ">
-        <!--<a href="url app=discover">-->
-            <!--<span class="iconfont" style="font-weight:900">&#xe694;</span>-->
-            <!--<p>发现</p>-->
-        <!--</a>-->
-        <a class="goods_car-header" href="#">
-
-            <p><img src="/images/dh_03.png" width=50%></p>
-        </a>
-    </div>
-    <div class="foot_member ">
-        <a href="#">
-            <p><img src="/images/dh_04.png" width=50%></p>
-        </a>
-    </div>
-</footer>
-
-<span style='visible:hidden;'>
-<script>
-var _hmt = _hmt || [];
-(function() {
-    var hm = document.createElement("script");
-    hm.src = "https://hm.baidu.com/hm.js?79ff8b04d2408694a6d3bf5a8f2d368e";
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(hm, s);
-})();
-</script>
-</span>
+@include('home.common.footer')
 
 </body>
 </html>

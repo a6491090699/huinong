@@ -19,9 +19,23 @@ class StoreController extends Controller
     //添加店铺信息
     public function addStoreinfo(){
 
-        $city = file_get_contents(app_path().'/Common/city.json');
+        // $city = file_get_contents(app_path().'/Common/region_level4.json');
 
-        return view('home.store.add',['city_json'=>$city]);
+        return view('home.store.add');
+    }
+
+
+    public function checkName(Request $request){
+        $store_name = $request->input('store_name');
+        $rs = MemberStoreinfo::where('store_name', $store_name)->count();
+        if($rs){
+            return 'false';
+        }else{
+            return 'true';
+        }
+        // $city = file_get_contents(app_path().'/Common/region_level4.json');
+
+        // return view('home.store.add');
     }
 
     public function create(Request $request){

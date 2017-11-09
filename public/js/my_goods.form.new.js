@@ -283,6 +283,7 @@ function goods_unit_changed(){
 //获取分类单位
 function get_gcategory_unit(cate_id){
     var get_unit_url = "/index.php?app=my_goods&act=get_gcategory_unit&cate_id="+cate_id;
+    // var get_unit_url = "/";
     $.getJSON(get_unit_url,function(result){
         if(result.code==0 && result.unit!=false){
             var unit_value = new Array();
