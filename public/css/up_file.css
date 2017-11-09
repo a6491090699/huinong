@@ -1,0 +1,52 @@
+.file {
+	position: absolute;
+	background: url(../images/scan.jpg) no-repeat;
+	background-size: 100% 100%;
+	width: 100%;
+	height: 100%;
+}
+
+.file input {
+	position: relative;
+	font-size: 100px;
+	right: 0;
+	top: 0;
+	opacity: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+/*.file:hover {
+	background: #AADFFD;
+	border-color: #78C3F3;
+	color: #004974;
+	text-decoration: none;
+}*/
+
+.upimg {
+	position: relative;
+	width: 100%;
+	height: 11rem;
+}
+
+.setimg {
+	    width: 30%;
+    position: relative;
+    float: left;
+}
+
+.imgs {
+	position: relative;
+	width: 100%;
+	height: 11rem;
+}
+
+.delects {
+	    position: absolute;
+    width: 2rem;
+    height: 2rem;
+    z-index: 9999;
+    right: 0.5rem;
+    bottom: 0.5rem;
+}

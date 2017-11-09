@@ -9,9 +9,9 @@ class StoreCollect extends Model
     //
     public $table = 'store-collect';
     public $timestamps = false;
-    protected fillable = [
-        'member_id'.
-        'store_id'.
+    protected $fillable = [
+        'member_id',
+        'store_id',
     ];
 
     static public function getMemberCollect($mid)

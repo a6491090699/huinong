@@ -3,9 +3,9 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>桐乡三杉苗木基地-竞苗平台</title>
-<meta name="keywords" content="桐乡三杉苗木基地,落羽杉，池杉，中山杉，墨西哥落羽杉，水杉，榉树，乌桕，朴树，香樟，黄山栾树无患子," />
-<meta name="description" content="桐乡三杉苗木基地位于浙江嘉兴桐乡浙江省桐乡市石门镇,主要经营落羽杉，池杉，中山杉，墨西哥落羽杉，水杉，榉树，乌桕，朴树，香樟，黄山栾树无患子,如有需要请联系李强:18858365485" />
+    <title>商家店铺-竞苗平台</title>
+<meta name="keywords" content="" />
+<meta name="description" content="" />
     <link rel="stylesheet"  href="/css/mobile-select-area.css">
     <!--<link rel="stylesheet" href="/css/larea.css">-->
     <link rel="stylesheet" href="/css/style.css"/>
@@ -32,7 +32,7 @@
             interpolate: /\{(.+?)}/g
         };
         var SITE_URL = ".";
-        var REAL_SITE_URL = "http://sanshan.m.huamu.com";
+        var REAL_SITE_URL = "/";
         var PRICE_FORMAT = '¥%s';
 
     </script>
@@ -43,19 +43,19 @@
   <a class="go_back_btn" href="javascript:history.go(-1)">
     <span class="iconfont color_9a">&#xe698;</span>
   </a>
-  <h1>桐乡三杉苗木基地</h1>
-  <a class="univalence_affirm_btn font_3r" href="http://sanshan.m.huamu.com/store_67526/haibao/">
+  <h1>店铺</h1>
+  <!-- <a class="univalence_affirm_btn font_3r" href="http://sanshan.m.huamu.com/store_67526/haibao/">
     <span class="iconfont font_35r color_34">&#xe6b8;</span>
-  </a>
+  </a> -->
 </header>
 <div>
   <div  class="store_header clearfix">
     <dl class="fl clearfix store_header-left">
       <dt class="fl">
-        <img src="/images/store_logo.jpg" alt='桐乡三杉苗木基地'/>
+        <img src="/{{str_replace('public/','storage/',$info->logo)}}"/>
       </dt>
       <dd class="fl color_34">
-        <p class="font_3r color_fff overflow_omit-8" style="    width:14em;">桐乡三杉苗木基地</p>
+        <p class="font_3r color_fff overflow_omit-8" style="    width:14em;">{{$info->store_name}}</p>
 
         <div>
 		<p class="font_24r color_fff" style="margin-bottom: 5px;">信用值：<img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1h.png" height="12px"></p>
@@ -70,7 +70,7 @@
       <span class="font_24r color_9a">近期浏览</span>
     </li>
     <li style="width: 24.99999%;">
-      <p class="font_28r color_34">6</p>
+      <p class="font_28r color_34">{{$collect_num}}</p>
       <span class="font_24r color_9a">已关注</span>
     </li>
 	<li style="width: 24.99999%;">
@@ -93,75 +93,45 @@
 
 <div class="bg-fff user_store">
   <ul class="bd_top_bottom-eee supply_purchase-list font_3r clearfix">
-    <li class="hover_list"><div>供应</div></li>
-    <li class="middle_border"></li>
+    <li class="hover_list" data-item="supply"><div>供应</div></li>
+    <li class="middle_border"  data-item="want"></li>
     <li><div>采购</div></li>
   </ul>
   <ul class="supply_information-list list_bd_top_none">
+      @forelse($supplys as $val)
         <li>
-      <a href="./goods/1_10_10785_66702.html">
+      <a href="/supply/view/{{$val->id}}">
         <dl class="clearfix hot_goods">
           <dt class="fl"><img src="/images/201710161710483319.jpg"/></dt>
           <dd class="fl">
-            <p class="font_3r color_34">10公分落羽杉</p>
+            <p class="font_3r color_34">{{$val->goods_name}}</p>
             <div class="goods_prop color_ff7414">
-                            <span><b>米:10cm</b></span>
+                            <span>
+
+                                @foreach($val->supplyAttrs as $v)
+                                <b>{{$v->attrs->attr_name}}:{{$v->attr_value}}{{$v->attrs->short_unit}}</b>
+                                @endforeach
+                            </span>
+
+
                           </div>
             <div class="sell_information">
-              <span class="color_ff7414">¥<b class="font_35r">240.00</b>/棵</span>
+              <span class="color_ff7414">¥<b class="font_35r">{{$val->price}}</b>/{{$val->kinds->unit}}</span>
               <span class="sell_distance distance_info" data-lat="30.7627" data-lon="120.7509"></span>
             </div>
             <p>
-              <span class="min_sell-num">库存：1000000</span>
-              <span class="fr">已售0件</span>
+              <span class="min_sell-num">库存：{{$val->number}}</span>
+              <span class="fr">已售{{$val->saled_num?$val->saled_num:0}}件</span>
             </p>
           </dd>
         </dl>
       </a>
     </li>
-        <li>
-      <a href="./goods/1_10_10785_66701.html">
-        <dl class="clearfix hot_goods">
-          <dt class="fl"><img src="/images/201710161709579308.jpg"/></dt>
-          <dd class="fl">
-            <p class="font_3r color_34">9公分落羽杉</p>
-            <div class="goods_prop color_ff7414">
-                            <span><b>米:9cm</b></span>
-                          </div>
-            <div class="sell_information">
-              <span class="color_ff7414">¥<b class="font_35r">180.00</b>/棵</span>
-              <span class="sell_distance distance_info" data-lat="30.7627" data-lon="120.7509"></span>
-            </div>
-            <p>
-              <span class="min_sell-num">库存：1000000</span>
-              <span class="fr">已售0件</span>
-            </p>
-          </dd>
-        </dl>
-      </a>
-    </li>
-        <li>
-      <a href="./goods/1_10_10785_66700.html">
-        <dl class="clearfix hot_goods">
-          <dt class="fl"><img src="/images/201710161709165699.jpg"/></dt>
-          <dd class="fl">
-            <p class="font_3r color_34">8公分落羽杉</p>
-            <div class="goods_prop color_ff7414">
-                            <span><b>米:8cm</b></span>
-                          </div>
-            <div class="sell_information">
-              <span class="color_ff7414">¥<b class="font_35r">140.00</b>/棵</span>
-              <span class="sell_distance distance_info" data-lat="30.7627" data-lon="120.7509"></span>
-            </div>
-            <p>
-              <span class="min_sell-num">库存：1000000</span>
-              <span class="fr">已售0件</span>
-            </p>
-          </dd>
-        </dl>
-      </a>
-    </li>
-        <li>
+    @empty
+    <li class="text_center user_store padding_container font_2r color_9a">暂无符合条件的记录</li>
+    @endforelse
+
+        <!-- <li>
       <a href="./goods/1_10_10785_66699.html">
         <dl class="clearfix hot_goods">
           <dt class="fl"><img src="/images/201710161706347527.jpg"/></dt>
@@ -181,10 +151,33 @@
           </dd>
         </dl>
       </a>
-    </li>
+    </li> -->
       </ul>
   <ul class="purchase_information-list" style="display: none;">
-        <li class="text_center user_store padding_container font_2r color_9a">暂无符合条件的记录</li>
+      @forelse($wants as $val)
+      <li class="bg-fff bd_top_bottom-eee">
+        <h3>{{$val->title}}</h3>
+        <p>
+        @foreach($val->wantAttrs as $v)
+            {{$v->attrs->attr_name.$v->attr_value.$v->attrs->unit}}
+        @endforeach
+        </p>
+         <!-- <p>高度10厘米 米径10厘米 冠幅10厘米 地径10厘米 </p> -->
+         <p>苗源：{{$val->source}}</p>
+         <p>手机号：{{$val->phone}}</p>
+         <p class="purchase_information_quote">
+             <span class="color_ff7414">已有{{$val->quotes_count}}人报价</span>
+             <span>截止日期：{{date('Y-m-d',$val->cutday)}}</span>
+         </p>
+         <span class="purchase_num"><span class="color_ff7414">{{$val->number}}</span>{{$val->kinds->unit}}</span>
+           <!-- <a href="/quote/add/1" class="quote_btn">报价</a> -->
+        </li>
+      @empty
+      <li class="text_center user_store padding_container font_2r color_9a">暂无符合条件的记录</li>
+      @endforelse
+
+
+        <!-- <li class="text_center user_store padding_container font_2r color_9a">暂无符合条件的记录</li> -->
       </ul>
     <div class="padding_top_bottom">
         <a class="store_more_btn" href="/index.php?act=search">更多</a>
@@ -196,42 +189,42 @@
 <div class="padding_flanks bd_top_bottom-eee bg-fff user_store">
   <div class="form_item">
     <span class="font_3r color_34 goods_name-title">注册时间</span>
-    <span class="font_26r color_67 fr">2016-11-21</span>
+    <span class="font_26r color_67 fr">{{date('Y-m-d',$info->addtime)}}</span>
   </div>
   <div class="form_item">
     <span class="font_3r color_34 goods_name-title">主营</span>
-    <span class="font_26r color_67 fr overflow_omit-16 text_right" style="display: inline-block">落羽杉，池杉，中山杉，墨西哥落羽杉，水杉，榉树，乌桕，朴树，香樟，黄山栾树无患子</span>
+    <span class="font_26r color_67 fr overflow_omit-16 text_right" style="display: inline-block">{{$info->store_sale}}</span>
   </div>
   <div class="form_item">
     <span class="font_3r color_34 goods_name-title">所在地</span>
-    <span class="font_26r color_67 fr">浙江	嘉兴	桐乡</span>
+    <span class="font_26r color_67 fr">{{$info->base_address}}</span>
   </div>
   <div class="clearfix icon_attestation-container">
     <span class="font_3r color_34 fl real_name-headline">实名认证</span>
     <div class="fr" style="width:70%;height:60px;overflow-x: auto;overflow-y: hidden;">
       <div style="width:400px;">
                 <div class="icon_attestation">
-          <span class="iconfont attestation-color-phone">&#xe68e;</span>
+          <span class="iconfont @if($info->phone_valid) attestation-color-phone @else color_9a @endif">&#xe68e;</span>
           <p>手机验证</p>
         </div>
                 <div class="icon_attestation">
-          <span class="iconfont attestation-color-phone">&#xe6b9;</span>
+          <span class="iconfont @if($info->id_valid) attestation-color-phone @else color_9a @endif">&#xe6b9;</span>
           <p>身份证验证</p>
         </div>
                 <div class="icon_attestation">
-          <span class="iconfont color_9a">&#xe988;</span>
+          <span class="iconfont @if($info->jingying_valid) attestation-color-phone @else color_9a @endif">&#xe988;</span>
           <p>经营许可证验证</p>
         </div>
                 <div class="icon_attestation">
-          <span class="iconfont color_9a">&#xe6bb;</span>
+          <span class="iconfont @if($info->money_valid) attestation-color-phone @else color_9a @endif">&#xe6bb;</span>
           <p>上缴保证金</p>
         </div>
                 <div class="icon_attestation">
-          <span class="iconfont color_9a">&#xe6ba;</span>
+          <span class="iconfont @if($info->shidi_valid) attestation-color-phone @else color_9a @endif">&#xe6ba;</span>
           <p>实地查验</p>
         </div>
-                <div class="icon_attestation">
-          <span class="iconfont attestation-color-phone">&#xe68f;</span>
+            <div class="icon_attestation">
+          <span class="iconfont @if($info->danbao_valid) attestation-color-phone @else color_9a @endif">&#xe68f;</span>
           <p>担保交易</p>
         </div>
               </div>
@@ -242,7 +235,7 @@
 
     <div class="form_item"  style="    text-align: center;">
     <span class="font_3r color_34 goods_name-title">卖家详情</span>
-    <p class="font_24r color_67">本基地坐于长三角地断，具有很大的优点，苗木资源丰富土质非常好，现有1500苗土地，受到了广大朋友的信任主要经营三杉苗木，北美落羽杉，中山杉，池杉，墨西哥落羽杉，水杉，2~20公分。还有，乌桕，榉树，朴树，无患子，香樟，合欢，黄山栾树，广玉兰，紫薇。欢迎各位老板来参观订购联系人：李强   电话微信同号：18858365485</p>
+    <p class="font_24r color_67">{{$info->desc}}</p>
 	<br>
 	<br>
   </div>
@@ -291,7 +284,7 @@
         }
     });
 </script>
-
+<!-- 把按钮设置为js函数 点击获取data-item的值 supply want 还有page的值 然后用接口post获得数据 异步 填充数据 -->
 <footer class="foot_border-top" style="background-color: #00ad8b;">
     <div class="foot_member foot_member_hover">
         <a href="#">

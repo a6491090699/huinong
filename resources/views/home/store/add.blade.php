@@ -19,7 +19,7 @@
     <script type="text/javascript" src="/js/index.js"></script>
     <script src="/js/mlselection.js?{{time()}}"></script>
     <script src="/js/huamu.js" type="text/javascript"></script>
-    <script src="/js/jquery.validate.js" type="text/javascript"></script>
+    <script src="/js/jquery.validate.js?{{time()}}" type="text/javascript"></script>
     <script src="/js/jquery.validate.extend.js" type="text/javascript"></script>
     <script src="/js/additional-methods-huamu.js" type="text/javascript"></script>
     <script src="/js/index.js" type="text/javascript"></script>
@@ -39,6 +39,15 @@
 
     </script>
 
+    <!--增加的开始-->
+		<link rel="stylesheet" href="/css/up_file.css" />
+		<script src="/js/photoswipe-ui-default.min.js" type="text/javascript"></script>
+		<script src="/js/photoswipe.min.js" type="text/javascript"></script>
+		<script>
+		var valuenum = 0;
+		</script>
+		<!--增加的结束-->
+
 </head>
 <script type="text/javascript" src="/js/moxie.js"></script>
 <script type="text/javascript" src="/js/plupload.min.js"></script>
@@ -51,20 +60,23 @@
     <h1>店铺信息</h1>
     <a href="javascript:$('#my_store_form').trigger('submit')" class="address_save">保存</a>
 </header>
+<form id="my_store_form" method="post" enctype="multipart/form-data" action="/store/create">
+{{csrf_field()}}
 <div class="padding_flanks bg-fff">
-    <form id="my_store_form" method="post" >
-        <div class="user_my_head" style="display: none;">
+
+
+        <!-- <div class="user_my_head" >
             <span class="font_3r color_34 goods_name-title">店铺Logo</span>
             <a><img src="/images/store_logo.png" alt="" id="store_logo_img"/></a>
             <input type="hidden" name="store_logo" id="store_logo" value="data/upload/store/73/de/73de7f96f98fced11e229d691a3cbea0/store_logo.png" />
-        </div>
-        <div class="user_my_head" style="display: none;">
+        </div> -->
+        <!-- <div class="user_my_head" style="display: none;">
             <span class="font_3r color_34 goods_name-title">店铺Banner</span>
             <input type="hidden" name="store_wapbanner" id="store_wapbanner" value="" />
             <div>
-                                <img id="store_wapbanner_img" src="/images/store_banner.png" alt="店铺banner"/>
-                            </div>
-        </div>
+                <img id="store_wapbanner_img" src="/images/store_banner.png" alt="店铺banner"/>
+            </div>
+        </div> -->
         <div class="form_item">
             <span class="font_3r color_34 goods_name-title">店铺名称</span>
             <input type="text" placeholder="请填写您的店铺名称" class="fr user_nickname primary_business" name="store_name" id="store_name" value=""/>
@@ -95,107 +107,6 @@
                             </fieldset>
 
 
-                            <!-- <script type="text/javascript">
-                            $(function() {
-                                //load city.json
-                                cityJson = [];
-                                cityJson = cityJson.data;
-                                console.log(cityJson)
-                                var sb = new StringBuffer();
-                                $.each(cityJson,
-                                function(i, val) {
-                                  if (val.item_code.substr(2, 4) == '0000') {
-                                    sb.append("<option value='" + val.item_code + "'>" + val.item_name + "</option>");
-                                  }
-                                });
-                                $("#choosePro").after(sb.toString());
-
-                                }); // 省值变化时 处理市
-                                function doProvAndCityRelation() {
-                                var city = $("#citys");
-                                var county = $("#county");
-                                if (city.children().length > 1) {
-                                city.empty();
-                                }
-                                if (county.children().length > 1) {
-                                county.empty();
-                                }
-                                if ($("#chooseCity").length === 0) {
-                                city.append("<option id='chooseCity' value='-1'>请选择您所在城市</option>");
-                                }
-                                if ($("#chooseCounty").length === 0) {
-                                county.append("<option id='chooseCounty' value='-1'>请选择您所在区/县</option>");
-                                }
-                                var sb = new StringBuffer();
-                                $.each(cityJson,
-                                function(i, val) {
-                                  if (val.item_code.substr(0, 2) == $("#province").val().substr(0, 2) && val.item_code.substr(2, 4) != '0000' && val.item_code.substr(4, 2) == '00') {
-                                    sb.append("<option value='" + val.item_code + "'>" + val.item_name + "</option>");
-                                  }
-                                });
-                                $("#chooseCity").after(sb.toString());
-                                } // 市值变化时 处理区/县
-                                function doCityAndCountyRelation() {
-                                var cityVal = $("#citys").val();
-                                var county = $("#county");
-                                if (county.children().length > 1) {
-                                county.empty();
-                                }
-                                if ($("#chooseCounty").length === 0) {
-                                county.append("<option id='chooseCounty' value='-1'>请选择您所在区/县</option>");
-                                }
-                                var sb = new StringBuffer();
-                                $.each(cityJson,
-                                function(i, val) {
-                                  if (cityVal == '110100' || cityVal == "120100" || cityVal == "310100" || cityVal == "500100") {
-                                    if (val.item_code.substr(0, 3) == cityVal.substr(0, 3) && val.item_code.substr(4, 2) != '00') {
-                                      sb.append("<option value='" + val.item_code + "'>" + val.item_name + "</option>");
-                                    }
-                                  } else {
-                                    if (val.item_code.substr(0, 4) == cityVal.substr(0, 4) && val.item_code.substr(4, 2) != '00') {
-                                      sb.append("<option value='" + val.item_code + "'>" + val.item_name + "</option>");
-                                    }
-                                  }
-                                });
-                                $("#chooseCounty").after(sb.toString());
-
-                                }
-
-                                function StringBuffer(str) {
-                                var arr = [];
-                                str = str || "";
-                                var size = 0; // 存放数组大小
-                                arr.push(str);
-                                // 追加字符串
-                                this.append = function(str1) {
-                                arr.push(str1);
-                                return this;
-                                };
-                                // 返回字符串
-                                this.toString = function() {
-                                return arr.join("");
-                                };
-                                // 清空
-                                this.clear = function(key) {
-                                size = 0;
-                                arr = [];
-                                };
-                                // 返回数组大小
-                                this.size = function() {
-                                return size;
-                                };
-                                // 返回数组
-                                this.toArray = function() {
-                                return buffer;
-                                };
-                                // 倒序返回字符串
-                                this.doReverse = function() {
-                                var str = buffer.join('');
-                                str = str.split('');
-                                return str.reverse().join('');
-                                };
-                                }
-                            </script> -->
         </div>
         <div class="form_item">
             <span class="font_3r color_34 goods_name-title">地址</span>
@@ -220,7 +131,7 @@
         <div style="display: none;">
             <textarea class="goods_detailed_information" name="description" placeholder="请添加您的店铺简介"></textarea>
         </div>
-    </form>
+
 </div>
 
 <div class="padding_flanks bg-fff bd_top_bottom-eee margin_bottom_16 user_store">
@@ -231,7 +142,21 @@
         </a>
     </div>
 </div>
+<div class=" padding_flanks bg-fff bd_top_bottom-eee  margin_bottom_16 user_my_head" >
+    <span class="font_3r color_34 goods_name-title">店铺Logo</span>
 
+
+</div>
+<div class="upimg padding_flanks margin_bottom_16" >
+    <div id="upimgs" style="position: relative;    width: auto;    height: 11rem;margin-bottom:60px;">
+        <a href="javascript:;" class="file">
+            <input id="file_upload" type="file" name="logo" accept="image/*;capture=camera">
+        </a>
+    </div>
+    <!--	<img src="" id='show' style="width: 30%;height: 14rem;">-->
+    <div id="imglist"></div>
+</div>
+</form>
 
 <div class="mask_layer" id="mask_layer" style="display: none">
 
@@ -272,23 +197,24 @@
             onfocusin : false,
             onfocusout : false,
             onblur  : false,
-            submitHandler: function (form) {
-                if (!submited){
-                    // $.post('index.php?app=my_store&ajax=true', $('#my_store_form').serialize(), function (json) {
-                    $.post('/store/create', $('#my_store_form').serialize(), function (json) {
-                        layer.open({content:json.info, time:3});
-                        if (json.status == 0) {
-                            setTimeout(function () {
-                                $('.ui-link').attr('href', json.my_store_domain);
-                                $('.visit_store_link').show();
-                            }, 3000);
-                        }
-                    }, 'json');
-                    submited = true;
-                    // form.submit();
-                    $(this).attr('disabled', "true");
-                }
-            },
+            // submitHandler: function (form) {
+            //     if (!submited){
+            //         alert(123213)
+            //         // $.post('index.php?app=my_store&ajax=true', $('#my_store_form').serialize(), function (json) {
+            //         $.post('/store/create', $('#my_store_form').serialize(), function (json) {
+            //             layer.open({content:json.info, time:3});
+            //             if (json.status == 0) {
+            //                 setTimeout(function () {
+            //                     $('.ui-link').attr('href', json.my_store_domain);
+            //                     $('.visit_store_link').show();
+            //                 }, 3000);
+            //             }
+            //         }, 'json');
+            //         submited = true;
+            //         // form.submit();
+            //         $(this).attr('disabled', "true");
+            //     }
+            // },
             rules: {
                 // domain: {
                 //     required: true,
@@ -339,6 +265,7 @@
                 cs_qq: {
                     number: true
                 }
+
             },
             messages: {
                 // domain: {
@@ -496,7 +423,73 @@
         uploader_store_wapbanner.init();
 
     });
+    $("#file_upload").change(function() {
+				$('.file').css('background', 'url(/images/upbutton.png)  no-repeat');
+				$('.file').css('width', '100%');
+				$('.file').css('height', '11rem');
+				$('.file').css('background-size', '80% 80%');
+				$('.file').css('top', '0.5rem');
+				$('.upimg').css('height', 'auto');
+				$('#upimgs').css('float', 'left');
+				$('#upimgs').css('width', '30%');
+				var $file = $(this);
+				var fileObj = $file[0];
+				var windowURL = window.URL || window.webkitURL;
+				var dataURL;
+				var para = document.createElement("div");
+				var html1 = '<img src="/images/delect.png" class="delects" onclick="delects(' + valuenum + ')"/>';
+				//				var $img = $("#show");
+				if(fileObj && fileObj.files && fileObj.files[0]) {
+					dataURL = windowURL.createObjectURL(fileObj.files[0]);
+					var html = '<img src="' + dataURL + '" class="imgs" id="imgs_' + valuenum + '" onclick="showimg(' + valuenum + ')" style="border-radius:100%;"/>';
+				} else {
+					dataURL = $file.val();
+					var imgObj = document.getElementById("preview");
+					// 两个坑:
+					// 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性在加入，无效；
+					// 2、src属性需要像下面的方式添加，上面的两种方式添加，无效；
+					imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+					imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
 
+				}
+				para.className = 'setimg del_' + valuenum;
+				valuenum++;
+				para.innerHTML += html1;
+				para.innerHTML += html;
+				$("#imglist").append(para);
+			});
+            function delects(numbers) {
+				$('.del_' + numbers).remove();
+			}
+
+			function showimg(j) {
+				var pswpElement = document.querySelectorAll('.pswp')[0];
+				var showimgs = {};
+				var showimage = [];
+				var imgs = new Image();
+				imgs.src = $('#imgs_' + j)[0].src;
+				showimgs = {
+					src: $('#imgs_' + j)[0].src,
+					w: imgs.width,
+					h: imgs.height
+				}
+				showimage.push(showimgs)
+
+				// build items array
+				var items = showimage;
+
+				// define options (if needed)
+				var options = {
+					// optionName: 'option value'
+					// for example:
+					index: j
+					// start at first slide
+				};
+
+				// Initializes and opens PhotoSwipe
+				var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items,
+					options);
+			}
 
 </script>
 @include('home.common.footer')
