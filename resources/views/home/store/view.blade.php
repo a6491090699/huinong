@@ -18,7 +18,7 @@
     <script src="/js/layer.js"></script>
     <!--<script type="text/javascript" src="/js/index.js"></script>-->
     <script src="/js/mlselection.js"></script>
-    <script src="/js/huamu.js" type="text/javascript"></script>
+    <script src="/js/huamu.js?{{time()}}" type="text/javascript"></script>
     <script src="/js/jquery.validate.js" type="text/javascript"></script>
     <script src="/js/jquery.validate.extend.js" type="text/javascript"></script>
     <script src="/js/index.js?{{time()}}" type="text/javascript"></script>
@@ -66,25 +66,30 @@
 
   </div>
   <ul class="padding_container bd_top_bottom-eee bg-fff store_header-bottom clearfix ">
-    <li style="width: 33.33333%;">
+    <li style="width: 24.99999%;">
       <p class="font_28r color_34">942</p>
       <span class="font_24r color_9a">近期浏览</span>
     </li>
-    <li style="width: 33.33333%;">
-      <p class="font_28r color_34">{{$collect_num}}</p>
+    <li style="width: 24.99999%;">
+      <p class="font_28r color_34" id="collect_num">{{$collect_num}}</p>
       <span class="font_24r color_9a">已关注</span>
     </li>
-	<li style="width: 33.33333%;">
+	<li style="width: 24.99999%;">
       <p class="font_28r color_34">24</p>
       <span class="font_24r color_9a">交易订单</span>
     </li>
-    <!-- <li style="width: 24.99999%;">
+    <li style="width: 24.99999%;">
       <p>
-        <span class="color_9a iconfont" onclick="collect_store(123213);" id="store_not_collected_span" >&#xe641;</span>
-        <span class="color_ff363e font_29r iconfont" id="store_collected_span" style="display:none">&#xe6d0;</span>
+
+
+          <span class="color_ff363e font_29r iconfont" id="store_collected_span" onclick="cancel_collect_store({{$info->member_id}})" @if(!$is_collect) style="display:none" @endif>&#xe6d0;</span>
+
+         <span class="color_9a iconfont" onclick="collect_store({{$info->member_id}});" id="store_not_collected_span" @if($is_collect) style="display:none" @endif>&#xe641;</span>
+        <!-- <span class="color_9a iconfont" onclick="collect_store({{$info->member_id}});" id="store_not_collected_span" >&#xe641;</span>
+        <span class="color_ff363e font_29r iconfont" id="store_collected_span" style="display:none">&#xe6d0;</span> -->
       </p>
       <span class="font_24r color_9a">收藏</span>
-    </li> -->
+    </li>
   </ul>
 </div>
 
@@ -240,7 +245,7 @@
 </div>
 
     <div class="form_item"  style="    text-align: center;">
-    <span class="font_3r color_34 goods_name-title">店铺详情</span>
+    <span class="font_3r color_34 goods_name-title">卖家详情</span>
     <p class="font_24r color_67">{{$info->desc}}</p>
 	<br>
 	<br>

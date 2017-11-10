@@ -100,6 +100,7 @@ Route::group(['namespace'=>'order' ,'prefix'=>'store'] ,function (){
     Route::get('index' , 'StoreController@index');
     Route::get('showinfo' , 'StoreController@showinfo');
     Route::get('add' , 'StoreController@addStoreinfo');
+    Route::get('view/{id}' , 'StoreController@view');
     Route::post('create' , 'StoreController@create');
     Route::post('check-name' , 'StoreController@checkName');
 
@@ -154,6 +155,9 @@ Route::group(['namespace'=>'api' ,'prefix'=>'api'] ,function (){
     Route::get('supply-all' , 'DataController@getSupplyAll');
     Route::get('sub-city' , 'DataController@getSubCity');
     Route::get('sub-region' , 'DataController@getSubRegion');
+    Route::get('collect-store' , 'DataController@collectStore');
+    Route::get('cancel-collect-store' , 'DataController@cancelCollectStore');
+    Route::get('collect-good' , 'DataController@collectGood');
 
 });
 

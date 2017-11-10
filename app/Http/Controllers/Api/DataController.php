@@ -8,6 +8,7 @@ use App\Model\Kind;
 use App\Model\Attribute;
 use App\Model\MemberAddress;
 use App\Model\GoodCollect;
+use App\Model\StoreCollect;
 use App\Model\Quote;
 use App\Model\Want;
 use App\Model\MemberStoreinfo;
@@ -74,7 +75,7 @@ class DataController extends Controller
             $sub =$subarr['child'];
             return response()->json(['data'=>$sub ,'code'=>0,'select_pls'=>'请选择...']);
         }
-        
+
         // foreach($city['data'] as $val){
         //     if($val['id'] == $pid) $sub = $val['child'];
         // }
@@ -194,21 +195,39 @@ class DataController extends Controller
     public function getWantList(Request $request)
     {
         $page = empty($request->input('page'))? 1: $request->input('page');
+        $kind_id = empty($request->input('page'))? 1: $request->input('kind_id');
+        $region_id = empty($request->input('page'))? 1: $request->input('region_id');
+        $orderstring =  $request->input('order');
         $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
         $pagenum = 10; //每页显示数
-        if($keyword)
-        {
-            $return = Want::where('title', 'like', '%'.$keyword.'%')->with('wantAttrs.attrs','quotes','kinds')->paginate($pagenum);
+        $obj = Want::with('wantAttrs.attrs','quotes','kinds');
+
+        if($keyword) $obj= $obj->where('title' ,'like','%'.$keyword.'%');
+
+        if($orderstring){
+            $orderstring = explode(' ',$orderstring);
+            $order = $orderstring[0];
+            $orderway = $orderstring[1];
+            $obj= $obj->orderBy($order ,$orderway);
         }else{
-            $return = Want::with('wantAttrs.attrs','quotes','kinds')->paginate($pagenum);
+            $obj= $obj->orderBy('id' ,'desc');
         }
-        // $return = $return->toArray();
-        // $ret = array();
-        // $ret['status'] = '1';
-        // $ret['data'] = $return;
-        return $return->toJson();
-        // dump($return->toJson());
-        // dd($return->toArray());
+
+        // if($region_id){
+        //     $obj= $obj->where('region_id' ,$region_id);
+        // }
+        if($kind_id){
+            $obj= $obj->where('kid' ,$kid);
+        }
+
+        $obj->withCount('quotes');
+
+        $return = $obj->paginate($pagenum);
+
+
+
+        return response()->json($return);
+
 
     }
 
@@ -241,19 +260,11 @@ class DataController extends Controller
     //获取采购列表
     public function getSupplyAll(Request $request)
     {
+        // dump($request->all());
         $page = empty($request->input('page'))? 1: $request->input('page');
         $kind_id = empty($request->input('page'))? 1: $request->input('kind_id');
         $region_id = empty($request->input('page'))? 1: $request->input('region_id');
         $orderstring =  $request->input('order');
-        // $order = 'id';
-        // $orderway = 'desc';
-
-        // if($orderstring != null){
-        //     $orderstring = explode(' ',$orderstring);
-        //     $order = $orderstring[0];
-        //     $orderway = $orderstring[1];
-        // }
-
         $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
         $pagenum = 10; //每页显示数
         $obj = Supply::with('supplyAttrs.attrs','kinds','orders');
@@ -298,9 +309,31 @@ class DataController extends Controller
         // $ret = array();
         // $ret['status'] = '1';
         // $ret['data'] = $return;
-        return $return->toJson();
+        // return $return->toJson();
+        return response()->json($return);
         // dump($return->toJson());
         // dd($return->toArray());
+
+    }
+
+    public function collectStore(Request $request)
+    {
+        $store_id = $request->input('item_id');
+        $obj =new StoreCollect;
+        $obj->member_id = session('mid');
+        $obj->store_id = $store_id;
+        $rs = $obj->save();
+        if($rs) return response()->json(['msg'=>'收藏成功!' ,'done'=>1]);
+
+
+    }
+    public function cancelCollectStore(Request $request)
+    {
+        $store_id = $request->input('item_id');
+        $rs =StoreCollect::where('member_id',session('mid'))->where('store_id',$store_id)->delete();
+
+        if($rs) return response()->json(['msg'=>'取消收藏!' ,'done'=>1]);
+
 
     }
 
@@ -313,5 +346,7 @@ class DataController extends Controller
 
 
     }
+
+
 
 }

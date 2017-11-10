@@ -132,15 +132,33 @@ function collect_goods(id)
 /* 收藏店铺 */
 function collect_store(id)
 {
-    var url = SITE_URL + '/index.php?app=my_favorite&act=add&type=store&jsoncallback=?&ajax=1';
+    var url ='/api/collect-store';
     $.getJSON(url, {'item_id':id}, function(data){
         layer.open({content:data.msg, time:2});
         if(data.done){
             $("#store_collected_span").show();
             $("#store_not_collected_span").hide();
+            var num = $("#collect_num").text();
+            $('#collect_num').text(parseInt(num)+1);
         }
     });
 }
+
+//取消收藏
+function cancel_collect_store(id)
+{
+    var url ='/api/cancel-collect-store';
+    $.getJSON(url, {'item_id':id}, function(data){
+        layer.open({content:data.msg, time:2});
+        if(data.done){
+            $("#store_collected_span").hide();
+            $("#store_not_collected_span").show();
+            var num = $("#collect_num").text();
+            $('#collect_num').text(parseInt(num)-1);
+        }
+    });
+}
+
 /* 火狐下取本地全路径 */
 function getFullPath(obj)
 {
@@ -167,7 +185,7 @@ function getFullPath(obj)
 
 /**
  * 启动邮件队列
- * 
+ *
  * @author Garbin
  * @param string
  *            req_url
@@ -194,7 +212,7 @@ function transform_char(str)
 
 /**
  * 在页面上产生个gotop按钮。 用纯粹的JS实现，无须额外的CSS和HTML支持，兼容所有浏览器。
- * 
+ *
  * @param int
  *            width 网页的主体宽度，以下三种取值 - 0 按钮靠浏览器左 - -1 按钮靠流利器右 - 其它正数 按钮靠网页内容右侧
  * @return void
@@ -205,12 +223,12 @@ function goto_top(width)
 	var gotop = document.getElementById('goto-top');
 	var ver_no = navigator.appVersion.match(/MSIE ([\d]+)./i);
 	var ie_ver = ver_no?parseInt(ver_no[1]):0;
-	
+
 	gotop.style.visibility = (document.body.scrollTop + document.documentElement.scrollTop > 10) ? 'visible' : 'hidden';
-	if(0 == width){ 
-		gotop.style.left = '0em';  
+	if(0 == width){
+		gotop.style.left = '0em';
 	}
-	else if(-1 == width){ 
+	else if(-1 == width){
 		gotop.style.right = '0em';  }
 	else{
 		var resize = function(){
@@ -234,7 +252,7 @@ function goto_top(width)
 			}
 		};
 		resize();
-		
+
 		if(window.navigator.userAgent.indexOf("IE") == -1 || (ie_ver >= 9)){
 			window.addEventListener('resize', function() { resize(); }, false);
 		}else{
@@ -255,7 +273,7 @@ function goto_top(width)
 						{ window.clearInterval(t);  }
 					}, 5);
 		}, false);
-		
+
 		/* 通过window.onscroll事件确定按钮是否需要显示 */
 		window.addEventListener('scroll', function()
 		{
@@ -277,7 +295,7 @@ function goto_top(width)
 						}, 5);
 			}, false);
 		}
-		
+
 		/* 通过window.onscroll事件确定按钮是否需要显示 */
 		if(window.attachEvent){
 			window.attachEvent('onscroll', function()
@@ -336,30 +354,30 @@ Date.prototype.format =function(format)
 	return format;
 }
 
-//获取cookie  
-function getCookieValue(cookieName)  
-{  
-    var cookieValue = document.cookie;  
-    var cookieStartAt = cookieValue.indexOf(""+cookieName+"=");  
-    if(cookieStartAt==-1)  
-    {  
-        cookieStartAt = cookieValue.indexOf(cookieName+"=");  
-    }  
-    if(cookieStartAt==-1)  
-    {  
-        cookieValue = null;  
-    }  
-    else  
-    {  
-        cookieStartAt = cookieValue.indexOf("=",cookieStartAt)+1;  
-        cookieEndAt = cookieValue.indexOf(";",cookieStartAt);  
-        if(cookieEndAt==-1)  
-        {  
-            cookieEndAt = cookieValue.length;  
-        }  
-        cookieValue = unescape(cookieValue.substring(cookieStartAt,cookieEndAt));//解码latin-1  
-    }  
-    return cookieValue;  
+//获取cookie
+function getCookieValue(cookieName)
+{
+    var cookieValue = document.cookie;
+    var cookieStartAt = cookieValue.indexOf(""+cookieName+"=");
+    if(cookieStartAt==-1)
+    {
+        cookieStartAt = cookieValue.indexOf(cookieName+"=");
+    }
+    if(cookieStartAt==-1)
+    {
+        cookieValue = null;
+    }
+    else
+    {
+        cookieStartAt = cookieValue.indexOf("=",cookieStartAt)+1;
+        cookieEndAt = cookieValue.indexOf(";",cookieStartAt);
+        if(cookieEndAt==-1)
+        {
+            cookieEndAt = cookieValue.length;
+        }
+        cookieValue = unescape(cookieValue.substring(cookieStartAt,cookieEndAt));//解码latin-1
+    }
+    return cookieValue;
 }
 
 function is_mobile(){

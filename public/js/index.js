@@ -269,7 +269,7 @@ window.onload = function () {
         }else if(index==2){
             $(".supply_information-list").hide();
             $(".purchase_information-list").show();
-            $(".store_more_btn").hide();
+            // $(".store_more_btn").hide();
         }
     });
     //实地查验弹出

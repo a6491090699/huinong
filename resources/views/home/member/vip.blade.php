@@ -77,6 +77,15 @@
                 }
             }
         }
+
+        function pay_wechat(){
+            
+        }
+
+        function pay_alipay(){
+
+        }
+
     </script>
 
 </head><body class="bg-f8">
@@ -92,8 +101,21 @@
 <div class="bg-fff padding_top_bottom text_center bd_bottom-eee">
   <p class="font_28r padding_top_bottom">当前等级：<span class="color_ff7f03">终身会员</span></p>
   <p class="font_28r padding_top_bottom">支付金额：<span class="color_ff7f03">¥880.00</span></p>
+  <!-- <label><input type="radio" name="chongzhi_type" value="1" checked>微信支付</label>
+  <label><input type="radio" name="chongzhi_type" value="2">支付宝支付</label> -->
+  <script type="text/javascript">
+  // function shengji()
+  // {
+  //     var type = $('input[name=chongzhi_type]').val();
+  //     alert(type)
+  // }
+  </script>
   <div class="text_center upgrade_btn padding_top_bottom">
-    <a class="color_fff bg-02c5a3 font_26r" href="http://m.huamu.com/index.php?app=apply&act=upgrade&step=2&id=2">立即升级</a>
+    <!-- <a class="color_fff bg-02c5a3 font_26r" href="javascript:void(0)" onclick="shengji()">立即升级</a> -->
+    <a class="color_fff bg-02c5a3 font_26r" href="javascript:void(0)" onclick="pay_wechat()">微信支付</a>
+    <br>
+    <br>
+    <a class="color_fff bg-02c5a3 font_26r" href="javascript:void(0)" onclick="pay_alipay()">支付宝支付</a>
   </div>
 </div>
 <div class="padding_flanks bg-fff user_store bd_top-eee">

@@ -13,14 +13,16 @@ class StoreController extends Controller
 {
     //店铺首页
     public function index(){
+
+        $pagenum = 10;
         //店铺基本信息
         $info = MemberStoreinfo::where('member_id' , session('mid'))->first();
         //供应列表
-        $supplys = Supply::with('supplyAttrs.attrs','kinds')->where('member_id', session('mid'))->get();
+        $supplys = Supply::with('supplyAttrs.attrs','kinds')->where('member_id', session('mid'))->orderBy('id','desc')->paginate($pagenum);
         // dump($supplys->toArray());
 
         //采购列表
-        $wants = Want::with('wantAttrs.attrs','kinds')->withCount('quotes')->where('member_id', session('mid'))->get();
+        $wants = Want::with('wantAttrs.attrs','kinds')->withCount('quotes')->where('member_id', session('mid'))->orderBy('id','desc')->paginate(10);
         //关注收藏数目
         $collect_num = StoreCollect::where('store_id', session('mid'))->count();
         //最近浏览数目
@@ -30,6 +32,31 @@ class StoreController extends Controller
 
 
         return view('home.store.index' ,['info'=>$info ,'supplys'=>$supplys ,'wants'=>$wants ,'collect_num'=>$collect_num]);
+    }
+    //店铺首页
+    public function view($id){
+
+        $pagenum = 10;
+        //店铺基本信息 以member_id  去member-storeinfo表里面找
+        $info = MemberStoreinfo::where('member_id' , $id)->first();
+        //供应列表
+        $supplys = Supply::with('supplyAttrs.attrs','kinds')->where('member_id', $id)->orderBy('id','desc')->paginate($pagenum);
+        // dump($supplys->toArray());
+
+        //采购列表
+        $wants = Want::with('wantAttrs.attrs','kinds')->withCount('quotes')->where('member_id', $id)->orderBy('id','desc')->paginate($pagenum);
+        //关注收藏数目
+        $collect_num = StoreCollect::where('store_id', $id)->count();
+        //最近浏览数目
+
+
+        //交易订单数目
+
+        //你是否收藏了该用户
+        $is_collect = StoreCollect::where('store_id',$id)->where('member_id',session('mid'))->count();
+
+
+        return view('home.store.view' ,['info'=>$info ,'supplys'=>$supplys ,'wants'=>$wants ,'collect_num'=>$collect_num,'is_collect'=>$is_collect]);
     }
 
     //编辑店铺信息
