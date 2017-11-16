@@ -33,8 +33,8 @@
         _.templateSettings = {
             interpolate: /\{(.+?)}/g
         };
-        var SITE_URL = "http://m.huamu.com";
-        var REAL_SITE_URL = "http://m.huamu.com";
+        var SITE_URL = "/";
+        var REAL_SITE_URL = "/";
         var PRICE_FORMAT = '¥%s';
 
     </script>
@@ -100,25 +100,33 @@
       </a>
     </div>
     <ul class="supply_information-list bg-fff list_bd_top_none">
+        @forelse($goods as $val)
             <li>
         <dl class="clearfix">
-          <a href="#">
+          <a href="/supply/view/{{$val->goods->id}}">
             <dt class="fl"><img src="/images/201710161709579308.JPG"/></dt>
             <dd class="fl position_relative">
-              <p class="font_3r color_34">金叶复叶槭</p>
+              <p class="font_3r color_34">{{$val->goods->goods_name}}</p>
               <div class="sell_information">
-                <span class="color_ff7414">¥<b class="font_35r">1.50</b>/棵</span>
+                <span class="color_ff7414">¥<b class="font_35r">{{$val->goods->price}}</b>/{{$val->goods->kinds->unit}}</span>
                 <!--<span class="min_sell-num">库存：1000000</span>-->
               </div>
               <p>
-                <span class="">已售5000件</span>
-                <span class="fr">截止日期:2018.08.20</span>
+                <span class="">已售{{$val->goods->saled_num}}件</span>
+                <span class="fr">截止日期:{{date('Y-m-d',$val->goods->cutday)}}</span>
               </p>
               <span class="color_ff7414 distance_icon font_26r distance_info" data-lat="34.1005" data-lon="114.1885"></span>
             </dd>
           </a>
         </dl>
       </li>
+      @empty
+      <li class="release_goods-none">
+        <span class="iconfont">&#xe6a5;</span>
+        <p class="font_27r color_9a">目前还没有收藏商品</p>
+    </li>
+
+      @endforelse
           </ul>
     <p class="text_center user_store padding_container font_2r color_9a" style="display: none;">加载更多...</p>
 
@@ -138,20 +146,27 @@
     </div>
     <div>
             <div class="padding_container bg-fff margin_bottom bd_top_bottom-eee">
+                @forelse($stores as  $val)
         <dl class="clearfix goods_details_store">
           <dt class="fl">
             <img src="/images/store_logo.jpg"/>
           </dt>
           <dd class="fl color_34 padding_flanks">
-            <p class="font_3r">湖北松滋明云苗木</p>
-            <p class="font_27r">主营：朴树、香樟、桂花、红叶石楠、香柚、 栾树、榉树、红果冬青、枇杷、山地银杏等</p>
-            <p class="font_24r color_9a">销量&nbsp;0&nbsp;共12个商品</p>
+            <p class="font_3r">{{$val->stores->store_name}}</p>
+            <p class="font_27r">主营：{{$val->stores->store_sale}}</p>
+            <p class="font_24r color_9a">销量&nbsp;{{0}}&nbsp;共{{$val->goods_count}}个商品</p>
             <div>
               <img src="/images/heart_1.png"/>
             </div>
-            <a href="#" class="enter_store_btn border_color-67 font_28r" style="top: 60%;">进店</a>
+            <a href="/store/view/{{$val->store_id}}" class="enter_store_btn border_color-67 font_28r" style="top: 60%;">进店</a>
           </dd>
         </dl>
+        @empty
+        <dl class="release_goods-none" >
+          <span class="iconfont">&#xe6c8;</span>
+          <p class="font_27r color_9a">目前还没有收藏店铺</p>
+      </dl>
+        @endforelse
       </div>
             <p class="text_center user_store padding_container font_2r color_9a" style="display: none;">加载更多...</p>
     </div>
@@ -241,37 +256,6 @@
         }
     });
 </script>
-
-<footer class="foot_border-top" style="background-color: #00ad8b;">
-    <div class="foot_member foot_member_hover">
-        <a href="#">
-            <p><img src="/images/dh_01.png" width=50%></p>
-        </a>
-    </div>
-    <div class="foot_member ">
-        <a href="#">
-            <p><img src="/images/dh_02.png" width=50%></p>
-        </a>
-    </div>
-    <div class="foot_member ">
-        <!--<a href="url app=discover">-->
-            <!--<span class="iconfont" style="font-weight:900">&#xe694;</span>-->
-            <!--<p>发现</p>-->
-        <!--</a>-->
-        <a class="goods_car-header" href="#">
-
-            <p><img src="/images/dh_03.png" width=50%></p>
-        </a>
-    </div>
-    <div class="foot_member ">
-        <a href="#">
-            <p><img src="/images/dh_04.png" width=50%></p>
-        </a>
-    </div>
-</footer>
-
-<span style='visible:hidden;'>
-
-</span>
+@include('home.common.footer')
 </body>
 </html>

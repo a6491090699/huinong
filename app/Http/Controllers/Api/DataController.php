@@ -13,6 +13,7 @@ use App\Model\Quote;
 use App\Model\Want;
 use App\Model\MemberStoreinfo;
 use App\Model\Supply;
+use App\Model\SupplyOrder;
 
 class DataController extends Controller
 {
@@ -45,21 +46,39 @@ class DataController extends Controller
 
     public function getAttribute(Request $request)
     {
+        //逐级查找 设定到父类就可以了
         $full_kind_id = $request->input('cate_full_id');
         $arr =explode(',', $full_kind_id);
-        $pid = $arr[0];
+
+        for($i=count($arr)-1 ; $i>=0;$i--){
+            // echo 1;
+            // $item = array_pop($arr);
+            $idata = Attribute::where('kinds_id' , $arr[$i])->get()->toArray();
+            if(!empty($idata)) return response()->json(['data'=>$idata ,'code'=>0]);
+
+        }
+        // $pid = $arr[0];
+        // dd($arr);
         // $kid = $request->input('kid');
 
         // $data = $obj->getParentGuige($kid);
-        $data = Attribute::where('kinds_id' , $pid)->get();
-        return response()->json(['data'=>$data ,'code'=>0]);
+        // $data = Attribute::where('kinds_id' , $pid)->get();
+        // return response()->json(['data'=>$data ,'code'=>0]);
         // dd($data);
+    }
+
+    public function getKindUnit($kid)
+    {
+        $rs = Kind::where('id',$kid)->first(['unit'])->toArray();
+
+        return response()->json(['code'=>0 , 'unit'=>$rs['unit']]);
     }
 
     public function getCity()
     {
         // dd('/hehe');
-        $data = require app_path('Common/city.json');
+        $data = file_get_contents(app_path('Common/city.json'));
+        return $data;
         // return response();
     }
 
@@ -222,6 +241,9 @@ class DataController extends Controller
 
         $obj->withCount('quotes');
 
+        //是否过期
+        // $obj->where('cutday','>=',time());
+
         $return = $obj->paginate($pagenum);
 
 
@@ -266,10 +288,12 @@ class DataController extends Controller
         $region_id = empty($request->input('page'))? 1: $request->input('region_id');
         $orderstring =  $request->input('order');
         $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
+        $mid = empty($request->input('mid'))? '':$request->input('mid') ;
         $pagenum = 10; //每页显示数
         $obj = Supply::with('supplyAttrs.attrs','kinds','orders');
 
 
+        if($mid) $obj= $obj->where('member_id' , $mid);
         if($keyword) $obj= $obj->where('goods_name' ,'like','%'.$keyword.'%');
 
         if($orderstring){
@@ -345,6 +369,76 @@ class DataController extends Controller
 
 
 
+    }
+    //获取用户供货订单
+    public function getSupplyOrder(Request $request)
+    {
+        $page = empty($request->input('page'))? 1: $request->input('page');
+        $type = empty($request->input('type'))? 1: $request->input('type');
+        $kind_id = empty($request->input('page'))? 1: $request->input('kind_id');
+        $region_id = empty($request->input('page'))? 1: $request->input('region_id');
+        $orderstring =  $request->input('order');
+        $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
+        $mid = session('mid') ;
+        $pagenum = 10; //每页显示数
+        $obj = SupplyOrder::with('supply.supplyAttrs.attrs','supply.kinds','storeinfo');
+
+
+        if($mid) $obj= $obj->where('member_id' , $mid);
+        if($keyword) $obj= $obj->where('goods_name' ,'like','%'.$keyword.'%');
+
+        if($orderstring){
+            $orderstring = explode(' ',$orderstring);
+            $order = $orderstring[0];
+            $orderway = $orderstring[1];
+            $obj= $obj->orderBy($order ,$orderway);
+        }else{
+            $obj= $obj->orderBy('id' ,'desc');
+        }
+
+        if($type){
+            switch ($type) {
+                case 'all_orders':
+                    # code...
+
+                    break;
+                case 'pending':
+                    # code...待付款
+                    $obj->where('status',0);
+                    break;
+                case 'accepted':
+                    # code...
+                    //已付款 待发货
+                    $obj->where('status',1);
+                    break;
+                case 'shipped':
+                    # code...已发货 待收货
+                    $obj->where('status',2);
+                    break;
+                case 'finished':
+                    # code...已收货 待评价
+                    $obj->where('status',3);
+                    break;
+
+                default:
+                    # code...    yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+                    break;
+            }
+
+        }
+
+        if($region_id){
+
+            $obj= $obj->where('region_id' ,$region_id);
+        }
+        if($kind_id){
+            $obj= $obj->where('kid' ,$kid);
+        }
+
+
+        $return = $obj->paginate($pagenum);
+
+        return response()->json($return);
     }
 
 

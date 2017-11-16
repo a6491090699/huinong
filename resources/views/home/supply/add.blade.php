@@ -37,6 +37,14 @@
         var PRICE_FORMAT = '¥%s';
 
     </script>
+    <!--增加的开始-->
+	<link rel="stylesheet" href="/css/up_file.css" />
+	<script src="/js/photoswipe-ui-default.min.js" type="text/javascript"></script>
+	<script src="/js/photoswipe.min.js" type="text/javascript"></script>
+	<script>
+	var valuenum = 0;
+	</script>
+	<!--增加的结束-->
 
 </head>
 <!-- <script type="text/javascript" src="/js/ueditor.config.js"></script>
@@ -98,9 +106,9 @@
     </a>
     <h1>发布商品</h1>
 </header>
-<form id="goods_form" method="POST" action="/supply/create" style="padding-top:1rem;">
+<form id="goods_form" method="POST" action="/supply/create" style="padding-top:1rem;" enctype="multipart/form-data">
     {{csrf_field()}}
-	<img src="/images/scan.jpg" width=100%>
+
     <div class="padding_flanks">
         <div class="form_item">
             <span class="font_3r color_34 goods_name-title">商品名称</span>
@@ -167,8 +175,18 @@
             </label>
 
         </div>
+
         <div id="wap_description" style="display: block">
             <div style="color: red;position: relative;top:0px;font-size: small">(必填项，优秀的商品描述为，①该苗木品种介绍②基地的优势介绍③内容排版美观。)</div>
+            <div class="upimg padding_flanks margin_bottom_16" >
+                <div id="upimgs" style="position: relative;    width: auto;    height: 11rem;margin-bottom:60px;">
+                    <a href="javascript:;" class="file">
+                        <input id="file_upload" type="file" name="imgs" accept="image/*;capture=camera">
+                    </a>
+                </div>
+                <!--	<img src="" id='show' style="width: 30%;height: 14rem;">-->
+                <div id="imglist"></div>
+            </div>
         <textarea class="goods_detailed_information"  name="description" id="description"  placeholder="请添加您的商品的具体信息，如：商品特色、种植情况 包装及杂费情况等"></textarea>
         </div>
         <ul class="sell_goods_img-list clearfix">
@@ -651,6 +669,73 @@
                         return true;
                     }
                 }
+                $("#file_upload").change(function() {
+            				$('.file').css('background', 'url(/images/upbutton.png)  no-repeat');
+            				$('.file').css('width', '100%');
+            				$('.file').css('height', '11rem');
+            				$('.file').css('background-size', '80% 80%');
+            				$('.file').css('top', '0.5rem');
+            				$('.upimg').css('height', 'auto');
+            				$('#upimgs').css('float', 'left');
+            				$('#upimgs').css('width', '30%');
+            				var $file = $(this);
+            				var fileObj = $file[0];
+            				var windowURL = window.URL || window.webkitURL;
+            				var dataURL;
+            				var para = document.createElement("div");
+            				var html1 = '<img src="/images/delect.png" class="delects" onclick="delects(' + valuenum + ')"/>';
+            				//				var $img = $("#show");
+            				if(fileObj && fileObj.files && fileObj.files[0]) {
+            					dataURL = windowURL.createObjectURL(fileObj.files[0]);
+            					var html = '<img src="' + dataURL + '" class="imgs" id="imgs_' + valuenum + '" onclick="showimg(' + valuenum + ')"/>';
+            				} else {
+            					dataURL = $file.val();
+            					var imgObj = document.getElementById("preview");
+            					// 两个坑:
+            					// 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性在加入，无效；
+            					// 2、src属性需要像下面的方式添加，上面的两种方式添加，无效；
+            					imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+            					imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+
+            				}
+            				para.className = 'setimg del_' + valuenum;
+            				valuenum++;
+            				para.innerHTML += html1;
+            				para.innerHTML += html;
+            				$("#imglist").append(para);
+            			});
+                        function delects(numbers) {
+            				$('.del_' + numbers).remove();
+            			}
+
+            			function showimg(j) {
+            				var pswpElement = document.querySelectorAll('.pswp')[0];
+            				var showimgs = {};
+            				var showimage = [];
+            				var imgs = new Image();
+            				imgs.src = $('#imgs_' + j)[0].src;
+            				showimgs = {
+            					src: $('#imgs_' + j)[0].src,
+            					w: imgs.width,
+            					h: imgs.height
+            				}
+            				showimage.push(showimgs)
+
+            				// build items array
+            				var items = showimage;
+
+            				// define options (if needed)
+            				var options = {
+            					// optionName: 'option value'
+            					// for example:
+            					index: j
+            					// start at first slide
+            				};
+
+            				// Initializes and opens PhotoSwipe
+            				var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items,
+            					options);
+            			}
 
 </script>
 <script type="text/javascript" src="/js/my_goods.form.new.js?{{time()}}"></script>

@@ -23,4 +23,16 @@ class StoreCollect extends Model
     {
         return self::where('store_id' , $store_id)->count();
     }
+
+    public function stores()
+    {
+        return $this->belongsTo('App\Model\MemberStoreinfo','store_id');
+    }
+
+    public function goods()
+    {
+        //  $this->hasManyThrough('App\Post', 'App\User', 'country_id', 'user_id', 'id');
+        return $this->hasMany('App\Model\Supply', 'member_id', 'store_id');
+    }
+
 }

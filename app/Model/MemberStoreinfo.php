@@ -9,8 +9,11 @@ class MemberStoreinfo extends Model
     //
     public $timestamps = false;
     public $table = 'member-storeinfo';
-    
 
+    public function supplys()
+    {
+        
+    }
 
 
 }

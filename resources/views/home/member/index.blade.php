@@ -67,9 +67,11 @@
     <ul class="user_means_list">
         <li><a href="/supply/order">供货订单<b class="right_arrows fr">&#xe614;</b></a></li>
         <li><a href="/want/order">采购订单<b class="right_arrows fr">&#xe614;</b></a></li>
-        <li><a href="/supply/member">我的商品<b class="right_arrows fr">&#xe614;</b></a></li>
+        <li><a href="/member/my-goods">我的商品<b class="right_arrows fr">&#xe614;</b></a></li>
         <li><a href="/want/member">我的求购<b class="right_arrows fr">&#xe614;</b></a></li>
-        <li><a href="/quote/member">我的报价<b class="right_arrows fr">&#xe614;</b></a></li>
+        <li><a href="/quote/my">我的报价<b class="right_arrows fr">&#xe614;</b></a></li>
+        <li><a href="/member/my-yuyue">我的预约看货<b class="right_arrows fr">&#xe614;</b></a></li>
+        <li><a href="/member/manage-yuyue">别人预约我的货 我管理<b class="right_arrows fr">&#xe614;</b></a></li>
     </ul>
     <ul class="user_means_list">
         <li><a href="/member/address">收货地址<b class="right_arrows fr">&#xe614;</b></a></li>

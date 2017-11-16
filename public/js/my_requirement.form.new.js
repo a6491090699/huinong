@@ -44,7 +44,8 @@ $(function(){
     $(document).on('change','#zdytxt',function(){
         $("#from_region_names").val($("#zdytxt").val());
     });
-    var area_data_url = "/index.php?app=mlselection&act=regions4app&up_level=2";
+    // var area_data_url = "/index.php?app=mlselection&act=regions4app&up_level=2";
+    var area_data_url = "/api/city";
     $.getJSON(area_data_url,function(response){
         if(response.code == 0){
             areas_data = response.data;
@@ -63,12 +64,13 @@ $(function(){
     });
     */
 
-    $('#title').bind('input propertychange', function() {
-        var requirement_title = $.trim($(this).val());
-        if(requirement_title != '') {
-            requirement_title_changed(requirement_title);
-        }
-    });
+    //yyedit 
+    // $('#title').bind('input propertychange', function() {
+    //     var requirement_title = $.trim($(this).val());
+    //     if(requirement_title != '') {
+    //         requirement_title_changed(requirement_title);
+    //     }
+    // });
 
 
     $("#submit_btn").click(function(){
@@ -131,14 +133,23 @@ function gcategory_id_changed(){
 
 //获取分类属性
 function get_gcategory_attributes(cate_id){
-    if(!page_initialized){
+    // console.log(12321)
+    //yyedit
+    // if(!page_initialized){
+    if(1){
         $("#specs_input_div").empty();
         $("#specs_value_div").empty();
-        var url = REAL_SITE_URL + '/index.php?app=mlselection&act=get_cate_attrs';
+        var gcategory_full_id = $("#gcategory_full_id").val();
+
+        // var url = '/index.php?app=mlselection&act=get_cate_attrs';
+        var url = "/api/attribute?kid="+cate_id+"&cate_full_id="+gcategory_full_id;
+        // console.log(url)
         $.getJSON(url, {cate_id:cate_id}, function(data){
-            if(data.errNum == 0){
+            // console.log(data)
+            if(data.code == 0){
                 var specs_value_div_header = '<div class="goods_norms_con clearfix font_26r">';
-                var attrs  = data.retData;
+                var attrs  = data.data;
+                // console.log(data)
                 if(!$.isEmptyObject(attrs)){
 
                     for(var key in attrs){
@@ -166,7 +177,8 @@ function get_gcategory_attributes(cate_id){
 
 //获取分类单位
 function get_gcategory_unit(cate_id){
-    var get_unit_url = "/index.php?app=my_goods&act=get_gcategory_unit&cate_id="+cate_id;
+    // var get_unit_url = "/index.php?app=my_goods&act=get_gcategory_unit&cate_id="+cate_id;
+    var get_unit_url = "/api/get-kind-unit/"+cate_id;
     $.getJSON(get_unit_url,function(result){
         if(result.code==0 && result.unit!=false){
             $(".requirement_unit").val(result.unit);
@@ -260,5 +272,3 @@ function requirement_title_changed(requirement_title){
         }
     });
 }
-
-

@@ -33,8 +33,8 @@
         _.templateSettings = {
             interpolate: /\{(.+?)}/g
         };
-        var SITE_URL = "http://m.huamu.com";
-        var REAL_SITE_URL = "http://m.huamu.com";
+        var SITE_URL = "/";
+        var REAL_SITE_URL = "/";
         var PRICE_FORMAT = '¥%s';
 
     </script>
@@ -162,8 +162,8 @@
             var url ='/api/want-list?keyword='+keyword_sr+'&page='+page;
 
             $.get(url, function(result){
-                eval('result = '+result)
-                console.log(result.data)
+                // eval('result = '+result)
+                // console.log(result.data)
                 gg = result.data;
                 if(result.data.length==0){
                     if(page == 1){

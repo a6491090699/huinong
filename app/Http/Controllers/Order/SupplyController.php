@@ -21,7 +21,7 @@ class SupplyController extends Controller
     {
 
         $base_address = MemberStoreinfo::where('member_id' ,1)->select('base_address')->get()->toJson();
-        dd($base_address);
+        // dd($base_address);
         // dd($base_address);exit;
         return view('home.supply.add',['base_address'=>$base_address]);
     }
@@ -33,12 +33,13 @@ class SupplyController extends Controller
 
     public function viewSupply($id)
     {
-        $data = Supply::with('supplyAttrs.attrs','kinds')->where('id' ,$id)->first();
+        $data = Supply::with('supplyAttrs.attrs','kinds','storeinfo')->withCount('yuyue')->where('id' ,$id)->first();
+        // dd($data->toArray());
         return view('home.supply.view' ,['item'=>$data]);
     }
     public function create(Request $request)
     {
-        // dd($request->all());
+
         switch($request->input('expire_options')){
             case '一天':
                 # code...
@@ -103,6 +104,8 @@ class SupplyController extends Controller
         $supply->is_emergency = 0;
         $supply->status = 0;
 
+        $supply->imgs = $this->uploadfile($request);
+
         // 'id',
         // 'name',
         // 'price',
@@ -133,6 +136,20 @@ class SupplyController extends Controller
         echo '<script>alert("发布商品成功!");location.href="/supply/index";</script>';
 
 
+
+    }
+
+    public function uploadfile(Request $request)
+    {
+        //要让文件能被访问到 php artisan storage:link 然后 huinong.app/storage/hehe.png
+        $filepath = session('mid');
+        //自动生成文件名
+        $path = $request->file('imgs')->store('public/supply/'.$filepath);
+        //手动生成文件名
+        // $path = $request->file('imgs')->storeAs('public/want/',session('mid').'_'.date('YmdHis').'jpg');
+        // /public/2017/10/18/J9bL2J8TQmuvLhRdYVhZxDcfYivv9cNEojANs1zY.png
+        // return str_replace('public','storage', $path);
+        return $path;
 
     }
 

@@ -6,10 +6,19 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\MemberStoreinfo;
 use App\Model\MemberAddress;
+use App\Model\Supply;
+use App\Model\GoodCollect;
+use App\Model\StoreCollect;
+
 
 class MemberController extends Controller
 {
     //
+    public $mid;
+    public function __construct()
+    {
+        $this->mid = session('mid');
+    }
     public function addressEdit($id)
     {
         $item = MemberAddress::where('id' ,$id)->first();
@@ -149,7 +158,19 @@ class MemberController extends Controller
     //
     public function collect()
     {
-        return view('home.member.collect');
+        //收藏的店铺
+        $stores = StoreCollect::with('stores')->withCount(['goods'])->where('member_id',$this->mid)->get();
+
+
+
+        // 收藏的商品
+        $goods = GoodCollect::with('goods.kinds')->where('member_id',$this->mid)->get();
+        //销量
+
+        // dd($stores->toArray());
+
+
+        return view('home.member.collect',['stores'=>$stores ,'goods'=>$goods ]);
     }
 
 
@@ -203,6 +224,31 @@ class MemberController extends Controller
     {
         return view('home.member.vip');
     }
+
+
+
+    public function myGoods()
+    {
+        // $pagenum = 10;
+
+        //供应列表
+        // $supplys = Supply::with('supplyAttrs.attrs','kinds')->where('member_id', session('mid'))->orderBy('id','desc')->paginate($pagenum);
+        $mid = session('mid');
+        return view('home.member.my-goods' ,['mid'=>$mid]);
+    }
+
+    public function wantOrder()
+    {
+        // $pagenum = 10;
+
+        //供应列表
+        // $supplys = Supply::with('supplyAttrs.attrs','kinds')->where('member_id', session('mid'))->orderBy('id','desc')->paginate($pagenum);
+        $mid = session('mid');
+        return view('home.member.want-order' ,['mid'=>$mid]);
+    }
+
+
+    
 
 
 }

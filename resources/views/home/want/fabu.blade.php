@@ -6,7 +6,7 @@
     <title>发布求购</title>
 <meta name="keywords" content="竞苗平台,花木网,花木,中国苗木网,花木交易,花木求购,花木资讯,花木论坛,花木销售,绿化苗木" />
 <meta name="description" content="竞苗平台，中国苗木网，中国花木在线交易专业平台，致力于为花木行业从业者提供更真实的花木在线交易平台，让您没有买不到的，没有卖不掉的。" />
-    <link rel="stylesheet"  href="/css/mobile-select-area.css">
+    <link rel="stylesheet"  href="/css/mobile-select-area.css?{{time()}}">
     <!--<link rel="stylesheet" href="/css/larea.css">-->
     <link rel="stylesheet" href="/css/style.css"/>
     <link rel="stylesheet" href="/css/index.css"/>
@@ -16,7 +16,9 @@
     <script src="/js/jquery-1.11.2.js" type="text/javascript"></script>
     <script src="/js/layer.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
-    <script src="/js/mlselection.js"></script>
+
+
+    <script src="/js/mlselection.js?{{time()}}"></script>
     <script src="/js/huamu.js" type="text/javascript"></script>
     <script src="/js/jquery.validate.js" type="text/javascript"></script>
     <script src="/js/jquery.validate.extend.js" type="text/javascript"></script>
@@ -24,7 +26,7 @@
     <script src="/js/index.js" type="text/javascript"></script>
     <script src="/js/common.js" type="text/javascript"></script>
     <script type="text/javascript" src="/js/dialog.js"></script>
-    <script type="text/javascript" src="/js/mobile-select-area.js"></script>
+    <script type="text/javascript" src="/js/mobile-select-area.js?{{time()}}"></script>
     <script type="text/javascript" src="/js/json2.js" ></script>
     <script type="text/javascript" src="/js/underscore-min.js" ></script>
     <script>
@@ -37,6 +39,14 @@
         var PRICE_FORMAT = '¥%s';
 
     </script>
+    <!--增加的开始-->
+        <link rel="stylesheet" href="/css/up_file.css" />
+        <script src="/js/photoswipe-ui-default.min.js" type="text/javascript"></script>
+        <script src="/js/photoswipe.min.js" type="text/javascript"></script>
+        <script>
+        var valuenum = 0;
+        </script>
+        <!--增加的结束-->
 
 </head><body class="bg-f8">
 <header class="user_center_header bd_bottom-eee">
@@ -64,7 +74,9 @@
     expire_options.push({id:6,name:"30天"});
 
     //地址
-    var addresses_json = [{"id":"4717","name":"\u65b9\u680b \u6cb3\u5317\t\u90af\u90f8\t\u5927\u540d\t\u9ec4\u91d1\u5824\u4e61 \u5927\u6728\u82d7\u6728"}];
+    // var addresses_json = [{"id":"4717","name":"\u65b9\u680b \u6cb3\u5317\t\u90af\u90f8\t\u5927\u540d\t\u9ec4\u91d1\u5824\u4e61 \u5927\u6728\u82d7\u6728"}];
+    var addresses_json = [{!!$address_json!!}];
+    // var addresses_json = {!!$address_json!!};
 
     //单位
     var goods_unit_options = [{"id":"\u4ef6","name":"\u4ef6"},{"id":"\u68f5","name":"\u68f5"},{"id":"\u76c6","name":"\u76c6"},{"id":"\u7c73","name":"\u7c73"},{"id":"\u5398\u7c73","name":"\u5398\u7c73"},{"id":"\u514b","name":"\u514b"},{"id":"\u5343\u514b","name":"\u5343\u514b"},{"id":"\u5428","name":"\u5428"},{"id":"\u679d","name":"\u679d"}];
@@ -92,7 +104,8 @@
 
 
     //模板
-    var spec_input_line_tpl = '<div class="specification"><span class="font_3r fontWeight_5 color_34 specification_name">{attr_name}({unit})</span> <span class="font_24r fontWeight_5 color_34 fr">以上</span> <input class="color_9a  border_none font_24r fr" type="number" fake_name="requirement_spec[attr][{attr_id}][]"  class="spec_attr_input mobiselect_item" value="" attr_id="{attr_id}" placeholder="请填写{attr_name}"/> </div>';
+    // var spec_input_line_tpl = '<div class="specification"><span class="font_3r fontWeight_5 color_34 specification_name">{attr_name}({unit})</span> <span class="font_24r fontWeight_5 color_34 fr">以上</span> <input class="color_9a  border_none font_24r fr" type="number" fake_name="attr[{id}]"  class="spec_attr_input mobiselect_item" value="" attr_id="{id}" placeholder="请填写{attr_name}"/> </div>';
+    var spec_input_line_tpl = '<div class="specification"><span class="font_3r fontWeight_5 color_34 specification_name">{attr_name}({unit})</span> <span class="font_24r fontWeight_5 color_34 fr">以上</span> <input class="color_9a  border_none font_24r fr" type="number" fake_name="requirement_spec[attr][{id}][]"  class="spec_attr_input mobiselect_item" value="" attr_id="{id}" placeholder="请填写{attr_name}"/> </div>';
 
     var spec_value_line_tpl = '<div class="goods_norms_con clearfix font_26r">{attribute_values}<b class="iconfont select_arrows-icon color_02c5a3" onclick="$(this).parent().remove();">&#xe607;</b></div>';
 
@@ -294,18 +307,18 @@
     }
 
 </script>
-<script type="text/javascript" src="/js/my_requirement.form.new.js"></script>
+<script type="text/javascript" src="/js/my_requirement.form.new.js?{{time()}}"></script>
 
 
-<form action="/want/fabu" method="post" id="requirement_form" action="index.php?app=my_requirement&act=add&requirement_id=">
+<form action="/want/fabu" method="post" id="requirement_form" enctype="multipart/form-data">
 
-
+{{csrf_field()}}
     <div class="padding_flanks bg-fff bd_bottom-eee">
 	        <div class="form_item">
                 <span class="font_3r color_34 goods_name-title">用苗地</span>
                 <!--<label style=""><input id="bxian" name="miaoy" type="radio"/>不限</label>-->
-                <label style="font-size: 10px"><input id="zdy" name="miaoy" type="radio" onclick="$('#zdytxt').css('display','inline');$('#region_name_select').css('display','none')"/>自定义 <input id="zdytxt" class="color_67  border_none" type="text" style="display: none;font-size: 10px" /></label>
-                <label style="font-size: 10px"><input id="xdq" name="miaoy" type="radio" onclick="$('#region_name_select').click();$('#zdytxt').css('display','none');$('#region_name_select').css('display','inline')"/>选地区
+                <label style="font-size: 10px"><input id="zdy" name="miaoy" type="radio" onclick="$('#zdytxt').css('display','inline');$('#region_name_select').css('display','none')" value="1"/>自定义 <input id="zdytxt" class="color_67  border_none" type="text" style="display: none;font-size: 10px" /></label>
+                <label style="font-size: 10px"><input id="xdq" name="miaoy" type="radio" onclick="$('#region_name_select').click();$('#zdytxt').css('display','none');$('#region_name_select').css('display','inline')" value='2'/>选地区
                     <input class="color_67  border_none" style="display: inline;font-size: 10px" type="text" name="region_name_select" id="region_name_select" placeholder="" value=""/>
                 </label>
                 <input type="hidden" name="from_region_id" id="from_region_id" value="" class="region_id" />
@@ -316,6 +329,7 @@
             <span class="font_3r color_34 goods_name-title">商品种类</span>
             <a href="#" class="color_67 font_26r">
                 <input class="color_67  border_none font_26r goods_kind" type="text"   name="gcategory_full_text" id="gcategory_full_text" placeholder="请选择商品种类" value=""/>
+                <!-- <input type="hidden" id="gcategory_full_id" value=",,"/> -->
                 <input type="hidden" id="gcategory_full_id" value=",,"/>
                 <b class="iconfont select_arrows-icon">&#xe614;</b>
             </a>
@@ -327,10 +341,10 @@
             <span class="font_3r color_34 goods_name-title">求购标题</span>
             <input class="color_67  border_none font_26r goods_name" type="text" name="title" id="title" value="" placeholder='请输入求购标题'/>
         </div>
-         <div class="form_item">
+         <!-- <div class="form_item">
             <span class="font_3r color_34 goods_name-title">求购数量</span>
             <input class="color_67  border_none font_26r goods_name" type="text" name="title" id="title" value="" placeholder='请输入求购数量'/>
-        </div>
+        </div> -->
     </div>
 
     <div class="user_store bg-fff padding_flanks bd_top_bottom-eee">
@@ -340,6 +354,23 @@
                 <span class="color_9a">添加商品规格</span>
                 <b class="iconfont select_arrows-icon color_02c5a3">&#xe604;</b>
             </a>
+        </div>
+        <div class="form_item">
+                <span class="font_3r color_34 goods_name-title">截止日期</span>
+                <a href="#" class="color_67 font_26r">
+                    <input class="color_67  border_none font_24r goods_kind" type="text" readonly="readonly" name="expire_options" id="expire_options" placeholder="请选择截止日期" value="">
+                    <input type="hidden" id="expire_option_id" value="1">
+                    <input type="hidden" id="expire" name="expire" default_value="" value="2017-11-17">
+                    <b class="iconfont select_arrows-icon"></b>
+                </a>
+            </div>
+        <div class="form_item">
+            <span class="font_3r color_34 goods_name-title">悬赏加急</span>
+
+            <label style="font-size: 10px"><input  name="emergency" type="radio" value='1'/>是</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <label style="font-size: 10px"><input  name="emergency" type="radio" value='0'/>否
+            </label>
+
         </div>
         <div class="bg-fff last_child-border" id="specs_value_div">
             <div class="goods_norms_con clearfix font_26r color_67">
@@ -367,7 +398,15 @@
                 </a>
             </div>
 
-		<img src="/images/scan.jpg" width=100%>
+            <div class="upimg padding_flanks margin_bottom_16" >
+                <div id="upimgs" style="position: relative;    width: auto;    height: 11rem;margin-bottom:60px;">
+                    <a href="javascript:;" class="file">
+                        <input id="file_upload" type="file" name="imgs" multiple="multiple" accept="image/*;capture=camera">
+                    </a>
+                </div>
+                <!--	<img src="" id='show' style="width: 30%;height: 14rem;">-->
+                <div id="imglist"></div>
+            </div>
         <div class="padding_top_bottom">
             <textarea name="description" class="add_remarks bg-f8 text_center font_28r" placeholder="添加备注"></textarea>
         </div>
@@ -492,6 +531,78 @@
         }
 
     });
+    $("#file_upload").change(function() {
+
+
+				$('.file').css('background', 'url(/images/upbutton.png)  no-repeat');
+				$('.file').css('width', '100%');
+				$('.file').css('height', '11rem');
+				$('.file').css('background-size', '80% 80%');
+				$('.file').css('top', '0.5rem');
+				$('.upimg').css('height', 'auto');
+				$('#upimgs').css('float', 'left');
+				$('#upimgs').css('width', '30%');
+				var $file = $(this);
+				var fileObj = $file[0];
+				var windowURL = window.URL || window.webkitURL;
+				var dataURL;
+				var para = document.createElement("div");
+				var html1 = '<img src="/images/delect.png" class="delects" onclick="delects(' + valuenum + ')"/>';
+				//				var $img = $("#show");
+				if(fileObj && fileObj.files && fileObj.files[0]) {
+					dataURL = windowURL.createObjectURL(fileObj.files[0]);
+					var html = '<img src="' + dataURL + '" class="imgs" id="imgs_' + valuenum + '" onclick="showimg(' + valuenum + ')" style=""/>';
+				} else {
+					dataURL = $file.val();
+					var imgObj = document.getElementById("preview");
+					// 两个坑:
+					// 1、在设置filter属性时，元素必须已经存在在DOM树中，动态创建的Node，也需要在设置属性前加入到DOM中，先设置属性在加入，无效；
+					// 2、src属性需要像下面的方式添加，上面的两种方式添加，无效；
+					imgObj.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+					imgObj.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+
+				}
+				para.className = 'setimg del_' + valuenum;
+				valuenum++;
+				para.innerHTML += html1;
+				para.innerHTML += html;
+				$("#imglist").append(para);
+                // var copy = $('.file');
+                // $('#file_upload').hide();
+                // $('#file_upload').after('<input id="file_upload" type="file" name="imgs[]" multiple="multiple" accept="image/*;capture=camera">');
+			});
+            function delects(numbers) {
+				$('.del_' + numbers).remove();
+			}
+
+			function showimg(j) {
+				var pswpElement = document.querySelectorAll('.pswp')[0];
+				var showimgs = {};
+				var showimage = [];
+				var imgs = new Image();
+				imgs.src = $('#imgs_' + j)[0].src;
+				showimgs = {
+					src: $('#imgs_' + j)[0].src,
+					w: imgs.width,
+					h: imgs.height
+				}
+				showimage.push(showimgs)
+
+				// build items array
+				var items = showimage;
+
+				// define options (if needed)
+				var options = {
+					// optionName: 'option value'
+					// for example:
+					index: j
+					// start at first slide
+				};
+
+				// Initializes and opens PhotoSwipe
+				var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items,
+					options);
+			}
 </script>
 </body>
 </html>

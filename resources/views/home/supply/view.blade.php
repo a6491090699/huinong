@@ -70,26 +70,27 @@
 				<span class="min_sell-num  position_bottom-right">库存：{{$item->number}}</span>
 			</div>
 			<p class="font_22r color_9a" style="text-align: center;">
-				<span class="">现货 1000 棵</span>
-				<span class="fr">10人预约</span>
-				<span class="fl">河南 许昌</span>
+				<span class="">现货 {{$item->number}} 棵</span>
+				<span class="fr">{{$item->yuyue_count}}人预约</span>
+				<span class="fl">{{$item->source}}</span>
+				<!-- <span class="fl">河南 许昌</span> -->
 			</p>
 		</div>
 
 		<div class="padding_container bg-fff user_store clearfix bd_top_bottom-eee">
 			<dl class="fl clearfix goods_details_store">
 				<dt class="fl">
-					<img src="/images/store_logo.jpg"/>
+					<img src="{{str_replace('public/' ,'/storage/',$item->storeinfo->logo)}}"/>
 				</dt>
 				<dd class="fl color_34 padding_flanks">
-					<p class="font_3r">腾谷花博会</p>
+					<p class="font_3r">{{$item->storeinfo->store_name}}</p>
 
 
 					<div>
 						<p class="font_24r color_9a" style="margin-bottom: 5px;">信用值：<img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1h.png" height="12px"></p>
 					</div>
-					<p class="font_24r color_9a ">主营：红叶李，美人梅，红叶碧桃，紫叶矮樱</p>
-					<a href="#" class="enter_store_btn font_28r color_02c5a3" style="margin: 0;">进店</a>
+					<p class="font_24r color_9a ">主营：{{$item->storeinfo->store_sale}}</p>
+					<a href="/store/view/{{$item->member_id}}" class="enter_store_btn font_28r color_02c5a3" style="margin: 0;">进店</a>
 				</dd>
 			</dl>
 		</div>
@@ -99,12 +100,19 @@
 			<p class="color_34 font_3r padding_flanks">规格</p>
 
 			<div class="goods_norms_container clearfix font_26r">
-								<span>高度(厘米)</span>
-												<span>地径(厘米)</span>
+                @foreach($item->supplyAttrs as $val)
+                <span>{{$val->attrs->attr_name}}({{$val->attrs->unit}})</span>
+                @endforeach
+
+								<!-- <span>高度(厘米)</span>
+												<span>地径(厘米)</span> -->
 																			</div>
 			<div class="goods_norms_container clearfix font_26r">
-								<span>200</span>
-												<span>0.8</span>
+                @foreach($item->supplyAttrs as $val)
+                <span>{{$val->attr_value}}</span>
+                @endforeach
+								<!-- <span>200</span>
+												<span>0.8</span> -->
 
 			</div>
 		</div>
@@ -291,7 +299,7 @@
 
 	<div class="col-xs-4 color_67 foot_left_enshrine" style="background-color:#ea8a1c">
 		<div class="border_none">
-			<a href="#"  class="font_3r color_fff">进入店铺</a>
+			<a href="#"  class="font_3r color_fff">下单</a>
 		</div>
 	</div>
 

@@ -50,5 +50,15 @@ class Supply extends Model
         return $this->hasMany('App\Model\SupplyOrder' ,'supplys_id');
     }
 
+    public function yuyue()
+    {
+        return $this->hasMany('App\Model\Yuyue','supplys_id');
+    }
+
+    public function storeinfo()
+    {
+        return $this->belongsTo('App\Model\MemberStoreinfo','member_id','member_id');
+    }
+
 
 }
