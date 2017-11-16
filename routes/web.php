@@ -14,9 +14,37 @@ use Illuminate\Http\Request;
 use Henter\WeChat\OAuth;
 use App\Model\Want;
 use App\Model\Supply;
+use App\Model\Member;
+
+//在这边获取openid
+function getOpenid()
+{
+    //测试
+    // return 'hehe123';
+    $appid = config('wechat.appid');
+    $appsecret = config('wechat.appsecret');
+    if(!empty($_GET['code'])){
+        $api = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid='.$appid.'&secret='.$appsecret.'&code='.$code.'&grant_type=authorization_code ';
+        $ch = curl_init();
+        curl_setopt($ch , CURLOPT_URL ,$api);
+        curl_setopt($ch , CURLOPT_HEADER , false);
+        curl_setopt($ch , CURLOPT_RETURNTRANSFER , 1);
+        $data = curl_exec();
+        $data = json_decode($data , true);
+        if(isset($data['errcode'])){
+            dd('获取openid 发生错误!'.$data['errmsg']);
+        }
+        $openid = $data['openid'];
+        return $openid;
+    }else{
+        $redirect_url = urlencode('http://sj.71mh.com/index.php');
+        header('Location:https://open.weixin.qq.com/connect/oauth2/authorize?appid='.$appid.'&redirect_uri='.$redirect_url.'&response_type=code&scope=snsapi_base&state=123#wechat_redirect ');
+    }
+}
 
 
-session(['mid'=>1]);
+
+
 function formate_time($time){
     $now = time();
     $today = strtotime(date('Y-m-d'));
@@ -44,6 +72,9 @@ function get_sub_value($array, $value , $param = 'id') {
 
 
 Route::get('/', function () {
+    dump('首页');
+    dump(session()->all());
+    dd(12321);
 
     $wdata = Want::with('wantAttrs.attrs','kinds','quotes')->limit(6)->get();
     $supplys = Supply::with('supplyAttrs.attrs','kinds')->limit(6)->get();
@@ -159,6 +190,8 @@ Route::group(['namespace'=>'order' ,'prefix'=>'supplyorder'] ,function (){
     //supply order list
     //全部订单
     Route::get('index' , 'SupplyOrderController@index');
+
+
     //处理发货
     // Route::get('supply-order-pending' , 'MemberController@supplyOrderPending');
     // Route::get('supply-order-accepted' , 'MemberController@supplyOrderAccepted');
@@ -173,7 +206,7 @@ Route::group(['namespace'=>'order' ,'prefix'=>'wantorder'] ,function (){
 
     //supply order list
     //全部订单
-    Route::get('index' , 'WantOrderController@index');
+    // Route::get('index' , 'WantOrderController@index');
     //处理发货
     // Route::get('supply-order-pending' , 'MemberController@supplyOrderPending');
     // Route::get('supply-order-accepted' , 'MemberController@supplyOrderAccepted');
