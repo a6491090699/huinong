@@ -185,9 +185,9 @@ class MemberController extends Controller
     public function index()
     {
         //logo 名字
-        // $store = MemberStoreinfo::where('member_id' ,session('mid'))->first();
+        $store = MemberStoreinfo::with('member')->where('member_id' ,session('mid'))->first();
 
-        return view('home.member.index');
+        return view('home.member.index',['store'=>$store]);
     }
 
 

@@ -71,6 +71,9 @@ function get_sub_value($array, $value , $param = 'id') {
     }
     return null;
 }
+function getPic($string=''){
+    return str_replace('public/','/storage/', $string);
+}
 
 
 Route::get('/', function () {
@@ -78,7 +81,7 @@ Route::get('/', function () {
 
 
     $wdata = Want::with('wantAttrs.attrs','kinds','quotes')->limit(6)->get();
-    $supplys = Supply::with('supplyAttrs.attrs','kinds')->limit(6)->get();
+    $supplys = Supply::with('supplyAttrs.attrs','kinds','member')->limit(6)->get();
     return view('home.index' , ['wdata'=>$wdata , 'supplys'=>$supplys]);
 });
 Route::get('/home' , function(){
@@ -99,7 +102,12 @@ Route::group(['namespace'=>'order' ,'prefix'=>'want'] ,function (){
     Route::get('index' , 'WantController@index');
     Route::get('fabu' , 'WantController@fabu');
     Route::post('fabu' , 'WantController@fabu');
-    Route::get('view' , 'WantController@viewWant');
+
+    Route::get('my-want' , 'WantController@myWant');
+    Route::get('edit/{id}' , 'WantController@edit');
+    Route::get('delete/{id}' , 'WantController@delete');
+    Route::get('view/{id}' , 'WantController@view');
+
 
 
 });
@@ -252,6 +260,7 @@ Route::group(['namespace'=>'api' ,'prefix'=>'api'] ,function (){
     Route::get('get-kind-unit/{kid}' , 'DataController@getKindUnit');
     Route::get('get-supply-order' , 'DataController@getSupplyOrder');
     Route::get('get-yuyue' , 'DataController@getYuyue');
+    // Route::get('get-my-want' , 'DataController@getMyWant');
 
 });
 

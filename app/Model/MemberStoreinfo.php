@@ -12,8 +12,12 @@ class MemberStoreinfo extends Model
 
     public function supplys()
     {
-        
+
     }
 
+    public function member()
+    {
+        return $this->belongsTo('App\Model\Member' , 'member_id');
+    }
 
 }

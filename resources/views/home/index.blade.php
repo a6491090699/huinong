@@ -202,7 +202,8 @@
 									</dt>
 									<dd class="fl color_67 padding_flanks">
 																<div class="store_grade-div">
-											<span class="store_grade_con grade-3"></span>
+
+                                        	@if($val->member->rank == 1)<span class="store_grade_con grade-3"></span>@endif
 											<p class="font_3r overflow_omit">{{$val->goods_name}}</p>
 										</div>
 
@@ -349,34 +350,7 @@
     })
 
 </script>
-
-<footer class="foot_border-top" style="background-color: #00ad8b;">
-    <div class="foot_member foot_member_hover">
-        <a href="#">
-            <p><img src="/images/dh_01.png" width=50%></p>
-        </a>
-    </div>
-    <div class="foot_member ">
-        <a href="#">
-            <p><img src="/images/dh_02.png" width=50%></p>
-        </a>
-    </div>
-    <div class="foot_member ">
-        <!--<a href="url app=discover">-->
-            <!--<span class="iconfont" style="font-weight:900">&#xe694;</span>-->
-            <!--<p>发现</p>-->
-        <!--</a>-->
-        <a class="goods_car-header" href="#">
-
-            <p><img src="/images/dh_03.png" width=50%></p>
-        </a>
-    </div>
-    <div class="foot_member ">
-        <a href="/home">
-            <p><img src="/images/dh_04.png" width=50%></p>
-        </a>
-    </div>
-</footer>
+@include('home.common.footer')
 
 <span style='visible:hidden;'>
 

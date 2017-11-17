@@ -48,16 +48,28 @@
 <header class="user_header">
     <a href="/member/setting" class="user_settings fl">设置</a>
     <a href="#" class="user_message fr"><span class="iconfont">&#xe690;</span></a>
-    <a href="/member/index"><img src="/images/store_logo.png" width="75px" height="75px" class="user_picture"/></a>
-    <p class="user_name">小兵小店</p>
+    <a href="/member/index"><img src="{{getPic($store->logo)}}" width="75px" height="75px" class="user_picture"/></a>
+    <p class="user_name">{{$store->store_name}}</p>
     <div class="user_attestation">
-                                <span class="iconfont attestation-color-phone">&#xe68e;</span>
-                                                                                                                            <span class="iconfont attestation-color-phone">&#xe68f;</span>
+        <!-- <span class="iconfont attestation-color-phone">&#xe68e;</span>
+        <span class="iconfont attestation-color-phone">&#xe68f;</span> -->
+        <span class="iconfont @if($store->phone_valid) attestation-color-phone @else color_9a @endif">&#xe68e;</span>
+        <span class="iconfont @if($store->id_valid) attestation-color-phone @else color_9a @endif">&#xe6b9;</span>
+        <span class="iconfont @if($store->jingying_valid) attestation-color-phone @else color_9a @endif">&#xe988;</span>
+        <span class="iconfont @if($store->money_valid) attestation-color-phone @else color_9a @endif">&#xe6bb;</span>
+        <span class="iconfont @if($store->shidi_valid) attestation-color-phone @else color_9a @endif">&#xe6ba;</span>
+        <span class="iconfont @if($store->danbao_valid) attestation-color-phone @else color_9a @endif">&#xe68f;</span>
+
                         </div>
 </header>
 <main class="user_main">
     <div class="user_grade clearfix">
+        @if($store->member->rank == 1)
+        <a href="javascript:void(0)" class="user_grade_promote fl"><span class="iconfont">&#xe6a1;</span>您已是会员</a>
+        @else
         <a href="/member/vip" class="user_grade_promote fl"><span class="iconfont">&#xe6a1;</span>升级会员</a>
+        @endif
+
         <a href="/member/valid-index" class="user_real_name fl"><span class="iconfont fontWeight_5">&#xe691;</span>认证中心</a>
     </div>
     <ul class="user_means_list">
@@ -65,13 +77,13 @@
         <li><a href="/member/collect">我的收藏<b class="right_arrows fr">&#xe614;</b></a></li>
     </ul>
     <ul class="user_means_list">
-        <li><a href="/supply/order">供货订单<b class="right_arrows fr">&#xe614;</b></a></li>
+        <li><a href="/supplyorder/index">供货订单<b class="right_arrows fr">&#xe614;</b></a></li>
         <li><a href="/want/order">采购订单<b class="right_arrows fr">&#xe614;</b></a></li>
         <li><a href="/member/my-goods">我的商品<b class="right_arrows fr">&#xe614;</b></a></li>
-        <li><a href="/want/member">我的求购<b class="right_arrows fr">&#xe614;</b></a></li>
+        <li><a href="/want/my-want">我的求购<b class="right_arrows fr">&#xe614;</b></a></li>
         <li><a href="/quote/my">我的报价<b class="right_arrows fr">&#xe614;</b></a></li>
-        <li><a href="/member/my-yuyue">我的预约看货<b class="right_arrows fr">&#xe614;</b></a></li>
-        <li><a href="/member/manage-yuyue">别人预约我的货 我管理<b class="right_arrows fr">&#xe614;</b></a></li>
+        <li><a href="/yuyue/my-yuyue">我的预约看货<b class="right_arrows fr">&#xe614;</b></a></li>
+        <li><a href="/yuyue/others-yuyue">别人预约我的货 我管理<b class="right_arrows fr">&#xe614;</b></a></li>
     </ul>
     <ul class="user_means_list">
         <li><a href="/member/address">收货地址<b class="right_arrows fr">&#xe614;</b></a></li>

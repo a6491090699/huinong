@@ -238,6 +238,7 @@ class DataController extends Controller
         $region_id = empty($request->input('page'))? 1: $request->input('region_id');
         $orderstring =  $request->input('order');
         $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
+        $mid = empty($request->input('mid'))? '':$request->input('mid') ;
         $pagenum = 10; //每页显示数
         $obj = Want::with('wantAttrs.attrs','quotes','kinds');
 
@@ -257,6 +258,9 @@ class DataController extends Controller
         // }
         if($kind_id){
             $obj= $obj->where('kid' ,$kid);
+        }
+        if($mid){
+            $obj= $obj->where('member_id' ,$mid);
         }
 
         $obj->withCount('quotes');
@@ -527,6 +531,44 @@ class DataController extends Controller
         // dd($return->toArray());
 
     }
+    //get-my-want
+    // public function getMyWant(Request $request)
+    // {
+    //     dd($request->all());
+    //     $page = empty($request->input('page'))? 1: $request->input('page');
+    //
+    //     $type = empty($request->input('type'))? 1: $request->input('type');
+    //
+    //     $orderstring =  $request->input('order');
+    //     $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
+    //     $mid = session('mid') ;
+    //     $pagenum = 10; //每页显示数
+    //     $obj = Want::with('wantAttrs.attrs');
+    //
+    //     if($mid) $obj= $obj->where('member_id' , $mid);
+    //
+    //     if($keyword) $obj= $obj->where('goods_name' ,'like','%'.$keyword.'%');
+    //
+    //     if($orderstring){
+    //         $orderstring = explode(' ',$orderstring);
+    //         $order = $orderstring[0];
+    //         $orderway = $orderstring[1];
+    //         $obj= $obj->orderBy($order ,$orderway);
+    //     }else{
+    //         $obj= $obj->orderBy('id' ,'desc');
+    //     }
+    //
+    //
+    //     // $obj->withCount(['orders'=>function($query){
+    //     //     $query->where('status',3);//完成的状态量
+    //     // }]);
+    //
+    //     $return = $obj->paginate($pagenum);
+    //
+    //     return response()->json($return);
+    //
+    //
+    // }
 
 
 

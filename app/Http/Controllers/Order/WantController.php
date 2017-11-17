@@ -164,20 +164,30 @@ class WantController extends Controller
     }
 
     //查看求购
-    public function viewWant(Request $request)
+    public function view()
     {
-        $wid = $request->input('id');
-        $rs = Want::where('id',$wid)->first();
-        dd($rs);
-        return view();
+
+
     }
 
 
     //编辑求购
 
-    public function eidtWant($wid)
+    public function eidt($wid)
     {
 
+    }
+    public function delete($wid)
+    {
+
+    }
+
+    //我的求购
+    public function myWant()
+    {
+        // $data = Want::with()->where('member_id',session('mid'))->get();
+        $mid = session('mid');
+        return view('home.want.my-want',['mid'=>$mid]);
     }
 
 
