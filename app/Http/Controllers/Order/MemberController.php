@@ -225,6 +225,11 @@ class MemberController extends Controller
         return view('home.member.vip');
     }
 
+    public function xieyi()
+    {
+        return view('home.member.xieyi');
+    }
+
 
 
     public function myGoods()
@@ -248,7 +253,7 @@ class MemberController extends Controller
     }
 
 
-    
+
 
 
 }

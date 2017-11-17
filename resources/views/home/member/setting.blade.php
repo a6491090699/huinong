@@ -40,22 +40,22 @@
     </div>
     -->
     <div class="form_item">
-        <a href="#" class="a_full">
+        <a href="/member/xieyi" class="a_full">
             <span class="font_3r color_34 span_wd_35">服务条款与协议</span>
             <b class="iconfont select_arrows-icon">&#xe614;</b>
         </a>
     </div>
     <div class="form_item border_none">
-        <a href="#" class="a_full">
+        <a href="/member/xieyi" class="a_full">
             <span class="font_3r color_34">关于我们</span>
             <b class="iconfont select_arrows-icon">&#xe614;</b>
         </a>
     </div>
 
 </div>
-<div class="padding_flanks">
+<!-- <div class="padding_flanks">
     <button class="secede_debark_btn" onclick="location='#'">退出当前登录</button>
-</div>
+</div> -->
 
 @include('home.common.footer')
 </body>

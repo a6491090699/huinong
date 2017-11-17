@@ -9,7 +9,6 @@
     <link rel="stylesheet"  href="/css/mobile-select-area.css">
     <!--<link rel="stylesheet" href="/css/larea.css">-->
     <link rel="stylesheet" href="/css/style.css"/>
-    <link rel="stylesheet" href="/css/style_2.css"/>
     <link rel="stylesheet" href="/css/index.css"/>
     <!--<link rel="stylesheet" href="/css/sm.min.css">-->
     <!--<script type='text/javascript' src='/js/zepto.min.js' charset='utf-8'></script>-->
@@ -18,7 +17,7 @@
     <script src="/js/layer.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
     <script src="/js/mlselection.js"></script>
-    <script src="/js/huamu.js?{{time()}}" type="text/javascript"></script>
+    <script src="/js/huamu.js" type="text/javascript"></script>
     <script src="/js/jquery.validate.js" type="text/javascript"></script>
     <script src="/js/jquery.validate.extend.js" type="text/javascript"></script>
     <script src="/js/additional-methods-huamu.js" type="text/javascript"></script>
@@ -53,23 +52,18 @@
 	<div class="img_carousel">
 		<div class="slipping-area">
 			<div class="slipping-imgbox">
-                <!-- 轮播图 -->
 								<img src="/images/201411071500507139.jpg"/>
 								<img src="/images/201411071501079398.jpg"/>
 							</div>
 		</div>
 	</div>
 </div>
-
-
-
 <form action="" name="ECS_FORMBUY">
 	<div>
-        <div class="padding_container bg-fff bd_bottom-eee">
+		<div class="padding_container bg-fff bd_bottom-eee">
 			<p class="font_3r color_34">
-				【{{$item->kinds->name}}】{{$item->goods_name}}
-                <span class="fr color_ff363e font_28r relative_top-2 iconfont" id="goods_collected_span" onclick="cancel_collect_goods({{$item->id}})" @if(!$is_collect) style="display:none" @endif>&#xe6d0;</span>
-				<span class="fr color_9a iconfont" onclick="collect_goods({{$item->id}});" id="goods_not_collected_span" @if($is_collect) style="display:none" @endif>&#xe641;</span>
+				【{{$item->kinds->name}}】{{$item->goods_name}}				<span class="fr color_ff363e font_28r relative_top-2 iconfont" id="goods_collected_span" style="display:none">&#xe6d0;</span>
+				<span class="fr color_9a iconfont" onclick="collect_goods({{$item->id}});" id="goods_not_collected_span" >&#xe641;</span>
 			</p>
 			<div class="sell_information font_24r padding_top_bottom">
 				参考价：<span class="color_ff7414">¥<b class="font_35r">{{$item->price}}</b>/{{$item->kinds->unit}}</span>
@@ -83,7 +77,7 @@
 			</p>
 		</div>
 
-        <div class="padding_container bg-fff user_store clearfix bd_top_bottom-eee">
+		<div class="padding_container bg-fff user_store clearfix bd_top_bottom-eee">
 			<dl class="fl clearfix goods_details_store">
 				<dt class="fl">
 					<img src="{{str_replace('public/' ,'/storage/',$item->storeinfo->logo)}}"/>
@@ -102,7 +96,7 @@
 		</div>
 
 
-        <div class="bg-fff bd_top_bottom-eee goods_norms_box user_store">
+		<div class="bg-fff bd_top_bottom-eee goods_norms_box user_store">
 			<p class="color_34 font_3r padding_flanks">规格</p>
 
 			<div class="goods_norms_container clearfix font_26r">
@@ -129,20 +123,6 @@
 			<li>商品推荐</li>
 		</ul>
 		<div class="user_store font_22r" style="display: block" id="hover_li-0">
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 						<b><a href='#' target='_blank' ></a></b><p><br/></p><p><img class="goods_desc_img" src="/images/201411071502114995.jpg" style="float:none;" title="psb (1).jpg"/></p><p><img class="goods_desc_img" src="/images/201411071502146213.jpg" style="float:none;" title="psb (2).jpg"/></p><p><img class="goods_desc_img" src="/images/201411071502178786.jpg" style="float:none;" title="psb (3).jpg"/></p><p><img class="goods_desc_img" src="/images/201411071502203652.jpg" style="float:none;" title="psb (4).jpg"/></p><p><img class="goods_desc_img" src="/images/201411071502222163.jpg" style="float:none;" title="psb.jpg"/></p><p><img class="goods_desc_img" src="/images/201411071502254629.jpg" style="float:none;" title="速生<b><a href='./fenlei/10781_hongyeli.html' target='_blank' >红叶李</a></b>1.jpg"/></p><p><img class="goods_desc_img" src="/images/201411071502293297.jpg" style="float:none;" title="速生<b><a href='./fenlei/19738_hongyeli.html' target='_blank' >红叶李</a></b>.jpg"/></p><p><img class="goods_title_bar" src="/images/gp_introduction.jpg"/><br/></p><p style="text-indent: 2em;"><br/></p><p><br/><br/><br/><br/></p><p class="part_goods"><img class="goods_title_bar" src="/images/gp_images.jpg"/></p><p style="text-indent: 2em;"><br/></p><p><br/><br/><br/><br/></p><p class="part_goods"><img class="goods_title_bar" src="/images/gp_aboutus.jpg"/></p><p style="text-indent: 2em;"><br/></p><p><br/><br/><br/><br/></p>					</div>
 		<ul class="goods_evaluate-list bg-fff padding_flanks bd_bottom-eee margin_bottom" id="hover_li-1" style="display: none">
 						<li class="padding_top_bottom">
@@ -193,12 +173,6 @@
 				<a class="a_full text_right">
 																			</a>
 			</li>
-
-
-
-
-
-
 					</ul>
 		<ul class="supply_information-list" id="hover_li-2" style="display: none">
 						<li>
@@ -330,7 +304,7 @@
 	</div>
 
 	<div class="col-xs-4" style="    background-color: #fe3a00;">
-		<a href="#" class="yuyuekanmiao" style="color:#fff;font-size: 3rem !important;">预约看苗</a>
+		<a href="#" class="font_3r color_fff">预约看苗</a>
 	</div>
 
 	<input type="hidden" id="cart_items_count" value="2" />
@@ -498,125 +472,5 @@
 		dt.height(dt.width());
 	});
 </script>
-
-
-
-
-
-
-
-
-
-<div class="cd-user-modal">
-		<div class="cd-user-modal-container">
-
-
-			<div id="cd-login"> <!-- 登录表单 -->
-				<form class="cd-form" action="/yuyue/create" method="post">
-                    {{csrf_field()}}
-
-                    <input type="hidden" name="good_id" value="{{$item->id}}">
-
-					<p class="fieldset">
-						<label class="image-replace" for="signin-username">姓名</label>
-						<input class="full-width has-padding has-border"  type="text" name="yuyue_name" placeholder="">
-					</p>
-
-					<p class="fieldset">
-						<label class="image-replace" for="signin-password">电话</label>
-						<input class="full-width has-padding has-border"  type="text" name="yuyue_phone"  placeholder="">
-					</p>
-					<p class="fieldset">
-						<p>请选择可看货时间段：</p>
-						<input class="full-width has-padding has-border"  type="date" name="start_data"  placeholder="" style="padding: 5% 0px 12px 0%;width: 48%;">
-						<input class="full-width has-padding has-border"  type="date" name="end_data" placeholder="" style="padding: 5% 0px 12px 0%;width: 48%;">
-						<p style="font-size: 0.6rem;color: red;">供应商会根据您提交的时间段选具体时间。</p>
-					</p>
-
-
-
-					<p class="fieldset" >
-						<input class="full-width2" type="submit" value="预　约" style="    background: #02c5a3;">
-					</p>
-				</form>
-			</div>
-
-
-
-			<a href="#0" class="cd-close-form">关闭</a>
-		</div>
-	</div>
-
-
-<script type="text/javascript">
-	jQuery(document).ready(function($){
-	var $form_modal = $('.cd-user-modal'),
-		$form_login = $form_modal.find('#cd-login'),
-		$form_signup = $form_modal.find('#cd-signup'),
-		$form_modal_tab = $('.cd-switcher'),
-		$tab_login = $form_modal_tab.children('li').eq(0).children('a'),
-		$tab_signup = $form_modal_tab.children('li').eq(1).children('a'),
-		$main_nav = $('.main_nav');
-		$yuyuekanmiao = $('.yuyuekanmiao');
-
-	//弹出窗口
-	$yuyuekanmiao.on('click', function(event){
-
-		if( $(event.target).is($main_nav) ) {
-			// on mobile open the submenu
-			$(this).children('ul').toggleClass('is-visible');
-		} else {
-			// on mobile close submenu
-			$main_nav.children('ul').removeClass('is-visible');
-			//show modal layer
-			$form_modal.addClass('is-visible');
-			//show the selected form
-			( $(event.target).is('.cd-signup') ) ? signup_selected() : login_selected();
-		}
-
-	});
-
-	//关闭弹出窗口
-	$('.cd-user-modal').on('click', function(event){
-		if( $(event.target).is($form_modal) || $(event.target).is('.cd-close-form') ) {
-			$form_modal.removeClass('is-visible');
-		}
-	});
-	//使用Esc键关闭弹出窗口
-	$(document).keyup(function(event){
-    	if(event.which=='27'){
-    		$form_modal.removeClass('is-visible');
-	    }
-    });
-
-
-
-	function login_selected(){
-		$form_login.addClass('is-selected');
-		$form_signup.removeClass('is-selected');
-		$tab_login.addClass('selected');
-		$tab_signup.removeClass('selected');
-	}
-
-	function signup_selected(){
-		$form_login.removeClass('is-selected');
-		$form_signup.addClass('is-selected');
-		$tab_login.removeClass('selected');
-		$tab_signup.addClass('selected');
-	}
-
-});
-</script>
-
-
-
-
-
-
-
-
-
-
-
 </body>
 </html>

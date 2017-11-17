@@ -118,13 +118,28 @@ function number_format(num, ext){
 /* 收藏商品 */
 function collect_goods(id)
 {
-    var url = get_location_root() + '/index.php?app=my_favorite&act=add&type=goods&ajax=1'; //SITE_URL
+    // var url = get_location_root() + '/index.php?app=my_favorite&act=add&type=goods&ajax=1'; //SITE_URL
+    var url = '/api/collect-good'; //SITE_URL
     $.getJSON(url, {'item_id':id}, function(data){
         layer.open({content:data.msg, time:2});
         if(data.done){
             $("#goods_collected_span").show();
             $("#goods_not_collected_span").hide();
             $(".cartBar a:nth-child(1)").addClass("goods_colle");
+        }
+    });
+}
+//取消收藏
+function cancel_collect_goods(id)
+{
+    // var url = get_location_root() + '/index.php?app=my_favorite&act=add&type=goods&ajax=1'; //SITE_URL
+    var url = '/api/cancel-collect-good'; //SITE_URL
+    $.getJSON(url, {'item_id':id}, function(data){
+        layer.open({content:data.msg, time:2});
+        if(data.done){
+            $("#goods_collected_span").hide();
+            $("#goods_not_collected_span").show();
+            $(".cartBar a:nth-child(1)").removeClass("goods_colle");
         }
     });
 }

@@ -16,6 +16,7 @@ use App\Model\Want;
 use App\Model\Supply;
 use App\Model\Member;
 
+session(['mid'=>1]);
 //在这边获取openid
 function getOpenid()
 {
@@ -56,6 +57,7 @@ function formate_time($time){
     if(($now-$time)>=60*60*24 && ($now-$time)<60*60*24*2) $string = '昨天';
     return $string;
 }
+
 function get_sub_value($array, $value , $param = 'id') {
     if (!is_array($array)) return null;
     //一维
@@ -72,9 +74,8 @@ function get_sub_value($array, $value , $param = 'id') {
 
 
 Route::get('/', function () {
-    dump('首页');
-    dump(session()->all());
-    dd(12321);
+
+
 
     $wdata = Want::with('wantAttrs.attrs','kinds','quotes')->limit(6)->get();
     $supplys = Supply::with('supplyAttrs.attrs','kinds')->limit(6)->get();
@@ -128,7 +129,15 @@ Route::group(['namespace'=>'order' ,'prefix'=>'supply'] ,function (){
 
 //商品预约看货
 Route::group(['namespace'=>'order' ,'prefix'=>'yuyue'] ,function (){
-    Route::post('create' , 'YuyueController@creat');
+    Route::post('create' , 'YuyueController@create');
+    Route::get('my-yuyue' , 'YuyueController@myYuyue');
+    Route::get('others-yuyue' , 'YuyueController@othersYuyue');
+    Route::get('delete/{id}' , 'YuyueController@delete');
+    Route::get('cancel/{id}' , 'YuyueController@cancel');
+    Route::get('confirm' , 'YuyueController@confirm');
+
+    Route::get('looked/{id}' , 'YuyueController@looked');
+    Route::get('comment/{id}' , 'YuyueController@comment');
     // Route::get('add/' , 'YuyueController@add');
 
 
@@ -161,6 +170,7 @@ Route::group(['namespace'=>'order' ,'prefix'=>'member'] ,function (){
     Route::get('vip', 'MemberController@vip');
     Route::get('jingying-valid', 'MemberController@jingyingValid');
     Route::get('valid-index', 'MemberController@validIndex');
+    Route::get('xieyi', 'MemberController@xieyi');
 
     //地址编辑
     Route::get('address-edit/{id}', 'MemberController@addressEdit');
@@ -218,10 +228,8 @@ Route::group(['namespace'=>'order' ,'prefix'=>'wantorder'] ,function (){
 
 
 Route::get('test',function(){
-    $data = file_get_contents(app_path('Common/region.json'));
-    $data = json_decode($data,true);
-    dd($data);
-    return response()->json(['data'=>$data]);
+
+    return response()->view('home.common.404',['msg'=>'出现错误'], 404);
 
 
 });
@@ -240,8 +248,10 @@ Route::group(['namespace'=>'api' ,'prefix'=>'api'] ,function (){
     Route::get('collect-store' , 'DataController@collectStore');
     Route::get('cancel-collect-store' , 'DataController@cancelCollectStore');
     Route::get('collect-good' , 'DataController@collectGood');
+    Route::get('cancel-collect-good' , 'DataController@cancelCollectGood');
     Route::get('get-kind-unit/{kid}' , 'DataController@getKindUnit');
     Route::get('get-supply-order' , 'DataController@getSupplyOrder');
+    Route::get('get-yuyue' , 'DataController@getYuyue');
 
 });
 

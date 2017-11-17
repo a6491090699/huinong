@@ -14,6 +14,7 @@ use App\Model\Want;
 use App\Model\MemberStoreinfo;
 use App\Model\Supply;
 use App\Model\SupplyOrder;
+use App\Model\Yuyue;
 
 class DataController extends Controller
 {
@@ -133,65 +134,84 @@ class DataController extends Controller
     }
 
     //收藏商品
-    public function collect_good(Request $request)
+    public function collectGood(Request $request)
     {
-        $gid = $request->input('gid');
-        $add = array(
-            'member_id'=> $this->mid,
-            'good_id'=> $gid
-        );
-        $rs = GoodCollect::create($add);
-        $return = array();
-        if($rs){
-            $return['msg']= '收藏成功!';
-            $return['done']= true;
+        $good_id = $request->input('item_id');
+        $obj =new GoodCollect;
+        $obj->member_id = session('mid');
+        $obj->good_id = $good_id;
+        $rs = $obj->save();
+        if($rs) return response()->json(['msg'=>'收藏成功!' ,'done'=>1]);
+    }
+    //取消收藏商品
+    public function cancelCollectGood(Request $request)
+    {
+        $good_id = $request->input('item_id');
+        $rs =GoodCollect::where('member_id',session('mid'))->where('good_id',$good_id)->delete();
 
-        }else{
-            $return['msg']= '收藏失败,请重试!';
-            $return['done']= false;
-        }
-        return json_encode($return);
-
-
+        if($rs) return response()->json(['msg'=>'取消收藏!' ,'done'=>1]);
 
     }
     //收藏店铺
-    public function collect_store(Request $request)
+    public function collectStore(Request $request)
     {
-        $store_id = $request->input('store_id');
-        $add = array(
-            'member_id'=> $this->mid,
-            'store_id'=> $store_id
-        );
-        $rs = StoreCollect::create($add);
-        $return = array();
-        if($rs){
-            $return['msg']= '收藏成功!';
-            $return['done']= true;
+        $store_id = $request->input('item_id');
+        $obj =new StoreCollect;
+        $obj->member_id = session('mid');
+        $obj->store_id = $store_id;
+        $rs = $obj->save();
+        if($rs) return response()->json(['msg'=>'收藏成功!' ,'done'=>1]);
 
-        }else{
-            $return['msg']= '收藏失败,请重试!';
-            $return['done']= false;
-        }
-        return json_encode($return);
 
+    }
+    //取消收藏店铺
+    public function cancelCollectStore(Request $request)
+    {
+        $store_id = $request->input('item_id');
+        $rs =StoreCollect::where('member_id',session('mid'))->where('store_id',$store_id)->delete();
+
+        if($rs) return response()->json(['msg'=>'取消收藏!' ,'done'=>1]);
 
 
     }
 
-    //收藏的商品列表
-
-    public function collect_goods(Request $request)
-    {
-        $gid = $request->input('gid');
-        $data = GoodCollect::getMemberCollect($gid);
-        $data = $data->toArray();
-
-        return $data;
-
-
-
-    }
+    // //收藏店铺
+    // public function collect_store(Request $request)
+    // {
+    //     $store_id = $request->input('store_id');
+    //     $add = array(
+    //         'member_id'=> $this->mid,
+    //         'store_id'=> $store_id
+    //     );
+    //     $rs = StoreCollect::create($add);
+    //     $return = array();
+    //     if($rs){
+    //         $return['msg']= '收藏成功!';
+    //         $return['done']= true;
+    //
+    //     }else{
+    //         $return['msg']= '收藏失败,请重试!';
+    //         $return['done']= false;
+    //     }
+    //     return json_encode($return);
+    //
+    //
+    //
+    // }
+    //
+    // //收藏的商品列表
+    //
+    // public function collect_goods(Request $request)
+    // {
+    //     $gid = $request->input('gid');
+    //     $data = GoodCollect::getMemberCollect($gid);
+    //     $data = $data->toArray();
+    //
+    //     return $data;
+    //
+    //
+    //
+    // }
 
     //异步获取用户采购列表接口
     public function getMemberWantList(Request $request)
@@ -340,26 +360,7 @@ class DataController extends Controller
 
     }
 
-    public function collectStore(Request $request)
-    {
-        $store_id = $request->input('item_id');
-        $obj =new StoreCollect;
-        $obj->member_id = session('mid');
-        $obj->store_id = $store_id;
-        $rs = $obj->save();
-        if($rs) return response()->json(['msg'=>'收藏成功!' ,'done'=>1]);
 
-
-    }
-    public function cancelCollectStore(Request $request)
-    {
-        $store_id = $request->input('item_id');
-        $rs =StoreCollect::where('member_id',session('mid'))->where('store_id',$store_id)->delete();
-
-        if($rs) return response()->json(['msg'=>'取消收藏!' ,'done'=>1]);
-
-
-    }
 
     public function getBase()
     {
@@ -439,6 +440,92 @@ class DataController extends Controller
         $return = $obj->paginate($pagenum);
 
         return response()->json($return);
+    }
+
+    //获取我的预约列表
+    public function getYuyue(Request $request)
+    {
+
+        $page = empty($request->input('page'))? 1: $request->input('page');
+
+        $type = empty($request->input('type'))? 1: $request->input('type');
+
+        $orderstring =  $request->input('order');
+        $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
+        $mid = session('mid') ;
+        $pagenum = 10; //每页显示数
+        $obj = Yuyue::with('supply.supplyAttrs.attrs','storeinfo');
+
+        if($type){
+            switch ($type) {
+                case 'all':
+                    # code...
+
+                    break;
+                case 'wait-comfirm':
+                    # code...待付款
+                    $obj->where('status',0);
+                    break;
+                case 'wait-look':
+                    # code...
+                    //已付款 待发货
+                    $obj->where('status',1);
+                    break;
+                case 'wait-comment':
+                    # code...已发货 待收货
+                    $obj->where('status',2);
+                    break;
+                case 'finish':
+                    # code...已收货 待评价
+                    $obj->where('status',3);
+                    break;
+
+                default:
+                    # code...    yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+                    break;
+            }
+
+        }
+
+        if($mid) $obj= $obj->where('member_id' , $mid);
+
+        if($keyword) $obj= $obj->where('goods_name' ,'like','%'.$keyword.'%');
+
+        if($orderstring){
+            $orderstring = explode(' ',$orderstring);
+            $order = $orderstring[0];
+            $orderway = $orderstring[1];
+            $obj= $obj->orderBy($order ,$orderway);
+        }else{
+            $obj= $obj->orderBy('id' ,'desc');
+        }
+
+
+        // $obj->withCount(['orders'=>function($query){
+        //     $query->where('status',3);//完成的状态量
+        // }]);
+
+        $return = $obj->paginate($pagenum);
+
+
+
+        // if($keyword)
+        // {
+        //     $return = Supply::with('supplyAttrs.attrs','kinds','orders')->where('goods_name', 'like', '%'.$keyword.'%')->orderBy($order ,$orderway)->paginate($pagenum);
+        // }else{
+        //     $return = Supply::with('supplyAttrs.attrs','kinds')->withCount(['orders'=>function($query){
+        //         $query->where('status',3);//完成的状态量
+        //     }])->orderBy($order ,$orderway)->paginate($pagenum);
+        // }
+        // $return = $return->toArray();
+        // $ret = array();
+        // $ret['status'] = '1';
+        // $ret['data'] = $return;
+        // return $return->toJson();
+        return response()->json($return);
+        // dump($return->toJson());
+        // dd($return->toArray());
+
     }
 
 

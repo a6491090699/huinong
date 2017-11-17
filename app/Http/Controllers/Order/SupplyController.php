@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Model\Supply;
 use App\Model\SupplyAttr;
 use App\Model\MemberStoreinfo;
+use App\Model\GoodCollect;
 
 class SupplyController extends Controller
 {
@@ -34,8 +35,11 @@ class SupplyController extends Controller
     public function viewSupply($id)
     {
         $data = Supply::with('supplyAttrs.attrs','kinds','storeinfo')->withCount('yuyue')->where('id' ,$id)->first();
+
+        $is_collect = GoodCollect::where('good_id',$id)->where('member_id',session('mid'))->count();
+
         // dd($data->toArray());
-        return view('home.supply.view' ,['item'=>$data]);
+        return view('home.supply.view' ,['item'=>$data ,'is_collect'=>$is_collect]);
     }
     public function create(Request $request)
     {
