@@ -241,6 +241,14 @@ Route::get('test',function(){
 
 
 });
+//微信支付测试
+
+Route::group(['prefix'=>'wx', 'middleware'=>'wechat.oauth' ] ,function (){
+    Route::get('index', 'WxController@index');
+    Route::get('jsapi', 'WxController@jsapi');
+
+});
+
 
 //获取数据异步接口
 Route::group(['namespace'=>'api' ,'prefix'=>'api'] ,function (){

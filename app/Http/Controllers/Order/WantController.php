@@ -157,11 +157,11 @@ class WantController extends Controller
     }
 
     //删除求购
-    public function delWant($wid)
-    {
-        $rs = Want::where('id',$wid)->delete();
-        if($rs) return back()->with('del_msg' , '删除成功');
-    }
+    // public function delWant($wid)
+    // {
+    //     $rs = Want::where('id',$wid)->delete();
+    //     if($rs) return back()->with('del_msg' , '删除成功');
+    // }
 
     //查看求购
     public function view()
@@ -173,12 +173,26 @@ class WantController extends Controller
 
     //编辑求购
 
-    public function eidt($wid)
+    public function edit($wid)
     {
+        $item = Want::where('id' , $wid)->first();
+        $data = \App\Model\MemberStoreinfo::where('member_id' , session('mid'))->first(['base_address','region_id','street'])->toArray();
+        $address = array();
+        $address['id'] = $data['region_id'];
+        $address['name'] = $data['base_address']."\t".$data['street'];
 
+        $address_json = (json_encode($address));
+
+
+
+        if($item) return view('home.want.edit' ,['item'=>$item,'address_json'=>$address_json]);
     }
+
+    //删除求购
     public function delete($wid)
     {
+        $rs = Want::where('id' , $wid)->delete();
+        if($rs) return response("<script>alert('删除成功!');location.href='/want/my-want'</script>");
 
     }
 
