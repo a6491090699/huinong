@@ -246,6 +246,7 @@ Route::get('test',function(){
 Route::group(['prefix'=>'wx', 'middleware'=>'wechat.oauth' ] ,function (){
     Route::get('index', 'WxController@index');
     Route::get('jsapi', 'WxController@jsapi');
+    Route::get('notify', 'WxController@notify');
 
 });
 
