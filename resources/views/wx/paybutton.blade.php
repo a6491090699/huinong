@@ -14,23 +14,31 @@
         wx.config(<?php echo $js->config(array('onMenuShareQQ', 'onMenuShareWeibo','chooseWXPay'), true) ?>);
     </script>
     <script type="text/javascript">
-    wx.chooseWXPay({
-        timestamp: <?= $config['timestamp'] ?>,
-        nonceStr: '<?= $config['nonceStr'] ?>',
-        package: '<?= $config['package'] ?>',
-        signType: '<?= $config['signType'] ?>',
-        paySign: '<?= $config['paySign'] ?>', // 支付签名
-        success: function (res) {
-            // 支付成功后的回调函数
-        }
-    });
+
     </script>
 </head>
 <body>
     <br/>
     <font color="#9ACD32"><b>该笔订单支付金额为<span style="color:#f00;font-size:50px">1分</span>钱</b></font><br/><br/>
 	<div align="center">
-		<button style="width:210px; height:50px; border-radius: 15px;background-color:#FE6714; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;" type="button" onclick="callpay()" >立即支付</button>
+		<button style="width:210px; height:50px; border-radius: 15px;background-color:#FE6714; border:0px #FE6714 solid; cursor: pointer;  color:white;  font-size:16px;" type="button" id="wxpay" >立即支付</button>
 	</div>
+
+    <script type="text/javascript">
+        obj = document.getElementById('wxpay');
+        obj.onclick=function(){
+            wx.chooseWXPay({
+                timestamp: <?= $config['timestamp'] ?>,
+                nonceStr: '<?= $config['nonceStr'] ?>',
+                package: '<?= $config['package'] ?>',
+                signType: '<?= $config['signType'] ?>',
+                paySign: '<?= $config['paySign'] ?>', // 支付签名
+                success: function (res) {
+                    // 支付成功后的回调函数
+                    location.href="http://www.baidu.com";
+                }
+            });
+        }
+    </script>
 </body>
 </html>

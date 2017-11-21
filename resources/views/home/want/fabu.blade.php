@@ -48,6 +48,12 @@
         </script>
         <!--增加的结束-->
 
+
+        <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" charset="utf-8">
+            wx.config(<?php echo $js->config(array('onMenuShareQQ', 'onMenuShareWeibo','chooseWXPay'), false) ?>);
+        </script>
+
 </head><body class="bg-f8">
 <header class="user_center_header bd_bottom-eee">
     <a class="go_back_btn" href="javascript:history.go(-1)">
@@ -168,13 +174,68 @@
                 }
             },
             submitHandler:function(form){
-                if(!submited && check_spec_value()){
+
+                $url = $('#requirement_form').attr('action');
+                var formData = new FormData($( "#requirement_form" )[0]);
+                // if (!submited ){
+                if (!submited && check_spec_value()){
+                    $.ajax({
+                        type:'post',
+                        url:$url,
+                        // data:$('#requirement_form').serialize(),
+                        data:formData,
+                        async: false,
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                        beforeSend:function(){
+                            //
+                        },
+                        error:function(){
+                            layer.open({content:'网络不给力', time:2});
+                        },
+                        success:function(data){
+                            // eval("data ="+data);
+                            // layer.open({content:data.errMsg, time:2});
+                            if(data.errNum==0){
+                                // setTimeout(function(){
+                                //     window.location.href='/want/index';
+                                // },1000);
+                                wx.chooseWXPay({
+                                    timestamp: <?= $config['timestamp'] ?>,
+                                    nonceStr: '<?= $config['nonceStr'] ?>',
+                                    package: '<?= $config['package'] ?>',
+                                    signType: '<?= $config['signType'] ?>',
+                                    paySign: '<?= $config['paySign'] ?>', // 支付签名
+                                    success: function (res) {
+                                        // 支付成功后的回调函数
+                                        layer.open({content:data.errMsg, time:2});
+
+                                        setTimeout(function(){
+                                            window.location.href='/want/index';
+                                        },1000);
+                                    }
+                                });
+
+                            }
+                        },
+                        complete:function(){
+                            //
+                        }
+                    });
                     submited = true;
-                    form.submit();
                     $(this).attr('disabled', "true");
                 }else{
                     return false;
                 }
+
+                // if(!submited && check_spec_value()){
+                //     submited = true;
+                //     form.submit();
+                //     $(this).attr('disabled', "true");
+                // }else{
+                //     return false;
+                // }
             }
         });
 
@@ -313,6 +374,7 @@
 <form action="/want/fabu" method="post" id="requirement_form" enctype="multipart/form-data">
 
 {{csrf_field()}}
+<input type="hidden" name="out_trade_no" value="{{$out_trade_no}}">
     <div class="padding_flanks bg-fff bd_bottom-eee">
 	        <div class="form_item">
                 <span class="font_3r color_34 goods_name-title">用苗地</span>
@@ -364,14 +426,14 @@
                     <b class="iconfont select_arrows-icon"></b>
                 </a>
             </div>
-        <div class="form_item">
+        <!-- <div class="form_item">
             <span class="font_3r color_34 goods_name-title">悬赏加急</span>
 
             <label style="font-size: 10px"><input  name="emergency" type="radio" value='1'/>是</label>&nbsp;&nbsp;&nbsp;&nbsp;
             <label style="font-size: 10px"><input  name="emergency" type="radio" value='0'/>否
             </label>
 
-        </div>
+        </div> -->
         <div class="bg-fff last_child-border" id="specs_value_div">
             <div class="goods_norms_con clearfix font_26r color_67">
                             </div>

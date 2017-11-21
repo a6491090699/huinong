@@ -43,7 +43,7 @@ class QuoteController extends Controller
         $new->addtime = time();
         $new->wants_id = $request->input('wid');
         if($new->save()){
-            return response()->json(['errMsg' => '报价成功!']);
+            return response()->json(['errMsg' => '报价成功!','errNum'=>0]);
 
             // return json_encode(array(
             //     'errMsg'=>'报价成功!'

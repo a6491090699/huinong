@@ -361,7 +361,7 @@
             }
         });
 
-        navigator.geolocation.getCurrentPosition(getPositionSuccess, getPositionError, position_option);
+        // navigator.geolocation.getCurrentPosition(getPositionSuccess, getPositionError, position_option);
 
         function getPositionSuccess( position ){
             var lat = position.coords.latitude;
