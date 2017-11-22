@@ -240,7 +240,7 @@ class DataController extends Controller
         $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
         $mid = empty($request->input('mid'))? '':$request->input('mid') ;
         $pagenum = 10; //每页显示数
-        $obj = Want::with('wantAttrs.attrs','quotes','kinds');
+        $obj = Want::with('wantAttrs.attrs','quotes','kinds','address');
 
         if($keyword) $obj= $obj->where('title' ,'like','%'.$keyword.'%');
 
@@ -267,7 +267,7 @@ class DataController extends Controller
 
         //是否过期
         // $obj->where('cutday','>=',time());
-
+        $obj->where('is_pay',1);
         $return = $obj->paginate($pagenum);
 
 

@@ -14,8 +14,9 @@ class QuoteController extends Controller
     public function addQuote($id)
     {
 
-        $wdata = Want::with('wantAttrs.attrs','quotes')->where('id',$id)->first();
-
+        $wdata = Want::with('wantAttrs.attrs','quotes','member','address')->where('id',$id)->first();
+        // dump($wdata->Address->phone);
+        // dd($wdata->toArray());
         return view('home.quote.add',['wid'=> $id , 'wdata'=>$wdata]);
 
 

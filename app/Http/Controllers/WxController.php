@@ -20,7 +20,7 @@ class WxController extends Controller
     public function notify()
     {
 
-        // \Log::info('heheh|||yyyyyyyyyy');dd('');
+        \Log::info('heheh|||yyyyyyyyyy');
         $options=require config_path().'/wechat.php';
         $app = new Application($options);
         $response = $app->payment->handleNotify(function($notify, $successful){
@@ -54,6 +54,13 @@ class WxController extends Controller
 
     }
 
+    public function wantnotify()
+    {
+
+        file_put_contents(public_path().'/123.txt','hehe1232aaaaaaaaaaaa13');
+        \Log::info('yytest');
+    }
+
     public function jsapi()
     {
         $user = session('wechat.oauth_user');
@@ -76,7 +83,7 @@ class WxController extends Controller
             // 'out_trade_no'     => '1217752501201407033233368019',
             'out_trade_no'     => date('Ymdhis').strrand(5),
             'total_fee'        => 1, // 单位：分
-            'notify_url'       => 'http://sj.71mh.com/wx/notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+            'notify_url'       => 'http://sj.71mh.com/wx/wantnotify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
             'openid'           => $user->id, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
             // ...
         ];

@@ -375,7 +375,7 @@ function loaddata(){
         var lat = 0;
         var lon = 0;
 
-        navigator.geolocation.getCurrentPosition(getPositionSuccess, getPositionError, position_option);
+        // navigator.geolocation.getCurrentPosition(getPositionSuccess, getPositionError, position_option);
 
         function getPositionSuccess( position ){
             lat = position.coords.latitude;

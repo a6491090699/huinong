@@ -121,6 +121,11 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'want'] ,function (){
     Route::get('view/{id}' , 'WantController@view');
 
 
+    Route::any('notify', 'WantController@notify');
+    Route::any('jsapi', 'WantController@jsapi');
+    Route::any('wantindex', 'WantController@wantindex');
+
+
 
 });
 //报价
@@ -258,9 +263,14 @@ Route::get('test',function(){
 Route::group(['prefix'=>'wx', 'middleware'=>'wechat.oauth' ] ,function (){
     Route::any('index', 'WxController@index');
     Route::any('jsapi', 'WxController@jsapi');
+
     Route::any('notify', 'WxController@notify');
+    Route::any('wantnotify', 'WxController@wantnotify');
+
 
 });
+
+
 
 
 //获取数据异步接口

@@ -198,6 +198,8 @@
                     item.unit = item.kinds.unit;
                     item.number = item.number
                     item.url = '/quote/add/'+item.id;
+                    item.phone = item.address.phone;
+
 
 
 

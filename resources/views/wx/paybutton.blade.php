@@ -11,7 +11,7 @@
 	</script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript" charset="utf-8">
-        wx.config(<?php echo $js->config(array('onMenuShareQQ', 'onMenuShareWeibo','chooseWXPay'), true) ?>);
+        wx.config(<?php echo $js->config(array('onMenuShareQQ', 'onMenuShareWeibo','chooseWXPay'), false) ?>);
     </script>
     <script type="text/javascript">
 
@@ -35,7 +35,7 @@
                 paySign: '<?= $config['paySign'] ?>', // 支付签名
                 success: function (res) {
                     // 支付成功后的回调函数
-                    location.href="http://www.baidu.com";
+                    location.href="/wx/index";
                 }
             });
         }

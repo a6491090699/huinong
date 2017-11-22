@@ -99,6 +99,33 @@ class StoreController extends Controller
         return $path;
 
     }
+    public function resizeUpload(Request $request)
+    {
+        $base64_image_content = $request->input('compressValue');
+        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)){
+            $type = $result[2];
+            // $root =
+            // dump(public_path());
+            // dump($_SERVER['DOCUMENT_ROOT']);
+            // dd($_SERVER);
+            $new_file = storage_path().'/app/public/logo/'.session('mid').'/';
+
+            //如果文件不存在,则创建
+            if(!file_exists($new_file))
+            {
+                mkdir($new_file, 0777, true);
+            }
+
+            $new_file = $new_file.time(). '.' .$type;
+            if (file_put_contents($new_file, base64_decode(str_replace($result[1],'', $base64_image_content)))){
+                $return = str_replace(storage_path().'/app/' ,'',$new_file);
+                return $return;
+                // return 'public/'.
+            }else{
+                return false;
+            }
+        }
+    }
 
 
     public function create(Request $request){
@@ -114,7 +141,10 @@ class StoreController extends Controller
         $qq = $request->input('cs_qq');
         $description = $request->input('description');
         //处理logo 图片
-        $logo = $this->uploadfile($request);
+
+        // $logo = $this->uploadfile($request);
+        if(!$logo=$this->resizeUpload($request)) return response()->view('home.common.404',['msg'=>'上传图片发生错误!']);
+
 
         $obj =new MemberStoreinfo;
         $obj->store_name = $store_name;

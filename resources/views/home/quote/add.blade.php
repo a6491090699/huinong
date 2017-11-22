@@ -60,7 +60,7 @@
 			<span class="purchase_num">
 																		<span class="color_ff7414">{{$wdata->number}}</span>
 										{{$wdata->kinds->unit}}																			</span>
-			<p class="color_67">手机：<a href="./index.php?app=apply&act=upgrade">升级到金牌会员查看</a>{{$wdata->phone}}</p>
+			<p class="color_67">手机：@if($wdata->member->rank) <span>{{$wdata->Address->phone}}</span> @else <a href="/member/vip">升级到金牌会员查看</a> @endif</p>
 			<p class="color_67">备注：{{$wdata->tip}}</p>
 		</li>
 	</ul>
@@ -83,7 +83,7 @@
 		</div>
 	</div>
                 <div class="bg-fff bd_top-eee padding_top" style="text-align:center">
-		<img src=/images/201710171009503362.png>
+		<img src="{{getPic($wdata->imgs)}}">
 	</div>
         	<form class="submit_price" id="quote_form" action="/quote/create" method="post">
 		<!-- <input type="hidden" name="ajax" value="1"/> -->

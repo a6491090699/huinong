@@ -79,7 +79,7 @@
         }
 
         function pay_wechat(){
-            
+
         }
 
         function pay_alipay(){
@@ -114,8 +114,7 @@
     <!-- <a class="color_fff bg-02c5a3 font_26r" href="javascript:void(0)" onclick="shengji()">立即升级</a> -->
     <a class="color_fff bg-02c5a3 font_26r" href="javascript:void(0)" onclick="pay_wechat()">微信支付</a>
     <br>
-    <br>
-    <a class="color_fff bg-02c5a3 font_26r" href="javascript:void(0)" onclick="pay_alipay()">支付宝支付</a>
+    
   </div>
 </div>
 <div class="padding_flanks bg-fff user_store bd_top-eee">

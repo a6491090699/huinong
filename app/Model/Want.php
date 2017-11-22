@@ -51,5 +51,9 @@ class Want extends Model
         return $this->hasMany('App\Model\Quote' ,'wants_id');
     }
 
+    public function address(){
+        return $this->belongsTo('App\Model\MemberAddress' ,'address_id');
+    }
+
 
 }

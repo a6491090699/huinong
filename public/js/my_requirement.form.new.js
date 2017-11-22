@@ -36,6 +36,7 @@ $(function(){
         $('#address_id').val(addresses_json[0]['id']);
     }
     address_select.init({trigger:$('#address_options'),value:$('#address_id').val(),data:addresses_json,position:"bottom",level:1,callback:address_option_changed});
+    // address_select.init({trigger:$('#address_options'),value:$('#address_id').val(),data:addresses_json,position:"bottom",level:1,callback:address_option_changed});
     //触发联系人改变
     address_option_changed();
 
@@ -64,7 +65,7 @@ $(function(){
     });
     */
 
-    //yyedit 
+    //yyedit
     // $('#title').bind('input propertychange', function() {
     //     var requirement_title = $.trim($(this).val());
     //     if(requirement_title != '') {
@@ -89,6 +90,7 @@ function area_changed(){
 function address_option_changed(){
     var value = address_select.value;
     var text = address_select.text;
+    console.log(address_select)
     $("#address_id").val(value[0]);
 }
 

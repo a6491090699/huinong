@@ -19,5 +19,9 @@ class MemberStoreinfo extends Model
     {
         return $this->belongsTo('App\Model\Member' , 'member_id');
     }
+    public function userinfo()
+    {
+        return $this->belongsTo('App\Model\MemberUserinfo','member_id','mid');
+    }
 
 }

@@ -81,8 +81,8 @@
 
     //地址
     // var addresses_json = [{"id":"4717","name":"\u65b9\u680b \u6cb3\u5317\t\u90af\u90f8\t\u5927\u540d\t\u9ec4\u91d1\u5824\u4e61 \u5927\u6728\u82d7\u6728"}];
-    var addresses_json = [{!!$address_json!!}];
-    // var addresses_json = {!!$address_json!!};
+    // var addresses_json = [{!!$address_json!!}];
+    var addresses_json = {!!$address_json!!};
 
     //单位
     var goods_unit_options = [{"id":"\u4ef6","name":"\u4ef6"},{"id":"\u68f5","name":"\u68f5"},{"id":"\u76c6","name":"\u76c6"},{"id":"\u7c73","name":"\u7c73"},{"id":"\u5398\u7c73","name":"\u5398\u7c73"},{"id":"\u514b","name":"\u514b"},{"id":"\u5343\u514b","name":"\u5343\u514b"},{"id":"\u5428","name":"\u5428"},{"id":"\u679d","name":"\u679d"}];
@@ -176,18 +176,18 @@
             submitHandler:function(form){
 
                 $url = $('#requirement_form').attr('action');
-                var formData = new FormData($( "#requirement_form" )[0]);
+                // var formData = new FormData($( "#requirement_form" )[0]);
                 // if (!submited ){
                 if (!submited && check_spec_value()){
                     $.ajax({
                         type:'post',
                         url:$url,
-                        // data:$('#requirement_form').serialize(),
-                        data:formData,
-                        async: false,
-                        cache: false,
-                        contentType: false,
-                        processData: false,
+                        data:$('#requirement_form').serialize(),
+                        // data:formData,
+                        // async: false,
+                        // cache: false,
+                        // contentType: false,
+                        // processData: false,
                         beforeSend:function(){
                             //
                         },
@@ -242,6 +242,7 @@
 
         //新旧地址选择
         $('.address_control').click(function(){
+
             var dataType=$(this).attr('data-type');
             $('.address_content[data-type="'+dataType+'"]').show();
             $('.address_content[data-type!="'+dataType+'"]').hide();
@@ -456,11 +457,14 @@
                 <a href="#" class="color_67 font_26r">
                     <input class="color_67  border_none font_24r goods_kind" type="text"  readonly name="address_options" id="address_options" placeholder="请选择联系人" value=""/>
                     <input type="hidden" id="address_id" name="address_id" value=""/>
+                    <!-- <input type="hidden" id="address_phone" name="address_phone" value=""/> -->
                     <b class="iconfont select_arrows-icon">&#xe614;</b>
                 </a>
             </div>
 
             <div class="upimg padding_flanks margin_bottom_16" >
+
+                <input type="text" name="compressValue" id="compressValue" style="display:none;" value=""/><br/>
                 <div id="upimgs" style="position: relative;    width: auto;    height: 11rem;margin-bottom:60px;">
                     <a href="javascript:;" class="file">
                         <input id="file_upload" type="file" name="imgs" multiple="multiple" accept="image/*;capture=camera">
@@ -557,6 +561,69 @@
 
 
 <script>
+
+function uploadBtnChange(){
+    var scope = this;
+    if(window.File && window.FileReader && window.FileList && window.Blob){
+        //获取上传file
+        var filefield = document.getElementById('file_upload'),
+            file = filefield.files[0];
+        //获取用于存放压缩后图片base64编码
+        var compressValue = document.getElementById('compressValue');
+        processfile(file,compressValue);
+    }else{
+        alert("此浏览器不完全支持压缩上传图片");
+    }
+}
+
+function processfile(file,compressValue) {
+    var reader = new FileReader();
+    reader.onload = function (event) {
+        var blob = new Blob([event.target.result]);
+        window.URL = window.URL || window.webkitURL;
+        var blobURL = window.URL.createObjectURL(blob);
+        var image = new Image();
+        image.src = blobURL;
+        image.onload = function() {
+            var resized = resizeMe(image);
+            compressValue.value = resized;
+        }
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+function resizeMe(img) {
+    //压缩的大小
+    var max_width = 1920;
+    var max_height = 1080;
+
+    var canvas = document.createElement('canvas');
+    var width = img.width;
+    var height = img.height;
+
+    if(width > height) {
+        if(width > max_width) {
+            height = Math.round(height *= max_width / width);
+
+            width = max_width;
+
+        }
+    }else{
+        if(height > max_height) {
+            width = Math.round(width *= max_height / height);
+            height = max_height;
+        }
+    }
+    console.log('width:'+width+'||height'+height)
+    canvas.width = width;
+    canvas.height = height;
+
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, width, height);
+    //压缩率
+    return canvas.toDataURL("image/jpeg",0.7);
+}
+
     //商品规格输入
     $("#goods_specification").click(function(){
         popup_bg();
@@ -595,12 +662,14 @@
     });
     $("#file_upload").change(function() {
 
+                uploadBtnChange();
+                $('.file').hide();
+				// $('.file').css('background', 'url(/images/upbutton.png)  no-repeat');
+				// $('.file').css('width', '100%');
+				// $('.file').css('height', '11rem');
+				// $('.file').css('background-size', '80% 80%');
+				// $('.file').css('top', '0.5rem');
 
-				$('.file').css('background', 'url(/images/upbutton.png)  no-repeat');
-				$('.file').css('width', '100%');
-				$('.file').css('height', '11rem');
-				$('.file').css('background-size', '80% 80%');
-				$('.file').css('top', '0.5rem');
 				$('.upimg').css('height', 'auto');
 				$('#upimgs').css('float', 'left');
 				$('#upimgs').css('width', '30%');

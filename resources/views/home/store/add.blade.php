@@ -148,6 +148,8 @@
 
 </div>
 <div class="upimg padding_flanks margin_bottom_16" >
+    <input type="text" name="compressValue" id="compressValue" style="display:none;" value=""/><br/>
+
     <div id="upimgs" style="position: relative;    width: auto;    height: 11rem;margin-bottom:60px;">
         <a href="javascript:;" class="file">
             <input id="file_upload" type="file" name="logo" accept="image/*;capture=camera">
@@ -168,6 +170,70 @@
        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
     }
     });
+
+    function uploadBtnChange(){
+        var scope = this;
+        if(window.File && window.FileReader && window.FileList && window.Blob){
+            //获取上传file
+            var filefield = document.getElementById('file_upload'),
+                file = filefield.files[0];
+            //获取用于存放压缩后图片base64编码
+            var compressValue = document.getElementById('compressValue');
+            processfile(file,compressValue);
+        }else{
+            alert("此浏览器不完全支持压缩上传图片");
+        }
+    }
+
+    function processfile(file,compressValue) {
+        var reader = new FileReader();
+        reader.onload = function (event) {
+            var blob = new Blob([event.target.result]);
+            window.URL = window.URL || window.webkitURL;
+            var blobURL = window.URL.createObjectURL(blob);
+            var image = new Image();
+            image.src = blobURL;
+            image.onload = function() {
+                var resized = resizeMe(image);
+                compressValue.value = resized;
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    }
+
+    function resizeMe(img) {
+        //压缩的大小
+        var max_width = 1920;
+        var max_height = 1080;
+
+        var canvas = document.createElement('canvas');
+        var width = img.width;
+        var height = img.height;
+
+        if(width > height) {
+            if(width > max_width) {
+                height = Math.round(height *= max_width / width);
+
+                width = max_width;
+
+            }
+        }else{
+            if(height > max_height) {
+                width = Math.round(width *= max_height / height);
+                height = max_height;
+            }
+        }
+        console.log('width:'+width+'||height'+height)
+        canvas.width = width;
+        canvas.height = height;
+
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+        //压缩率
+        return canvas.toDataURL("image/jpeg",0.7);
+    }
+
+
     var error_msg_showed = false;
     var error_msg = "";
     var submited = false;

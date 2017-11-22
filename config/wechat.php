@@ -87,6 +87,7 @@ return [
         'key'                => env('WECHAT_PAYMENT_KEY', 'd8cb5S6d96c3bf41b28e02b4a5a7J8e9'),
         'cert_path'          => env('WECHAT_PAYMENT_CERT_PATH', 'http://sj.71mh.com/wx_cert/apiclient_cert.pem'), // XXX: 绝对路径！！！！
         'key_path'           => env('WECHAT_PAYMENT_KEY_PATH', 'http://sj.71mh.com/wx_cert/apiclient_key.pem'),      // XXX: 绝对路径！！！！
+        // 'notify_url'         => '',
         // 'device_info'     => env('WECHAT_PAYMENT_DEVICE_INFO', ''),
         // 'sub_app_id'      => env('WECHAT_PAYMENT_SUB_APP_ID', ''),
         // 'sub_merchant_id' => env('WECHAT_PAYMENT_SUB_MERCHANT_ID', ''),

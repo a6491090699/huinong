@@ -46,6 +46,36 @@ class WantController extends Controller
         return $path;
 
     }
+    //压缩上传11
+    public function resizeUpload(Request $request)
+    {
+        $base64_image_content = $request->input('compressValue');
+        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)){
+            $type = $result[2];
+            // $root =
+            // dump(public_path());
+            // dump($_SERVER['DOCUMENT_ROOT']);
+            // dd($_SERVER);
+            $new_file = storage_path().'/app/public/want/'.session('mid').'/';
+
+            //如果文件不存在,则创建
+            if(!file_exists($new_file))
+            {
+                mkdir($new_file, 0777, true);
+            }
+
+            $new_file = $new_file.time(). '.' .$type;
+            if (file_put_contents($new_file, base64_decode(str_replace($result[1],'', $base64_image_content)))){
+                $return = str_replace(storage_path().'/app/' ,'',$new_file);
+                return $return;
+                // return 'public/'.
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
 
     //发布求购 增
     public function fabu(Request $request){
@@ -93,7 +123,10 @@ class WantController extends Controller
 
             // $imgs
 
-            $imgs = $this->uploadfile($request);
+
+            // $imgs = $this->uploadfile($request);
+            if(!$imgs=$this->resizeUpload($request)) $imgs=config('common.img_default');
+
 
 
             $number = $requirement_spec['num'][0];
@@ -111,8 +144,11 @@ class WantController extends Controller
             $obj->member_id = session('mid');
             $obj->addtime = time();
             $obj->region_id = $from_region_id;
-            $obj->address = $address_option;
+
             $obj->address_id = $address_id;
+
+            // $obj->address = $address_option;
+            // $obj->address_id = $address_id;
             $obj->wx_out_trade_no = $out_trade_no;
 
 
@@ -146,26 +182,33 @@ class WantController extends Controller
 
         //调用我的地址里面的联系人
 
-        // $data = \App\Model\MemberAddress::where('mid' , session('mid'))->get(['full_address','region_id','street'])->toArray();
-        // $address = array();
-        // foreach($data as $val){
-        //     $newarr = array();
-        //     $newarr['id']=$val['region_id'];
-        //     $newarr['name']=$val['full_address']."\t".$val['street'];
-        //     $address[] = $newarr;
-        // }
-        // $address_json = json_encode($address);
+        $data = \App\Model\MemberAddress::where('mid' , session('mid'))->get(['full_address','region_id','street','phone','name','id'])->toArray();
+        // dd($data);
+        $address = array();
+        foreach($data as $val){
+            $newarr = array();
+            $newarr['id']=$val['id'];
+            // $newarr['name']=$val['full_address']."\t".$val['street'];
+            $newarr['name']=$val['name']."\t".$val['full_address'];
+            // $newarr['member_address_id']=$val['id'];
+            $address[] = $newarr;
+        }
+        $address_json = json_encode($address);
 
 
 
 
         //调用我的店铺 所填写的基地
-        $data = \App\Model\MemberStoreinfo::where('member_id' , session('mid'))->first(['base_address','region_id','street'])->toArray();
-        $address = array();
-        $address['id'] = $data['region_id'];
-        $address['name'] = $data['base_address']."\t".$data['street'];
+        // $data = \App\Model\MemberStoreinfo::with('userinfo')->where('member_id' , session('mid'))->first()->toArray();
+        //
+        // $address = array();
+        // $address['id'] = $data['region_id'];
+        // // $address['name'] = $data['base_address']."\t".$data['street'];
+        // $address['name'] = $data['userinfo']['tname']."\t".$data['base_address'];
+        // $address['phone'] = $data['phone'];
 
-        $address_json = (json_encode($address));
+
+        // $address_json = (json_encode($address));
 
 
         //支付sdk 信息包
