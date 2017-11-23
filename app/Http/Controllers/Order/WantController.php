@@ -231,7 +231,7 @@ class WantController extends Controller
             'detail'           => '求购信息佣金十块钱',
             // 'out_trade_no'     => '1217752501201407033233368019',
             'out_trade_no'     => date('Ymdhis').strrand(5),
-            'total_fee'        => 1, // 单位：分
+            'total_fee'        => config('common.fabu_want_price'), // 单位：分
             'notify_url'       => 'http://sj.71mh.com/wx/notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
             'openid'           => $user->id, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
             // ...

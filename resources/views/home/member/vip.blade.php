@@ -79,13 +79,31 @@
         }
 
         function pay_wechat(){
+            wx.chooseWXPay({
+                timestamp: <?= $config['timestamp'] ?>,
+                nonceStr: '<?= $config['nonceStr'] ?>',
+                package: '<?= $config['package'] ?>',
+                signType: '<?= $config['signType'] ?>',
+                paySign: '<?= $config['paySign'] ?>', // 支付签名
+                success: function (res) {
+                    // 支付成功后的回调函数
+                    layer.open({content:'开通会员成功', time:2});
 
+                    setTimeout(function(){
+                        window.location.href='/member/index';
+                    },1000);
+                }
+            });
         }
 
         function pay_alipay(){
 
         }
 
+    </script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        wx.config(<?php echo $js->config(array('onMenuShareQQ', 'onMenuShareWeibo','chooseWXPay'), false) ?>);
     </script>
 
 </head><body class="bg-f8">
@@ -103,18 +121,12 @@
   <p class="font_28r padding_top_bottom">支付金额：<span class="color_ff7f03">¥880.00</span></p>
   <!-- <label><input type="radio" name="chongzhi_type" value="1" checked>微信支付</label>
   <label><input type="radio" name="chongzhi_type" value="2">支付宝支付</label> -->
-  <script type="text/javascript">
-  // function shengji()
-  // {
-  //     var type = $('input[name=chongzhi_type]').val();
-  //     alert(type)
-  // }
-  </script>
+
   <div class="text_center upgrade_btn padding_top_bottom">
     <!-- <a class="color_fff bg-02c5a3 font_26r" href="javascript:void(0)" onclick="shengji()">立即升级</a> -->
     <a class="color_fff bg-02c5a3 font_26r" href="javascript:void(0)" onclick="pay_wechat()">微信支付</a>
     <br>
-    
+
   </div>
 </div>
 <div class="padding_flanks bg-fff user_store bd_top-eee">

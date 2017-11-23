@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use EasyWeChat\Payment\Order;
 use EasyWeChat\Foundation\Application;
 use App\Model\Want;
+use App\Model\Member;
 
 class WxController extends Controller
 {
@@ -20,7 +21,7 @@ class WxController extends Controller
     public function notify()
     {
 
-        \Log::info('heheh|||yyyyyyyyyy');
+        // \Log::info('heheh|||yyyyyyyyyy');
         $options=require config_path().'/wechat.php';
         $app = new Application($options);
         $response = $app->payment->handleNotify(function($notify, $successful){
@@ -54,11 +55,93 @@ class WxController extends Controller
 
     }
 
-    public function wantnotify()
+    
+
+    public function vip()
+    {
+        $user = session('wechat.oauth_user');
+        $options=require config_path().'/wechat.php';
+        $app = new Application($options);
+        $js = $app->js;
+
+        //订单详情
+        $payment = $app->payment;
+        // $prepayId = '123213213';
+        // $config = $payment->configForJSSDKPayment($prepayId);
+        // dump($js->config(array('onMenuShareQQ', 'onMenuShareWeibo','chooseWXPay'), true));
+        // dd($config);
+
+
+        $attributes = [
+            'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
+            'body'             => '升级金牌会员',
+            'detail'           => '升级金牌会员880块',
+            // 'out_trade_no'     => '1217752501201407033233368019',
+            'out_trade_no'     => date('Ymdhis').strrand(5),
+            'total_fee'        => config('common.open_vip_price'), // 单位：分
+            'notify_url'       => 'http://sj.71mh.com/wx/member-notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+            'openid'           => $user->id, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
+            // ...
+        ];
+        $order = new Order($attributes);
+
+        $result = $payment->prepare($order);
+
+        // dd($result);
+        if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
+            $prepayId = $result->prepay_id;
+            $config = $payment->configForJSSDKPayment($prepayId);
+        }
+
+        $out_trade_no = $attributes['out_trade_no'];
+        \Log::info('myopenid :' .$user->id);
+        // return view('wx.paybutton',['js'=>$js,'config'=>$config]);
+
+
+
+        return view('home.member.vip',['out_trade_no'=>$out_trade_no,'js'=>$js,'config'=>$config]);
+
+
+        // return view('home.member.vip');
+    }
+
+    public function memberNotify()
     {
 
-        file_put_contents(public_path().'/123.txt','hehe1232aaaaaaaaaaaa13');
-        \Log::info('yytest');
+        $options=require config_path().'/wechat.php';
+        $app = new Application($options);
+        $response = $app->payment->handleNotify(function($notify, $successful){
+            \Log::info('receive-openid:'.$notify->openid);
+            \Log::info('receive-package:'.$notify);
+            // 使用通知里的 "微信支付订单号" 或者 "商户订单号" 去自己的数据库找到订单
+            $member = Member::where('openid',$notify->openid)->first();
+            // $order = 查询订单($notify->out_trade_no);
+            if (!$member) { // 如果订单不存在
+                return 'member not exist.'; // 告诉微信，我已经处理完了，订单没找到，别再通知我了
+            }
+            // 如果订单存在
+            // 检查订单是否已经更新过支付状态
+            if ($member->rank == 1) { // 假设订单字段“支付时间”不为空代表已经支付
+                return true; // 已经支付成功了就不再更新了
+            }
+            // 用户是否支付成功
+            if ($successful) {
+                // 不是已经支付状态则修改为已经支付状态
+                // $order->paid_at = time(); // 更新支付时间为当前时间
+                $member->rank = 1;
+                $member->vip_addtime = time();
+                $member->vip_endtime = strtotime('+1 year');
+                // $member->save();
+
+            } else { // 用户支付失败
+                $member->rank = 0;
+                // $order->delete();
+
+            }
+            $member->save(); // 保存订单
+            return true; // 返回处理完成
+        });
+        return $response;
     }
 
     public function jsapi()

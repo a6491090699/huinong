@@ -192,7 +192,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'member'] ,function (){
     Route::get('index', 'MemberController@index');
     Route::get('info', 'MemberController@info');
     Route::get('setting', 'MemberController@setting');
-    Route::get('vip', 'MemberController@vip');
+    // Route::get('vip', 'MemberController@vip');
     Route::get('jingying-valid', 'MemberController@jingyingValid');
     Route::get('valid-index', 'MemberController@validIndex');
     Route::get('xieyi', 'MemberController@xieyi');
@@ -253,6 +253,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'wantOrder'] ,function (){
 
 
 Route::get('test',function(){
+    $time = strtotime('+1 year');dump(date('Y-m-d H:i:s', $time));dd($time);
     \Log::info('heheh');exit;
     return response()->view('home.common.404',['msg'=>'出现错误'], 404);
 
@@ -266,6 +267,9 @@ Route::group(['prefix'=>'wx', 'middleware'=>'wechat.oauth' ] ,function (){
 
     Route::any('notify', 'WxController@notify');
     Route::any('wantnotify', 'WxController@wantnotify');
+
+    Route::get('vip', 'WxController@vip');
+    Route::any('member-notify', 'WxController@memberNotify');
 
 
 });

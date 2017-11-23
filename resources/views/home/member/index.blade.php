@@ -65,9 +65,10 @@
 <main class="user_main">
     <div class="user_grade clearfix">
         @if($store->member->rank == 1)
-        <a href="javascript:void(0)" class="user_grade_promote fl"><span class="iconfont">&#xe6a1;</span>您已是会员</a>
+        <a href="/wx/vip" class="user_grade_promote fl"><span class="iconfont">&#xe6a1;</span>升级会员</a>
+        <!-- <a href="javascript:void(0)" class="user_grade_promote fl"><span class="iconfont">&#xe6a1;</span>您已是会员</a> -->
         @else
-        <a href="/member/vip" class="user_grade_promote fl"><span class="iconfont">&#xe6a1;</span>升级会员</a>
+        <a href="/wx/vip" class="user_grade_promote fl"><span class="iconfont">&#xe6a1;</span>升级会员</a>
         @endif
 
         <a href="/member/valid-index" class="user_real_name fl"><span class="iconfont fontWeight_5">&#xe691;</span>认证中心</a>

@@ -9,6 +9,8 @@ use App\Model\MemberAddress;
 use App\Model\Supply;
 use App\Model\GoodCollect;
 use App\Model\StoreCollect;
+use EasyWeChat\Payment\Order;
+use EasyWeChat\Foundation\Application;
 
 
 class MemberController extends Controller
@@ -219,54 +221,56 @@ class MemberController extends Controller
     }
 
 
+    // 转到wxcontroller里了
+
+    
+    // public function vip()
+    // {
+    //     $user = session('wechat.oauth_user');
+    //     $options=require config_path().'/wechat.php';
+    //     $app = new Application($options);
+    //     $js = $app->js;
     //
-    public function vip()
-    {
-        $user = session('wechat.oauth_user');
-        $options=require config_path().'/wechat.php';
-        $app = new Application($options);
-        $js = $app->js;
-
-        //订单详情
-        $payment = $app->payment;
-        // $prepayId = '123213213';
-        // $config = $payment->configForJSSDKPayment($prepayId);
-        // dump($js->config(array('onMenuShareQQ', 'onMenuShareWeibo','chooseWXPay'), true));
-        // dd($config);
-
-
-        $attributes = [
-            'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
-            'body'             => '升级金牌会员',
-            'detail'           => '升级金牌会员880块',
-            // 'out_trade_no'     => '1217752501201407033233368019',
-            'out_trade_no'     => date('Ymdhis').strrand(5),
-            'total_fee'        => 1, // 单位：分
-            'notify_url'       => 'http://sj.71mh.com/wx/notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
-            'openid'           => $user->id, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
-            // ...
-        ];
-        $order = new Order($attributes);
-
-        $result = $payment->prepare($order);
-
-        // dd($result);
-        if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
-            $prepayId = $result->prepay_id;
-            $config = $payment->configForJSSDKPayment($prepayId);
-        }
-
-        $out_trade_no = $attributes['out_trade_no'];
-
-        // return view('wx.paybutton',['js'=>$js,'config'=>$config]);
-
-
-
-        return view('home.want.fabu',['address_json'=>$address_json,'out_trade_no'=>$out_trade_no,'js'=>$js,'config'=>$config]);
-
-
-        return view('home.member.vip');
-    }
+    //     //订单详情
+    //     $payment = $app->payment;
+    //     // $prepayId = '123213213';
+    //     // $config = $payment->configForJSSDKPayment($prepayId);
+    //     // dump($js->config(array('onMenuShareQQ', 'onMenuShareWeibo','chooseWXPay'), true));
+    //     // dd($config);
+    //
+    //
+    //     $attributes = [
+    //         'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
+    //         'body'             => '升级金牌会员',
+    //         'detail'           => '升级金牌会员880块',
+    //         // 'out_trade_no'     => '1217752501201407033233368019',
+    //         'out_trade_no'     => date('Ymdhis').strrand(5),
+    //         'total_fee'        => 1, // 单位：分
+    //         'notify_url'       => 'http://sj.71mh.com/wx/member-notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+    //         'openid'           => $user->id, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
+    //         // ...
+    //     ];
+    //     $order = new Order($attributes);
+    //
+    //     $result = $payment->prepare($order);
+    //
+    //     // dd($result);
+    //     if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
+    //         $prepayId = $result->prepay_id;
+    //         $config = $payment->configForJSSDKPayment($prepayId);
+    //     }
+    //
+    //     $out_trade_no = $attributes['out_trade_no'];
+    //     \Log::info('myopenid :' .$user->id);
+    //     // return view('wx.paybutton',['js'=>$js,'config'=>$config]);
+    //
+    //
+    //
+    //     return view('home.member.vip',['out_trade_no'=>$out_trade_no,'js'=>$js,'config'=>$config]);
+    //
+    //
+    //     // return view('home.member.vip');
+    // }
 
     public function xieyi()
     {
