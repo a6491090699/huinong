@@ -104,7 +104,7 @@
             <li>
         <dl class="clearfix">
           <a href="/supply/view/{{$val->goods->id}}">
-            <dt class="fl"><img src="/images/201710161709579308.JPG"/></dt>
+            <dt class="fl"><img src="{{getPic(config('common.img_default'))}}" style="width:88px;height:88px"/></dt>
             <dd class="fl position_relative">
               <p class="font_3r color_34">{{$val->goods->goods_name}}</p>
               <div class="sell_information">
@@ -149,7 +149,7 @@
                 @forelse($stores as  $val)
         <dl class="clearfix goods_details_store">
           <dt class="fl">
-            <img src="/images/store_logo.jpg"/>
+            <img src="{{getPic($val->stores->logo)}}" style="width:103.5px;height:103.5px"/>
           </dt>
           <dd class="fl color_34 padding_flanks">
             <p class="font_3r">{{$val->stores->store_name}}</p>

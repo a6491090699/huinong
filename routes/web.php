@@ -16,7 +16,7 @@ use App\Model\Want;
 use App\Model\Supply;
 use App\Model\Member;
 
-session(['mid'=>1]);
+// session(['mid'=>1]);
 //在这边获取openid
 function getOpenid()
 {
@@ -85,7 +85,15 @@ function get_sub_value($array, $value , $param = 'id') {
 function getPic($string=''){
     return str_replace('public/','/storage/', $string);
 }
-
+function showImgs($string=''){
+    $arr = explode(';',$string);
+    $html = '';
+    foreach($arr as  $val){
+        $html.= '<img src="'.getPic($val).'">';
+    }
+    return $html;
+    // return str_replace('public/','/storage/', $string);
+}
 
 Route::get('/', function () {
 
@@ -172,12 +180,15 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'yuyue'] ,function (){
 //店铺操作
 Route::group(['namespace'=>'Order' ,'prefix'=>'store'] ,function (){
     Route::get('edit' , 'StoreController@editStore');
+    Route::post('save' , 'StoreController@saveStore');
     Route::get('index' , 'StoreController@index');
     Route::get('showinfo' , 'StoreController@showinfo');
     Route::get('add' , 'StoreController@addStoreinfo');
     Route::get('view/{id}' , 'StoreController@view');
     Route::post('create' , 'StoreController@create');
     Route::post('check-name' , 'StoreController@checkName');
+    Route::post('upload-imgs' , 'StoreController@uploadImgs');
+    Route::post('reset-imgs' , 'StoreController@resetImgs');
 
 
 
@@ -206,20 +217,20 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'member'] ,function (){
     Route::post('address-setdefault', 'MemberController@setdefault');
 
     //Order list
-    Route::get('want-Order' , 'MemberController@wantOrder');
+    Route::get('want-order' , 'MemberController@wantOrder');
 
     //supply Order list
     //全部订单
-    Route::get('supply-Order' , 'MemberController@supplyOrder');
-    // Route::get('supply-Order-pending' , 'MemberController@supplyOrderPending');
-    // Route::get('supply-Order-accepted' , 'MemberController@supplyOrderAccepted');
-    // Route::get('supply-Order-shipped' , 'MemberController@supplyOrderShipped');
-    // Route::get('supply-Order-finished' , 'MemberController@supplyOrderFinished');
+    Route::get('supply-order' , 'MemberController@supplyOrder');
+    // Route::get('supply-order-pending' , 'MemberController@supplyOrderPending');
+    // Route::get('supply-order-accepted' , 'MemberController@supplyOrderAccepted');
+    // Route::get('supply-order-shipped' , 'MemberController@supplyOrderShipped');
+    // Route::get('supply-order-finished' , 'MemberController@supplyOrderFinished');
 
     Route::get('my-goods' , 'MemberController@myGoods');
 
 });
-Route::group(['namespace'=>'Order' ,'prefix'=>'supplyOrder'] ,function (){
+Route::group(['namespace'=>'Order' ,'prefix'=>'supplyorder'] ,function (){
 
 
     //supply Order list
@@ -228,10 +239,10 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'supplyOrder'] ,function (){
 
 
     //处理发货
-    // Route::get('supply-Order-pending' , 'MemberController@supplyOrderPending');
-    // Route::get('supply-Order-accepted' , 'MemberController@supplyOrderAccepted');
-    // Route::get('supply-Order-shipped' , 'MemberController@supplyOrderShipped');
-    // Route::get('supply-Order-finished' , 'MemberController@supplyOrderFinished');
+    // Route::get('supply-order-pending' , 'MemberController@supplyOrderPending');
+    // Route::get('supply-order-accepted' , 'MemberController@supplyOrderAccepted');
+    // Route::get('supply-order-shipped' , 'MemberController@supplyOrderShipped');
+    // Route::get('supply-order-finished' , 'MemberController@supplyOrderFinished');
 
 
 });
@@ -243,18 +254,20 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'wantOrder'] ,function (){
     //全部订单
     // Route::get('index' , 'WantOrderController@index');
     //处理发货
-    // Route::get('supply-Order-pending' , 'MemberController@supplyOrderPending');
-    // Route::get('supply-Order-accepted' , 'MemberController@supplyOrderAccepted');
-    // Route::get('supply-Order-shipped' , 'MemberController@supplyOrderShipped');
-    // Route::get('supply-Order-finished' , 'MemberController@supplyOrderFinished');
+    // Route::get('supply-order-pending' , 'MemberController@supplyOrderPending');
+    // Route::get('supply-order-accepted' , 'MemberController@supplyOrderAccepted');
+    // Route::get('supply-order-shipped' , 'MemberController@supplyOrderShipped');
+    // Route::get('supply-order-finished' , 'MemberController@supplyOrderFinished');
 
 
 });
 
 
 Route::get('test',function(){
-    $time = strtotime('+1 year');dump(date('Y-m-d H:i:s', $time));dd($time);
-    \Log::info('heheh');exit;
+
+    // if($member)
+    dd(session('wechat.oauth_user'));
+
     return response()->view('home.common.404',['msg'=>'出现错误'], 404);
 
 
@@ -293,7 +306,7 @@ Route::group(['namespace'=>'Api' ,'prefix'=>'api'] ,function (){
     Route::get('collect-good' , 'DataController@collectGood');
     Route::get('cancel-collect-good' , 'DataController@cancelCollectGood');
     Route::get('get-kind-unit/{kid}' , 'DataController@getKindUnit');
-    Route::get('get-supply-Order' , 'DataController@getSupplyOrder');
+    Route::get('get-supply-order' , 'DataController@getSupplyOrder');
     Route::get('get-yuyue' , 'DataController@getYuyue');
     // Route::get('get-my-want' , 'DataController@getMyWant');
 

@@ -23,10 +23,9 @@ class DataController extends Controller
 
     public function __construct(){
         //开发开启
-        $this->mid = session('mid')? session('mid'): 1;
+        $this->mid = session('mid');
 
-        //线上开启
-        // if(!empty(session('mid'))) $this->mid = session('mid');
+
 
 
     }
@@ -128,7 +127,7 @@ class DataController extends Controller
 
     public function getAddress()
     {
-        $mid = $this->mid;
+        $mid = session('mid');
         $data = MemberAddress::getAddress($mid);
         return $data;
     }
@@ -285,10 +284,10 @@ class DataController extends Controller
         // $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
         $pagenum = 10; //每页显示数
         if($status == 0){
-            $return = Quote::with('wants.wantAttrs.attrs','wants.kinds')->where('member_id',$this->mid)->paginate($pagenum);
+            $return = Quote::with('wants.wantAttrs.attrs','wants.kinds')->where('member_id',session('mid'))->paginate($pagenum);
 
         }else{
-            $return = Quote::with('wants.wantAttrs.attrs','wants.kinds')->where('member_id',$this->mid)->where('status',$status)->paginate($pagenum);
+            $return = Quote::with('wants.wantAttrs.attrs','wants.kinds')->where('member_id',session('mid'))->where('status',$status)->paginate($pagenum);
 
         }
 

@@ -61,9 +61,42 @@ class StoreController extends Controller
 
     //编辑店铺信息
     public function editStore(){
-        $data = MemberStoreinfo::where('member_id' , session('id'))->first();
-
+        $data = MemberStoreinfo::where('member_id' , session('mid'))->first();
+        // dd($data);
         return view('home.store.edit' , ['store'=>$data]);
+    }
+
+    //保存编辑店铺信息
+    public function saveStore(Request $request){
+        // dd($request);
+        $data = MemberStoreinfo::where('member_id' , session('mid'))->first();
+
+        $store_name = $request->input('store_name');
+        $store_sale = $request->input('biz_scope');
+        $base_address = $request->input('region_name');
+        $region_id = $request->input('region_id');
+        $street = $request->input('address');
+        $phone = $request->input('pc_mobile');
+        $tel = $request->input('pc_tel');
+        $qq = $request->input('cs_qq');
+        $description = $request->input('description');
+
+
+
+        $data->store_name = $store_name;
+        $data->store_sale = $store_sale;
+        $data->base_address = $base_address;
+        $data->region_id = $region_id;
+        $data->street = $street;
+        $data->phone = $phone;
+        $data->tel = $tel;
+        $data->qq = $qq;
+        $rs = $data->save();
+
+        if($rs) return response()->json(['status'=>0 , 'info'=>'更新成功!']);
+        return response()->json(['status'=>0 , 'info'=>'更新失败!请重试!']);
+
+
     }
 
     //添加店铺信息
@@ -77,15 +110,25 @@ class StoreController extends Controller
 
     public function checkName(Request $request){
         $store_name = $request->input('store_name');
-        $rs = MemberStoreinfo::where('store_name', $store_name)->count();
-        if($rs){
+        $rs = MemberStoreinfo::where('store_name' , $store_name);
+        if($request->has('store_id')){
+            $rs->where('id','<>',$request->input('store_id'));
+        }
+        $res = $rs->count();
+        if($res){
             return 'false';
         }else{
             return 'true';
         }
-        // $city = file_get_contents(app_path().'/Common/region_level4.json');
 
-        // return view('home.store.add');
+        // $store_name = $request->input('store_name');
+        // $rs = MemberStoreinfo::where('store_name', $store_name)->count();
+        // if($rs){
+        //     return 'false';
+        // }else{
+        //     return 'true';
+        // }
+
     }
 
     public function uploadfile(Request $request)
@@ -156,11 +199,12 @@ class StoreController extends Controller
         $obj->tel = $tel;
         $obj->qq = $qq;
         $obj->logo = $logo;
+        $obj->desc = $description;
         $obj->addtime = time();
         $obj->member_id = session('mid');
         $rs = $obj->save();
-        if($rs) return response('<script>alert("设置成功");location.href="/store/index"</script>');
-        return response('<script>alert("设置失败");location.href="/store/index"</script>');
+        if($rs) return response('<script>alert("添加成功");location.href="/store/index"</script>');
+        return response('<script>alert("添加失败");location.href="/store/index"</script>');
 
 
     }
@@ -168,7 +212,59 @@ class StoreController extends Controller
 
     //实力展示 上传图片 以及描述
     public function showinfo(){
+        $store = MemberStoreinfo::where('member_id' ,session('mid'))->first(['imgs']);
+        return view('home.store.showinfo',['imgs'=>$store->imgs]);
+    }
+    public function multiUpload(Request $request)
+    {
+        $base64_image_content = $request->input('img');
+        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)){
+            $type = $result[2];
+            // $root =
+            // dump(public_path());
+            // dump($_SERVER['DOCUMENT_ROOT']);
+            // dd($_SERVER);
+            $new_file = storage_path().'/app/public/logo/'.session('mid').'/';
 
-        return view('home.store.showinfo');
+            //如果文件不存在,则创建
+            if(!file_exists($new_file))
+            {
+                mkdir($new_file, 0777, true);
+            }
+
+            $new_file = $new_file.time().strrand(5). '.' .$type;
+            if (file_put_contents($new_file, base64_decode(str_replace($result[1],'', $base64_image_content)))){
+                $return = str_replace(storage_path().'/app/' ,'',$new_file);
+                return $return;
+                // return 'public/'.
+            }else{
+                return false;
+            }
+        }
+    }
+
+    public function uploadImgs(Request $request)
+    {
+        $file = $this->multiUpload($request);
+        $store = MemberStoreinfo::where('member_id' ,session('mid'))->first();
+        $store->imgs .= $file.';';
+        if($store->save()){
+
+            return response()->json(['img'=>getPic($file)]);
+            // echo 'success';
+        }else{
+            // return false;
+            echo 'fail';
+        }
+
+    }
+
+    public function resetImgs()
+    {
+        $store = MemberStoreinfo::where('member_id' ,session('mid'))->first();
+        $store->imgs = '';
+        $rs = $store->save();
+        if($rs) return response()->json(['status'=>1]);
+
     }
 }

@@ -109,7 +109,7 @@
 
 
     <ul id="order_list">
-	  <li class="user_store">
+	  <!-- <li class="user_store">
    <div class="goods_status bg-fff padding_flanks">
     <span class="font_28r color_34" onclick="location='#?app=store&amp;store_id=7239';">景轩的官方店铺<b class="iconfont fontWeight_4 padding_flanks color_9a"></b></span>
     <span class="font_24r color_ff863a fr">待付款</span>
@@ -144,7 +144,7 @@
      <a class="border_box-9a font_24r color_67" href="index.php?app=buyer_order&amp;act=cancel_order&amp;order_id=137347">取消订单</a>
      <a class="border_box-02c5a3 font_24r color_02c5a3" href="#?app=cashier&amp;order_id=137347">付款</a>
     </div>
-   </div></li>
+   </div></li> -->
     </ul>
     <div id="loading01" class='load_more' style="display: none;">
         <a class="a_full text_center margin_top margin_bottom padding_container font_24r color_9a" href="javascript:void(0);">加载更多</a>

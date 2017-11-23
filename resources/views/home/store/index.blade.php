@@ -242,6 +242,16 @@
     <div class="form_item"  style="    text-align: center;">
     <span class="font_3r color_34 goods_name-title">店铺详情</span>
     <p class="font_24r color_67">{{$info->desc}}</p>
+
+    <span class="font_3r color_34 goods_name-title">图片展示</span>
+    @if($info->imgs)
+    {!!showImgs($info->imgs)!!}
+    @else
+    <div >
+        <a href="/store/showinfo" style="display: block;font-size: 2.4rem;color: #9a9a9a;text-align: center;border-radius: 2px;width: 80%;margin: auto;padding: 5px;border: 1px solid #ddd;" >您还没编辑图片展示区,点击去编辑</a>
+    </div>
+    @endif
+
 	<br>
 	<br>
   </div>

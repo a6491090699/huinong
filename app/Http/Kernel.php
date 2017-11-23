@@ -35,6 +35,11 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
+            //yyedit
+            \Overtrue\LaravelWechat\Middleware\OAuthAuthenticate::class,
+            \App\Http\Middleware\SessionMid::class,
+
             // \App\Http\Middleware\MidSession::class,
         ],
 

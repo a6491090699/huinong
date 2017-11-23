@@ -1,120 +1,291 @@
 <!DOCTYPE html>
-<html>
-<head lang="en">
+<html lang="en">
+
+<head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>中国花木在线交易专业平台</title>
-<meta name="keywords" content="竞苗平台,花木网,花木,中国苗木网,花木交易,花木求购,花木资讯,花木论坛,花木销售,绿化苗木" />
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <meta name="_token" content="{{ csrf_token() }}"/>
 
-    <link rel="stylesheet"  href="/css/mobile-select-area.css">
-    <!--<link rel="stylesheet" href="/css/larea.css">-->
-    <link rel="stylesheet" href="/css/style.css"/>
-    <link rel="stylesheet" href="/css/index.css"/>
-    <!--<link rel="stylesheet" href="/css/sm.min.css">-->
-    <!--<script type='text/javascript' src='/js/zepto.min.js' charset='utf-8'></script>-->
-    <!--<script type='text/javascript' src='/js/sm.min.js' charset='utf-8'></script>-->
-    <script src="/js/jquery-1.11.2.js" type="text/javascript"></script>
-    <script src="/js/layer.js"></script>
-    <script type="text/javascript" src="/js/index.js"></script>
-    <script src="/js/mlselection.js"></script>
-    <script src="/js/huamu.js" type="text/javascript"></script>
-    <script src="/js/jquery.validate.js" type="text/javascript"></script>
-    <script src="/js/jquery.validate.extend.js" type="text/javascript"></script>
-    <script src="/js/additional-methods-huamu.js" type="text/javascript"></script>
-    <script src="/js/index.js" type="text/javascript"></script>
-    <script src="/js/common.js" type="text/javascript"></script>
-    <script type="text/javascript" src="/js/dialog.js"></script>
-    <script type="text/javascript" src="/js/mobile-select-area.js"></script>
-    <script type="text/javascript" src="/js/json2.js" ></script>
-    <script type="text/javascript" src="/js/underscore-min.js" ></script>
-    <script>
-        //模板设置
-        _.templateSettings = {
-            interpolate: /\{(.+?)}/g
-        };
-        var SITE_URL = ".";
-        var REAL_SITE_URL = ".";
-        var PRICE_FORMAT = '¥%s';
-
-    </script>
-
+    <title>移动端图片压缩上传demo</title>
+    <style>
+* { margin: 0; padding: 0; }
+li { list-style-type: none; }
+a, input { outline: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+#choose { display: none; }
+canvas { width: 100%; border: 1px solid #000000; }
+#upload, #uploadimg ,#resetimg,#finished { display: block; margin: 10px; height: 60px; text-align: center; line-height: 60px; border: 1px solid; border-radius: 5px; cursor: pointer; font-size: 20px; }
+.touch { background-color: #ddd; }
+.img-list { overflow: hidden;margin: 0.2rem 0 }
+.img-list li { box-sizing: border-box; position: relative; display: inline-block;margin: 0 0.1rem 0.2rem; width:2.3rem; height: 2.3rem; border: 1px solid rgb(100, 149, 198); background: #fff no-repeat center; background-size: cover; }
+.progress { position: absolute; width: 100%; height: 20px; line-height: 20px; bottom: 0; left: 0; background-color: rgba(100, 149, 198, .5); }
+.progress span { display: block; width: 0; height: 100%; background-color: rgb(100, 149, 198); text-align: center; color: #FFF; font-size: 13px; }
+.size { position: absolute; width: 100%; height: 15px; line-height: 15px; bottom: -18px; text-align: center; font-size: 13px; color: #666; }
+.tips { display: block; text-align: center; font-size: 13px; margin: 10px; color: #999; }
+.showimg { margin: 10px auto 10px auto; text-align: center; }
+.cover:before { content: ''; position: absolute; background: rgba(0, 0, 0, 0.4); left: 0; top: 0; right: 0; height: 100%; width: 100%; }
+.i-delete { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); -webkit-transform: translate(-50%, -50%); background: url(/images/delete.png) no-repeat; background-size: 27px 28px; width: 27px; height: 28px; }
+    </style>
 </head>
-<body class="bg-f8">
-<header class="user_center_header">
-    <a class="go_back_btn" href="javascript:history.go(-1)">
-        <span class="iconfont">&#xe698;</span>
-    </a>
-    <h1>实力展示</h1>
-</header>
-<div class="padding_flanks">
-    <div class="bg-fff font_24r padding_container store_synopsis_con" contenteditable="true">
-        <div class="store_synopsis" id="strength_text">
-                        <p class="hint_word text_center color_9a">点击添加店铺简介</p>
-                    </div>
-    </div>
-    <ul class="strength_show_con clearfix user_store">
-                <li class="bg-fff" id="btn_add_image">
-            <!--<span class="iconfont font_7r">&#xe69b;</span>-->
-            <iframe id='iframepage' src="index.php?app=comupload&act=view_iframe_mobile&id=90714&belong=3&instance=store_strength" width="85" height="85" scrolling="no" frameborder="0"></iframe>
-            <p class="font_24r color_9a upload_pictures_explain">最多可上传4张图片</p>
-        </li>
-    </ul>
-</div>
-<script>
-    var uploaded_img_tpl = '<li> <img src="/images/57a4c2f7974749a1b6ae269b02e3b6ce.gif" alt="" /><input type="hidden" name="strength_images[]" value="{file_path}"/> <span class="iconfont close-x del_img" onclick="$(this).parent().remove();$("#btn_add_image").show();">&#xe66f;</span> </li>';
 
-    function display_image_upload_notice() {
-        $("#image_upload_notice").show();
-    }
-    function add_uploadedfile(file_data) {
-        var tpl = _.template(uploaded_img_tpl);
-        $('#btn_add_image').before(tpl(file_data));
-        if($("input[name='strength_images[]']").length >= 4){
-            $('#btn_add_image').hide();
-        }else{
-            $('#btn_add_image').show();
+<body>
+    <script>
+    //动态设置字体
+    (function setFontSize() {
+        var doc = document;　　
+        var winWidth = doc.body.clientWidth || doc.documentElement.clientWidth;　　
+        var size = (winWidth / 750) * 100;　　
+        doc.documentElement.style.fontSize = (winWidth <= 768 ? size : 50) + 'px';
+    }());
+    </script>
+    <input type="file" id="choose" accept="image/*" multiple>
+    <ul class="img-list"></ul>
+    <a id="upload">选择图片</a>
+    <a id="resetimg">重置</a>
+    <span class="tips">只允许上传jpg、png等格式图片</span>
+    <!-- <span class="tips">最多可上传九张图片</span> -->
+    <span class="tips" style="color:red">点击缩略图进行删除图片!</span>
+    <span class="tips" style="color:red">请全部选好图片再点击上传!</span>
+    <a id="uploadimg">上传</a>
+    <a id="finished" href="/store/index" style="border-color:black;text-decoration:none;color:black">完成编辑</a>
+    <p class="showimg" id="showimg">
+        {!!showImgs($imgs)!!}
+    </p>
+    <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+    $.ajaxSetup({
+        headers: {
+           'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
         }
+    });
 
-        $("#image_upload_notice").hide();
-    }
-
-    function submit_strength(){
-        var description = $("#strength_text").html();
-        if(description == '<p class="hint_word text_center color_9a">点击添加店铺简介</p>'){
-            description = "";
-        }
-        var images = [];
-        $("input[name='strength_images[]']").each(function(){
-            images.push($(this).val());
-        });
-        var data = {description:description, images:images};
-        var url = "/index.php?app=my_store&act=strength&ajax";
-        $.post(url, data, function(response){
-            layer.open({content:response.info, time:3});
-            if(response.status == 0){
-                setTimeout(function(){
-                    location = "/index.php?app=my_store";
-                }, 3000);
+    var filechooser = document.getElementById("choose");
+    //    用于压缩图片的canvas
+    var canvas = document.createElement("canvas");
+    var ctx = canvas.getContext('2d');
+    //    瓦片canvas
+    var tCanvas = document.createElement("canvas");
+    var tctx = tCanvas.getContext("2d");
+    var maxsize = 100 * 1024;
+    // 控制删除开关，只绑定一次
+    var del_btn = true;
+    // 控制9张提示开关，循环里只提示一次
+    var max_pic_num = true
+    $('#resetimg').click(function(){
+        $.post('/store/reset-imgs',{},function(data){
+            if(data.status){
+                alert('重置成功,请重新上传编辑!');
+                location.reload();
             }
-        },'json');
-    }
+        })
+    });
+    $("#upload").on("click", function() {
+            filechooser.click();
+        })
+        .on("touchstart", function() {
+            $(this).addClass("touch")
+        })
+        .on("touchend", function() {
+            $(this).removeClass("touch")
+        });
 
-    $(".store_synopsis_con").focus(function(){
-        var con=$(".store_synopsis");
-        if(con.children().eq(0).html()=="点击添加店铺简介"){
-            con.html("<p class='color_34'></br></p>");
+    filechooser.onchange = function() {
+        if (!this.files.length) return;
+        var files = Array.prototype.slice.call(this.files);
+        if (files.length > 9) {
+            alert("最多同时只可上传9张图片");
+            return;
         }
-    });
-    var li=$(".strength_show_con li");
-    li.height(li.width());
-    $(window).resize(function() {
-        li.height(li.width());
-    });
 
-</script>
-<footer class="font_3r">
-    <a class="footer_btn color_fff bg-02c5a3" onclick="submit_strength()">完成</a>
-</footer>
 
+
+        files.forEach(function(file, i) {
+
+            if (!/\/(?:jpeg|png|gif)/i.test(file.type)) {
+                alert("请传入图片");
+                return
+            };
+            var reader = new FileReader();
+            var li = document.createElement("li");
+            //          获取图片大小
+            var size = file.size / 1024 > 1024 ? (~~(10 * file.size / 1024 / 1024)) / 10 + "MB" : ~~(file.size / 1024) + "KB";
+            li.innerHTML = '<div class="size">' + size + '</div>';
+            $(".img-list").append($(li));
+
+            // 最多可上传九张图片
+            if ($('.img-list li').length > 9) {
+                if (max_pic_num) {
+                    alert("最多可上传九张图片");
+                    max_pic_num = false;
+                }
+                $('.img-list li:gt(8)').remove();
+                return false
+            }
+
+            // 删除预览图片
+            if (del_btn) {
+                $('body').on('touchstart', '.img-list li', function() {
+
+                    $(this).addClass('cover').append('<i class=i-delete></i>');
+                    var that = this;
+                    setTimeout(function() {
+                        var flag = confirm("要删除这张照片嘛")
+                        if (flag) {
+                            $(that).remove()
+                            return false
+                        } else {
+                            $(that).removeClass('cover')
+                            $(that).find('.i-delete').remove()
+                            return false
+                        }
+                    }, 300)
+                })
+                del_btn = false
+            }
+
+
+
+            //    var img_list_obj= document.querySelectorAll('.img-list li')
+            // i=i+img_list_obj.length;
+            // console.log(i)
+            // img_list_obj[i].addEventListener('touchstart',function(){
+            //   console.log(i)
+
+            //     $(this).addClass('cover').append('<i class=i-delete></i>');
+            //         var that=this;
+            //         setTimeout(function(){var flag=confirm("要删除这张照片嘛")
+            //         if(flag){
+            //         $(that).remove()
+            //         return false
+            //       }else{
+            //         $(that).removeClass('cover')
+            //         $(that).find('.i-delete').remove()
+            //         return false
+            //       }
+            //      },300)
+
+            //      });
+
+
+
+
+
+
+            // console.log( $('.img-list li').length)
+            reader.onload = function() {
+                var result = this.result;
+                var img = new Image();
+                img.src = result;
+                $(li).css("background-image", "url(" + result + ")");
+                //如果图片大小小于100kb，则直接上传
+                if (result.length <= maxsize) {
+                    img = null;
+                    upload(result);
+                    return;
+                }
+                //      图片加载完毕之后进行压缩，然后上传
+                if (img.complete) {
+                    callback();
+                } else {
+                    img.onload = callback;
+                }
+
+                function callback() {
+                    var data = compress(img);
+                    upload(data);
+                    img = null;
+                }
+            };
+            reader.readAsDataURL(file);
+        })
+    };
+
+
+    // setInterval(function(){
+
+    // $('.img-list li').one('touchstart',function(){
+    //     $(this).addClass('cover').append('<i class=i-delete></i>');
+    //         var that=this;
+    //         setTimeout(function(){var flag=confirm("要删除这张照片嘛")
+    //         if(flag){
+    //         $(that).remove()
+    //         return false
+    //       }else{
+    //         $(that).removeClass('cover')
+    //         $(that).find('.i-delete').remove()
+    //         return false
+    //       }
+    //      },300)
+    // })
+
+
+    // }, 2000)
+
+
+    //    使用canvas对大图片进行压缩
+    function compress(img) {
+        var initSize = img.src.length;
+        var width = img.width;
+        var height = img.height;
+        //如果图片大于四百万像素，计算压缩比并将大小压至400万以下
+        var ratio;
+        if ((ratio = width * height / 4000000) > 1) {
+            ratio = Math.sqrt(ratio);
+            width /= ratio;
+            height /= ratio;
+        } else {
+            ratio = 1;
+        }
+        canvas.width = width;
+        canvas.height = height;
+        //        铺底色
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        //如果图片像素大于100万则使用瓦片绘制
+        var count;
+        if ((count = width * height / 1000000) > 1) {
+            count = ~~(Math.sqrt(count) + 1); //计算要分成多少块瓦片
+            //            计算每块瓦片的宽和高
+            var nw = ~~(width / count);
+            var nh = ~~(height / count);
+            tCanvas.width = nw;
+            tCanvas.height = nh;
+            for (var i = 0; i < count; i++) {
+                for (var j = 0; j < count; j++) {
+                    tctx.drawImage(img, i * nw * ratio, j * nh * ratio, nw * ratio, nh * ratio, 0, 0, nw, nh);
+                    ctx.drawImage(tCanvas, i * nw, j * nh, nw, nh);
+                }
+            }
+        } else {
+            ctx.drawImage(img, 0, 0, width, height);
+        }
+        //进行最小压缩
+        var ndata = canvas.toDataURL('image/jpeg', 0.3);
+        console.log('压缩前：' + initSize);
+        console.log('压缩后：' + ndata.length);
+        console.log('压缩率：' + ~~(100 * (initSize - ndata.length) / initSize) + "%");
+        tCanvas.width = tCanvas.height = canvas.width = canvas.height = 0;
+        return ndata;
+    }
+    //    图片上传，将base64图片上传
+    function upload(basestr) {
+        $("#uploadimg").bind("touchstart", function() {
+            $.post("/store/upload-imgs", {
+            // $.post("server.php", {
+                img: basestr
+            }, function(ret) {
+                if (ret.img != '') {
+                    console.log('upload success');
+                    console.log(ret)
+                        // $('#showimg').html('<img src="' + ret.img + '">');
+                    $('#showimg').append('<img src="' + ret.img + '">');
+
+                } else {
+                    alert('upload fail');
+                }
+            }, 'json');
+        })
+    }
+    </script>
 </body>
+
 </html>

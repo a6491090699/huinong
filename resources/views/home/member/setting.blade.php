@@ -40,6 +40,13 @@
     </div>
     -->
     <div class="form_item">
+        <a href="/store/edit" class="a_full">
+            <span class="font_3r color_34 span_wd_35">编辑店铺</span>
+            <b class="iconfont select_arrows-icon">&#xe614;</b>
+        </a>
+    </div>
+
+    <div class="form_item">
         <a href="/member/xieyi" class="a_full">
             <span class="font_3r color_34 span_wd_35">服务条款与协议</span>
             <b class="iconfont select_arrows-icon">&#xe614;</b>

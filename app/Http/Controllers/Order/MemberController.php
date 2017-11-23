@@ -161,14 +161,16 @@ class MemberController extends Controller
     public function collect()
     {
         //收藏的店铺
-        $stores = StoreCollect::with('stores')->withCount(['goods'])->where('member_id',$this->mid)->get();
+        $stores = StoreCollect::with('stores')->withCount(['goods'])->where('member_id',session('mid'))->get();
 
 
 
         // 收藏的商品
-        $goods = GoodCollect::with('goods.kinds')->where('member_id',$this->mid)->get();
+        $goods = GoodCollect::with('goods.kinds')->where('member_id',session('mid'))->get();
         //销量
-
+        // dump($this->mid);
+        // dump(session('mid'));
+        // dump($goods->toArray());
         // dd($stores->toArray());
 
 
@@ -188,8 +190,17 @@ class MemberController extends Controller
     {
         //logo 名字
         $store = MemberStoreinfo::with('member')->where('member_id' ,session('mid'))->first();
+        if($store){
+            if(empty($store->logo)) $store->logo = session('avatar');
+            return view('home.member.index',['store'=>$store]);
 
-        return view('home.member.index',['store'=>$store]);
+        }else{
+            return redirect('/store/add');
+        }
+
+        // if(!$store || empty($store->logo)) $store->logo = session('avatar');
+        //
+        // return view('home.member.index',['store'=>$store]);
     }
 
 
@@ -223,7 +234,7 @@ class MemberController extends Controller
 
     // 转到wxcontroller里了
 
-    
+
     // public function vip()
     // {
     //     $user = session('wechat.oauth_user');

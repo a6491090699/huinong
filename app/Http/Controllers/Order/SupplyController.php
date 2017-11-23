@@ -84,7 +84,7 @@ class SupplyController extends Controller
         $minimum = $request->input('minimum')[0];
         $number = $request->input('stock')[0];
         $kid = $request->input('cate_id');
-        $member_id = session('mid')?session('mid'):1;
+        $member_id = session('mid');
 
 
         $tip = $request->input('description');

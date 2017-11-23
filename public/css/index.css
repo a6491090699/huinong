@@ -1010,18 +1010,18 @@ input.primary_business{
 }
 .input_radio,.input_checkbox{
     padding-left: 24px;
-    background: url(../Images/select_all.png) 2px center no-repeat;
+    background: url(../images/select_all.png) 2px center no-repeat;
     -webkit-background-size:22px 22px;
     background-size:22px 22px;
 }
 .input_radio-right,.input_checkbox-right{
     padding-right:24px;
-    background: url(../Images/select_all.png) right center no-repeat;
+    background: url(../images/select_all.png) right center no-repeat;
     -webkit-background-size:22px 22px;
     background-size:22px 22px;
 }
 .input_radio_select,.input_checkbox_select{
-    background-image: url(../Images/select_all_green.png);
+    background-image: url(../images/select_all_green.png);
 }
 input.input-select{
     width:1px;
@@ -1060,7 +1060,7 @@ textarea.opinion{
     font-size: 2.2rem;
 }
 .address_details_container{
-    background: url("../Images/border_bg_02.jpg") no-repeat left bottom;
+    background: url("../images/border_bg_02.jpg") no-repeat left bottom;
     -webkit-background-size: 100%;
     background-size: 100%;
     padding-top:16px;
@@ -1391,7 +1391,7 @@ input.messages_input{
     /*min-height:8rem;*/
     padding:25px 8px 25px 10px;
     background-color: #02c5a4;
-    /*background: url(../Images/store_top_bg_02.jpg) no-repeat repeat;*/
+    /*background: url(../images/store_top_bg_02.jpg) no-repeat repeat;*/
     /*-webkit-background-size: 100%;*/
     /*background-size: 100%;*/
 }
@@ -2583,7 +2583,7 @@ fieldset select option{
     display: inline-block;
     width:17px;
     height:20px;
-    background: url("../Images/store_grade.png") no-repeat;
+    background: url("../images/store_grade.png") no-repeat;
     -webkit-background-size: 500%;
     background-size: 500%;
 }
@@ -2897,6 +2897,3 @@ fieldset select option{
     animation-delay:1.04s;
     -webkit-animation-delay:1.04s;
 }
-
-
-

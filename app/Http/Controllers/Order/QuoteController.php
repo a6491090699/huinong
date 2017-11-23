@@ -27,7 +27,7 @@ class QuoteController extends Controller
 
         // if(!$request->isMethod('post')) die(404);
         // dd($request->all());
-        $mid = session('mid')?session('mid'):1;
+        $mid = session('mid');
         $new = new Quote();
         if($new->where('member_id',$mid)->where('wants_id',$request->input('wid'))->count()) {
             // return json_encode(array(
@@ -68,28 +68,28 @@ class QuoteController extends Controller
     public function myQuote()
     {
 
-        $mid = session('mid')?session('mid'):1;
+        $mid = session('mid');
         $data = Quote::with('wants')->where('member_id' , $mid)->get();
         return view('home.quote.my');
     }
     public function myQuotePass()
     {
 
-        $mid = session('mid')?session('mid'):1;
+        $mid = session('mid');
         $data = Quote::with('wants')->where('member_id' , $mid)->where('status','1')->get();
         return view('home.quote.my-pass');
     }
     public function myQuoteNoPass()
     {
 
-        $mid = session('mid')?session('mid'):1;
+        $mid = session('mid');
         $data = Quote::with('wants')->where('member_id' , $mid)->where('status','2')->get();
         return view('home.quote.my-nopass');
     }
     public function myQuoteLose()
     {
 
-        $mid = session('mid')?session('mid'):1;
+        $mid = session('mid');
         $data = Quote::with('wants')->where('member_id' , $mid)->where('status','3')->get();
         return view('home.quote.my-lose');
     }

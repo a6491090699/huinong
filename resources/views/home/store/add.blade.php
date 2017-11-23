@@ -58,9 +58,9 @@
         <span class="iconfont">&#xe698;</span>
     </a>
     <h1>店铺信息</h1>
-    <a href="javascript:$('#my_store_form').trigger('submit')" class="address_save">保存</a>
+    <a href="javascript:$('#my_store_form').trigger('submit')" class="address_save">添加</a>
 </header>
-<form id="my_store_form" method="post" enctype="multipart/form-data" action="/store/create">
+<form id="my_store_form" method="post" action="/store/create">
 {{csrf_field()}}
 <div class="padding_flanks bg-fff">
 
@@ -128,20 +128,23 @@
             <span class="font_3r color_34 goods_name-title">客服QQ</span>
             <input type="number" placeholder="请填写您的客服QQ" class="fr user_nickname primary_business" name="cs_qq" value=""/>
         </div>
-        <div style="display: none;">
+        <div class="form_item border_none">
+            <span class="font_3r color_34 goods_name-title">店铺简介</span>
+        </div>
+        <div style="">
             <textarea class="goods_detailed_information" name="description" placeholder="请添加您的店铺简介"></textarea>
         </div>
 
 </div>
 
-<div class="padding_flanks bg-fff bd_top_bottom-eee margin_bottom_16 user_store">
+<!-- <div class="padding_flanks bg-fff bd_top_bottom-eee margin_bottom_16 user_store">
     <div class="form_item border_none">
         <a href="/store/showinfo" class="a_full">
             <span class="font_3r color_34 goods_name-title">实力展示</span>
             <b class="iconfont select_arrows-icon">&#xe614;</b>
         </a>
     </div>
-</div>
+</div> -->
 <div class=" padding_flanks bg-fff bd_top_bottom-eee  margin_bottom_16 user_my_head" >
     <span class="font_3r color_34 goods_name-title">店铺Logo</span>
 
@@ -490,11 +493,13 @@
 
     });
     $("#file_upload").change(function() {
-				$('.file').css('background', 'url(/images/upbutton.png)  no-repeat');
-				$('.file').css('width', '100%');
-				$('.file').css('height', '11rem');
-				$('.file').css('background-size', '80% 80%');
-				$('.file').css('top', '0.5rem');
+                uploadBtnChange();
+                $('.file').hide();
+				// $('.file').css('background', 'url(/images/upbutton.png)  no-repeat');
+				// $('.file').css('width', '100%');
+				// $('.file').css('height', '11rem');
+				// $('.file').css('background-size', '80% 80%');
+				// $('.file').css('top', '0.5rem');
 				$('.upimg').css('height', 'auto');
 				$('#upimgs').css('float', 'left');
 				$('#upimgs').css('width', '30%');

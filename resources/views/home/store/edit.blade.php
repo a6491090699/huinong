@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>用户中心 - 店铺设置</title>
 <meta name="keywords" content="竞苗平台,花木网,花木,中国苗木网,花木交易,花木求购,花木资讯,花木论坛,花木销售,绿化苗木" />
-
+<meta name="_token" content="{{ csrf_token() }}"/>
     <link rel="stylesheet"  href="/css/mobile-select-area.css">
     <!--<link rel="stylesheet" href="/css/larea.css">-->
     <link rel="stylesheet" href="/css/style.css"/>
@@ -52,7 +52,7 @@
 </header>
 <div class="padding_flanks bg-fff">
     <form id="my_store_form" method="post">
-        <div class="user_my_head" style="display: none;">
+        <!-- <div class="user_my_head" style="display: none;">
             <span class="font_3r color_34 goods_name-title">店铺Logo</span>
             <a><img src="/images/store_logo.png" alt="" id="store_logo_img"/></a>
             <input type="hidden" name="store_logo" id="store_logo" value="data/upload/store/73/de/73de7f96f98fced11e229d691a3cbea0/store_logo.png" />
@@ -63,7 +63,7 @@
             <div>
                                 <img id="store_wapbanner_img" src="/images/store_banner.png" alt="店铺banner"/>
                             </div>
-        </div>
+        </div> -->
         <div class="form_item">
             <span class="font_3r color_34 goods_name-title">店铺名称</span>
             <input type="text" placeholder="请填写您的店铺名称" class="fr user_nickname primary_business" name="store_name" id="store_name" value="{{$store ? $store->store_name : ''}}"/>
@@ -79,8 +79,8 @@
 
                                 <select>
                     <option>请选择...</option>
-                    <option value="1079">山东</option><option value="903">河南</option><option value="1000">江苏</option><option value="1186">浙江</option><option value="922">河北</option><option value="1120">四川</option><option value="856">广东</option><option value="813">安徽</option><option value="952">湖南</option><option value="934">湖北</option><option value="1109">陕西</option><option value="831" selected>福建</option><option value="878">广西</option><option value="1036">辽宁</option><option value="1097">山西</option><option value="1014">江西</option><option value="841">甘肃</option><option value="986">黑龙江</option><option value="1169">云南</option><option value="1026">吉林</option><option value="809">北京</option><option value="810">上海</option><option value="812">重庆</option><option value="811">天津</option><option value="1051">内蒙古</option><option value="893">贵州</option><option value="1064">宁夏</option><option value="967">海南</option><option value="1070">青海</option><option value="1150">新疆</option><option value="1142">西藏</option><option value="654326501">其他</option>                </select>
-                                                <select>
+                    <option value="1079">山东</option><option value="903">河南</option><option value="1000">江苏</option><option value="1186">浙江</option><option value="922">河北</option><option value="1120">四川</option><option value="856">广东</option><option value="813">安徽</option><option value="952">湖南</option><option value="934">湖北</option><option value="1109">陕西</option><option value="831">福建</option><option value="878">广西</option><option value="1036">辽宁</option><option value="1097">山西</option><option value="1014">江西</option><option value="841">甘肃</option><option value="986">黑龙江</option><option value="1169">云南</option><option value="1026">吉林</option><option value="809">北京</option><option value="810">上海</option><option value="812">重庆</option><option value="811">天津</option><option value="1051">内蒙古</option><option value="893">贵州</option><option value="1064">宁夏</option><option value="967">海南</option><option value="1070">青海</option><option value="1150">新疆</option><option value="1142">西藏</option><option value="654326501">其他</option>                </select>
+                                                <!-- <select>
                     <option>请选择...</option>
                     <option value="832">福州</option><option value="833">厦门</option><option value="834">莆田</option><option value="835">三明</option><option value="836" selected>泉州</option><option value="837">漳州</option><option value="838">南平</option><option value="839">龙岩</option><option value="840">宁德</option>                </select>
                                                 <select>
@@ -88,19 +88,21 @@
                     <option value="350524">安溪</option><option value="350526">德化</option><option value="350503" selected>丰泽</option><option value="350521">惠安</option><option value="350582">晋江</option><option value="350527">金门</option><option value="350502">鲤城</option><option value="350504">洛江</option><option value="350583">南安</option><option value="350505">泉港</option><option value="350581">石狮</option><option value="350525">永春</option>                </select>
                                                 <select>
                     <option>请选择...</option>
-                    <option value="350503008" selected>北峰街道</option><option value="350503006">城东街道</option><option value="350503007">东海街道</option><option value="350503001">东湖街道</option><option value="350503002">丰泽街道</option><option value="350503005">华大街道</option><option value="350503004">清源街道</option><option value="350503003">泉秀街道</option>                </select>
+                    <option value="350503008" selected>北峰街道</option><option value="350503006">城东街道</option><option value="350503007">东海街道</option><option value="350503001">东湖街道</option><option value="350503002">丰泽街道</option><option value="350503005">华大街道</option><option value="350503004">清源街道</option><option value="350503003">泉秀街道</option>                </select> -->
 
 
                             </fieldset>
         </div>
         <div class="form_item">
             <span class="font_3r color_34 goods_name-title">地址</span>
-            <input type="text" placeholder="请填写您的地址" class="fr user_nickname primary_business" name="address" value="{{$store ? $store->street : ''}}"/>
+            <input type="text"  class="fr user_nickname primary_business" name="dizhi" value="{{$store->base_address}}" readonly/>
+            <!-- <input type="text" readonly class="consignee" name="dizhi" value="{{$store->base_address}}"  placeholder=""/> -->
         </div>
-        <div class="form_item">
-            <span class="font_3r color_34 goods_name-title">二级域名</span>
-            <input type="text" placeholder="请填写您的二级域名" class="fr user_nickname primary_business bg-fff" name="domain" value="{{$store ? $store->erji_yuming : ''}}" />
+        <div class="form_item border_none">
+            <span class="font_3r color_34 goods_name-title">详细地址</span>
         </div>
+        <textarea class="detailed_address" name="address" id="address" cols="30" rows="3" placeholder="地址">{{$store->street}}</textarea>
+
         <div class="form_item">
             <span class="font_3r color_34 goods_name-title">手机号码</span>
             <input type="number" placeholder="请填写您的手机号码" class="fr user_nickname primary_business" name="pc_mobile" value="{{$store ? $store->phone : ''}}"/>
@@ -113,8 +115,11 @@
             <span class="font_3r color_34 goods_name-title">客服QQ</span>
             <input type="number" placeholder="请填写您的客服QQ" class="fr user_nickname primary_business" name="cs_qq" value="{{$store ? $store->qq : ''}}"/>
         </div>
-        <div style="display: none;">
-            <textarea class="goods_detailed_information" name="description" placeholder="请添加您的店铺简介"></textarea>
+        <div class="form_item border_none">
+            <span class="font_3r color_34 goods_name-title">店铺简介</span>
+        </div>
+        <div style="">
+            <textarea class="goods_detailed_information" name="description" placeholder="请添加您的店铺简介" >{{$store->desc}}</textarea>
         </div>
     </form>
 </div>
@@ -134,7 +139,11 @@
 </div>
 
 <script type="text/javascript">
-
+$.ajaxSetup({
+headers: {
+   'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+}
+});
     var error_msg_showed = false;
     var error_msg = "";
     var submited = false;
@@ -166,17 +175,19 @@
             onblur  : false,
             submitHandler: function (form) {
                 if (!submited){
-                    $.post('index.php?app=my_store&ajax=true', $('#my_store_form').serialize(), function (json) {
+                    // $.post('index.php?app=my_store&ajax=true', $('#my_store_form').serialize(), function (json) {
+                    $.post('/store/save', $('#my_store_form').serialize(), function (json) {
                         layer.open({content:json.info, time:3});
                         if (json.status == 0) {
                             setTimeout(function () {
-                                $('.ui-link').attr('href', json.my_store_domain);
-                                $('.visit_store_link').show();
+                                // $('.ui-link').attr('href', json.my_store_domain);
+                                // $('.visit_store_link').show();
+                                window.location.reload();
                             }, 3000);
                         }
                     }, 'json');
                     submited = true;
-                    form.submit();
+                    // form.submit();
                     $(this).attr('disabled', "true");
                 }
             },
@@ -201,13 +212,13 @@
                     is_chinese: true,
                     rangelength: [2, 20],
                     remote: {
-                        url: 'index.php?app=apply&act=check_name&ajax=1',
-                        type: 'get',
+                        url: '/store/check-name',
+                        type: 'post',
                         data: {
                             store_name: function () {
                                 return $('#store_name').val();
                             },
-                            store_id: '90714'
+                            store_id: '{{$store->id}}'
                         }
                     },
                     rangelength: [2, 20]
