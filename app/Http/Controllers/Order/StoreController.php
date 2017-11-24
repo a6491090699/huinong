@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\MemberStoreinfo;
+use App\Model\Member;
 use App\Model\Supply;
+use App\Model\SupplyOrder;
 use App\Model\Want;
 use App\Model\StoreCollect;
 
@@ -22,16 +24,23 @@ class StoreController extends Controller
         // dump($supplys->toArray());
 
         //采购列表
-        $wants = Want::with('wantAttrs.attrs','kinds')->withCount('quotes')->where('member_id', session('mid'))->orderBy('id','desc')->paginate(10);
+        $wants = Want::with('wantAttrs.attrs','kinds','address')->withCount('quotes')->where('member_id', session('mid'))->orderBy('id','desc')->paginate(10);
         //关注收藏数目
         $collect_num = StoreCollect::where('store_id', session('mid'))->count();
         //最近浏览数目
 
 
-        //交易订单数目
+        //交易订单数目 求购订单+供应订单
+        //供应订单
+        $supplyOrder = Member::withCount('supplyOrder')->where('id',session('mid'))->first();
+        $supply_count = $supplyOrder->supply_order_count;
+        //求购订单
+        $want_count = 0;
+
+        $order_count = $supply_count+$want_count;
 
 
-        return view('home.store.index' ,['info'=>$info ,'supplys'=>$supplys ,'wants'=>$wants ,'collect_num'=>$collect_num]);
+        return view('home.store.index' ,['info'=>$info ,'supplys'=>$supplys ,'wants'=>$wants ,'collect_num'=>$collect_num,'order_count'=>$order_count]);
     }
     //店铺首页
     public function view($id){
@@ -39,6 +48,7 @@ class StoreController extends Controller
         $pagenum = 10;
         //店铺基本信息 以member_id  去member-storeinfo表里面找
         $info = MemberStoreinfo::where('member_id' , $id)->first();
+        \DB::table('member-storeinfo')->increment('view_count');
         //供应列表
         $supplys = Supply::with('supplyAttrs.attrs','kinds')->where('member_id', $id)->orderBy('id','desc')->paginate($pagenum);
         // dump($supplys->toArray());
@@ -47,16 +57,23 @@ class StoreController extends Controller
         $wants = Want::with('wantAttrs.attrs','kinds')->withCount('quotes')->where('member_id', $id)->orderBy('id','desc')->paginate($pagenum);
         //关注收藏数目
         $collect_num = StoreCollect::where('store_id', $id)->count();
-        //最近浏览数目
 
 
-        //交易订单数目
+        //交易订单数目 求购订单+供应订单
+        //供应订单
+        $supplyOrder = Member::withCount('supplyOrder')->where('id',$id)->first();
+        $supply_count = $supplyOrder->supply_order_count;
+        //求购订单
+        $want_count = 0;
+
+        $order_count = $supply_count+$want_count;
+
 
         //你是否收藏了该用户
         $is_collect = StoreCollect::where('store_id',$id)->where('member_id',session('mid'))->count();
 
 
-        return view('home.store.view' ,['info'=>$info ,'supplys'=>$supplys ,'wants'=>$wants ,'collect_num'=>$collect_num,'is_collect'=>$is_collect]);
+        return view('home.store.view' ,['info'=>$info ,'supplys'=>$supplys ,'wants'=>$wants ,'collect_num'=>$collect_num,'is_collect'=>$is_collect,'order_count'=>$order_count]);
     }
 
     //编辑店铺信息

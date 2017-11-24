@@ -302,7 +302,7 @@ class DataController extends Controller
     }
 
 
-    //获取采购列表
+    //获取供应列表
     public function getSupplyAll(Request $request)
     {
         // dump($request->all());
@@ -313,7 +313,7 @@ class DataController extends Controller
         $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
         $mid = empty($request->input('mid'))? '':$request->input('mid') ;
         $pagenum = 10; //每页显示数
-        $obj = Supply::with('supplyAttrs.attrs','kinds','orders');
+        $obj = Supply::with('supplyAttrs.attrs','kinds','orders','storeinfo');
 
 
         if($mid) $obj= $obj->where('member_id' , $mid);

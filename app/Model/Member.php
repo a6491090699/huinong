@@ -11,4 +11,8 @@ class Member extends Model
 
     public $table = 'member';
     public $timestamps = false;
+    public function supplyOrder()
+    {
+        return $this->hasManyThrough('\App\Model\SupplyOrder','\App\Model\Supply','member_id','supplys_id');
+    }
 }

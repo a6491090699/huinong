@@ -59,7 +59,7 @@
         <p class="font_3r color_fff overflow_omit-8" style="    width:14em;">{{$info->store_name}}</p>
 
         <div>
-		<p class="font_24r color_fff" style="margin-bottom: 5px;">信用值：<img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1h.png" height="12px"></p>
+		<p class="font_24r color_fff" style="margin-bottom: 5px;">信用值：{!!xinyongStar($info->xinyong)!!}</p>
         </div>
       </dd>
     </dl>
@@ -67,7 +67,7 @@
   </div>
   <ul class="padding_container bd_top_bottom-eee bg-fff store_header-bottom clearfix ">
     <li style="width: 33.33333%;">
-      <p class="font_28r color_34">942</p>
+      <p class="font_28r color_34">{{$info->view_count?$info->view_count:0}}</p>
       <span class="font_24r color_9a">近期浏览</span>
     </li>
     <li style="width: 33.33333%;">
@@ -75,7 +75,7 @@
       <span class="font_24r color_9a">已关注</span>
     </li>
 	<li style="width: 33.33333%;">
-      <p class="font_28r color_34">24</p>
+      <p class="font_28r color_34">{{$order_count}}</p>
       <span class="font_24r color_9a">交易订单</span>
     </li>
     <!-- <li style="width: 24.99999%;">
@@ -165,7 +165,7 @@
         </p>
          <!-- <p>高度10厘米 米径10厘米 冠幅10厘米 地径10厘米 </p> -->
          <p>苗源：{{$val->source}}</p>
-         <p>手机号：{{$val->phone}}</p>
+         <p>手机号：{{$val->Address->phone}}</p>
          <p class="purchase_information_quote">
              <span class="color_ff7414">已有{{$val->quotes_count}}人报价</span>
              <span>截止日期：{{date('Y-m-d',$val->cutday)}}</span>
@@ -208,7 +208,7 @@
   <div class="clearfix icon_attestation-container">
     <span class="font_3r color_34 fl real_name-headline">实名认证</span>
     <div class="fr" style="width:70%;height:60px;overflow-x: auto;overflow-y: hidden;">
-      <div style="width:400px;">
+      <div style="width:410px;">
                 <div class="icon_attestation">
           <span class="iconfont @if($info->phone_valid) attestation-color-phone @else color_9a @endif">&#xe68e;</span>
           <p>手机验证</p>
@@ -350,7 +350,7 @@ function loaddata(){
 
                     want_tpl +='</p>';
                     want_tpl +=' <p>苗源：'+item.source+'</p>';
-                    want_tpl +='<p>手机号：'+item.phone+'</p>';
+                    want_tpl +='<p>手机号：'+item.address.phone+'</p>';
                     want_tpl +=' <p class="purchase_information_quote">';
                     want_tpl +='<span class="color_ff7414">已有'+item.quotes_count+'人报价</span>';
                     myday = new Date(item.cutday*1000);

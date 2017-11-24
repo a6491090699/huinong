@@ -324,7 +324,7 @@
                                 spec_info += "<span><b>" + spec_short + "</b></span>";
                             }
                             goods.spec_info = spec_info;
-                            go
+
                             goods.store_name_info = store_name_tpl(goods);
 
                             goods.goods_url = goods.url;
@@ -389,7 +389,20 @@
                             goods.formate_time = formate_time(goods.addtime);
 
                             goods.address = goods.source;
-                            goods.star = '<img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1h.png" height="12px">';
+                            var star_html = '';
+                            // console.log(goods.storeinfo.xinyong);
+                            var floor_num = parseFloat(goods.storeinfo.xinyong);
+                            var nn = Math.floor(floor_num);
+                            // console.log(nn);
+                            var bb = 5-parseInt(nn);
+                            for(var i=0 ;i<nn ;i++){
+                                star_html+= '<img src="/images/star_1.png" height="12px">';
+                            }
+                            for(var i=0;i<bb;i++){
+                                star_html+= '<img src="/images/star_1h.png" height="12px">';
+                            }
+                            goods.star = star_html;
+                            console.log(star_html);
 
                             goods.store_name_info = 1;
                             attrspec = '';

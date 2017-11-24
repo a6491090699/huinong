@@ -94,6 +94,16 @@ function showImgs($string=''){
     return $html;
     // return str_replace('public/','/storage/', $string);
 }
+function xinyongStar($number){
+    $num = floor($number);
+    $light_star = '<img src="/images/star_1.png" height="12px">';
+    $black_star = '<img src="/images/star_1h.png" height="12px">';
+    $total = 5;
+    $html = '';
+    $html = str_repeat($light_star , $num) .str_repeat($black_star , $total-$num);
+    return $html;
+
+}
 
 Route::get('/', function () {
 
