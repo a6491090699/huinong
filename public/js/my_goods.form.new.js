@@ -386,13 +386,15 @@ function make_baseaddress_list_options(baseaddress_list_json) {
     for (var i = 0; i < baseaddress_list_json.length; i++) {
         var baseaddress_a = baseaddress_list_json[i];
         baseaddress_a['name'] = '【'+baseaddress_a.base_address+'】';
+        baseaddress_a['id'] = baseaddress_a.region_id;
         if((edit_baseaddress_id > 0 && baseaddress_a.baseaddress_id == edit_baseaddress_id) || (edit_baseaddress_id ==0 && i==0)){
             $('#baseaddress_options').val(baseaddress_a['name']);
-            $('#baseaddress_id').val(baseaddress_a['id']);
+            $('#baseaddress_id').val(baseaddress_a['region_id']);
         }
         new_list.push(baseaddress_a);
     }
     baseaddress_list_json = new_list;
+    console.log(baseaddress_list_json)
     var baseaddress_select = new MobileSelectArea();
     baseaddress_select.init({trigger:$('#baseaddress_options'),value:$('#baseaddress_id').val(),data:baseaddress_list_json,position:"bottom",level:1});
 

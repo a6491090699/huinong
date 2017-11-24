@@ -46,6 +46,13 @@
 	</script>
 	<!--增加的结束-->
 
+    <!-- yytest -->
+    <link rel="stylesheet" href="/css/yyupload.css" />
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+        wx.config(<?php echo $js->config(array('onMenuShareQQ', 'onMenuShareWeibo','chooseWXPay'), false) ?>);
+    </script>
+
 </head>
 <!-- <script type="text/javascript" src="/js/ueditor.config.js"></script>
 <script type="text/javascript" src="/js/ueditor.all.min.js"></script> -->
@@ -108,7 +115,7 @@
 </header>
 <form id="goods_form" method="POST" action="/supply/create" style="padding-top:1rem;" enctype="multipart/form-data">
     {{csrf_field()}}
-
+<input type="hidden" name="out_trade_no" value="{{$out_trade_no}}">
     <div class="padding_flanks">
         <div class="form_item">
             <span class="font_3r color_34 goods_name-title">商品名称</span>
@@ -170,25 +177,35 @@
         <div class="form_item">
             <span class="font_3r color_34 goods_name-title">是否悬赏</span>
             <!--<label style=""><input id="bxian" name="miaoy" type="radio"/>不限</label>-->
-            <label style="font-size: 10px"><input  name="emergency" type="radio" />&nbsp;否&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label>
-            <label style="font-size: 10px"><input  name="emergency" type="radio"/>是(悬赏加急,买家跟容易看到你的商品)
+            <label style="font-size: 10px"><input  name="emergency" type="radio" value="0" checked/>&nbsp;否&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label>
+            <label style="font-size: 10px"><input  name="emergency" type="radio" value="1"/>是(悬赏加急,买家跟容易看到你的商品)
             </label>
 
         </div>
 
         <div id="wap_description" style="display: block">
             <div style="color: red;position: relative;top:0px;font-size: small">(必填项，优秀的商品描述为，①该苗木品种介绍②基地的优势介绍③内容排版美观。)</div>
-            <div class="upimg padding_flanks margin_bottom_16" >
+            <!-- <div class="upimg padding_flanks margin_bottom_16" >
                 <div id="upimgs" style="position: relative;    width: auto;    height: 11rem;margin-bottom:60px;">
                     <a href="javascript:;" class="file">
                         <input id="file_upload" type="file" name="imgs" accept="image/*;capture=camera">
                     </a>
                 </div>
-                <!--	<img src="" id='show' style="width: 30%;height: 14rem;">-->
                 <div id="imglist"></div>
-            </div>
+            </div> -->
         <textarea class="goods_detailed_information"  name="description" id="description"  placeholder="请添加您的商品的具体信息，如：商品特色、种植情况 包装及杂费情况等"></textarea>
         </div>
+
+
+        <input type="file" id="yychoose" accept="image/*" multiple>
+    <ul class="yyimg-list"></ul>
+    <a id="yyupload">选择图片</a>
+    <span class="yytips">只允许上传jpg、png等格式图片</span>
+    <span class="yytips">最多可上传九张图片</span>
+    <!-- <a id="yyuploadimg">上传</a> -->
+    <!-- <a id="yyuploadbut" href="javascript:void(0)" onClick="yyupload()">yyyy上传</a> -->
+    <p class="yyshowimg" id="yyshowimg"></p>
+
         <ul class="sell_goods_img-list clearfix">
                         <li id="image_upload_notice" style="display:none;">
                 <img src="/images//loading.gif" alt="上传" />
@@ -422,7 +439,7 @@
         };
                         $('#goods_form').validate({
                     errorPlacement: function(error, element){
-                        error_msg+=error[0].textContent+'<br/>';
+                    //     error_msg+=error[0].textContent+'<br/>';
                     },
                     highlight:function(){
                         if(!error_msg_showed){
@@ -436,7 +453,7 @@
                             error_msg_showed = false;
                         },500);
                     },
-                    success: function (element) {},
+                    // success: function (element) {},
                     onkeyup : false,
                     onclick : false,
                     onfocusin : false,
@@ -447,18 +464,67 @@
                     messages: validate_messages,
                     submitHandler: function (form) {
                         //处理mobiselect插件的值
-                        $(".mobiselect_item").each(function(){
-                            var val_array = $(this).val().split(',');
-                            $(this).val(val_array[0]);
-                        });
+                            $(".mobiselect_item").each(function(){
+                                var val_array = $(this).val().split(',');
+                                $(this).val(val_array[0]);
+                            });
 
-                        if (!submited && check_number_value()   && check_main_spec('price') && check_main_spec('stock') && check_sys_spec() &&check_description()) {
-                            submited = true;
-                            form.submit();
-                            $(this).attr('disabled', "true");
-                        }
-                        }
-                        });
+                            if (!submited && check_number_value()   && check_main_spec('price') && check_main_spec('stock') && check_sys_spec() &&check_description()) {
+                            // if (!submited) {
+                                $.ajax({
+                                    type:'post',
+                                    url:'/supply/create',
+                                    data:$('#goods_form').serialize(),
+                                    // data:formData,
+                                    // async: false,
+                                    // cache: false,
+                                    // contentType: false,
+                                    // processData: false,
+                                    beforeSend:function(){
+                                        //
+                                    },
+                                    error:function(){
+                                        layer.open({content:'网络不给力', time:2});
+                                    },
+                                    success:function(data){
+                                        // eval("data ="+data);
+                                        // layer.open({content:data.errMsg, time:2});
+                                        if(data.call_pay){
+                                            wx.chooseWXPay({
+                                                timestamp: <?= $config['timestamp'] ?>,
+                                                nonceStr: '<?= $config['nonceStr'] ?>',
+                                                package: '<?= $config['package'] ?>',
+                                                signType: '<?= $config['signType'] ?>',
+                                                paySign: '<?= $config['paySign'] ?>', // 支付签名
+                                                success: function (res) {
+                                                    // 支付成功后的回调函数
+                                                    layer.open({content:data.errMsg, time:2});
+
+                                                    setTimeout(function(){
+                                                        window.location.href='/supply/index';
+                                                    },1000);
+                                                }
+                                            });
+
+                                        }else {
+                                            layer.open({content:data.errMsg, time:2});
+
+                                            // setTimeout(function(){
+                                            //     window.location.href='/supply/index';
+                                            // },1000);
+                                        }
+                                    },
+                                    complete:function(){
+                                        //
+                                    }
+                                });
+
+                                submited = true;
+                                // form.submit();
+                                $(this).attr('disabled', "true");
+                            }
+                    }
+                });
 
                         //基地相关 start
                         if(baseaddress_list_json.length==1){
@@ -739,6 +805,7 @@
 
 </script>
 <script type="text/javascript" src="/js/my_goods.form.new.js?{{time()}}"></script>
+<script type="text/javascript" src="/js/yyupload.js?{{time()}}"></script>
 
 </body>
 </html>

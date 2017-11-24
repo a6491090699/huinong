@@ -272,9 +272,27 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'wantOrder'] ,function (){
 
 });
 
+function hehe($arr, $fid ){
+    foreach($arr as $val){
+        dump($val['name']);
+        if($val['id'] == $fid){
+            return $val['child'];
+        }else{
+            if(isset($val['child'])) return hehe($val['child'] , $fid);
+        }
+
+
+    }
+
+}
+
 
 Route::get('test',function(){
-
+    // $data = \App\Model\Kind::listToTree();
+    $data = file_get_contents(app_path().'/Common/region_level4.json');
+    $data = json_decode($data ,true);
+    dump(hehe($data['data'],110101));
+    dd($data['data']);
     // if($member)
     dd(session('wechat.oauth_user'));
 
@@ -293,6 +311,7 @@ Route::group(['prefix'=>'wx', 'middleware'=>'wechat.oauth' ] ,function (){
 
     Route::get('vip', 'WxController@vip');
     Route::any('member-notify', 'WxController@memberNotify');
+    Route::any('supply-notify', 'WxController@supplyNotify');
 
 
 });
