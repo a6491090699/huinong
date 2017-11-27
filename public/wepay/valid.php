@@ -1,10 +1,10 @@
-<?php 
+<?php
 /**
-* 
+*
 */
-class WechatValid 
+class WechatValid
 {
-	
+
 	/**
      * @FunctionDescription:验证开发者服务器url有效性
      * @Param:token(令牌 用户手动输入的配置信息)
@@ -47,7 +47,13 @@ class WechatValid
         }
     }
 }
-$obj = new WechatValid;
-$obj->valid();
+include './wechat.class.php';
+$obj = new Wechat;
+// $obj = new WechatValid;
+if (!isset($_GET['echostr'])) {
+	$obj->responseMsg();
+}else{
+    $obj->valid();
+}
 
  ?>

@@ -75,7 +75,7 @@ return [
      */
     'oauth' => [
         'only_wechat_browser' => false,
-        'scopes'   => array_map('trim', explode(',', env('WECHAT_OAUTH_SCOPES', 'snsapi_userinfo'))),
+        'scopes'   => array_map('trim', explode(',', env('WECHAT_OAUTH_SCOPES', 'snsapi_base'))),
         'callback' => env('WECHAT_OAUTH_CALLBACK', '/wx/index.php'),
     ],
 
@@ -99,7 +99,7 @@ return [
      *
      * 当 enable_mock 为 true 则会启用模拟微信授权，用于开发时使用，开发完成请删除或者改为 false 即可
      */
-    'enable_mock' => env('WECHAT_ENABLE_MOCK', true),
+    'enable_mock' => env('WECHAT_ENABLE_MOCK', false),
     'mock_user' => [
         'openid' => 'obsTvsiRvzP2M4EX3GF2eAnzrty0',
         // 以下字段为 scope 为 snsapi_userinfo 时需要

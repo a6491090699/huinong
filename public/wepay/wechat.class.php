@@ -93,13 +93,17 @@ class Wechat{
      */
     public function responseMsg(){
         /*1,获取到微信推送过来post数据（xml格式）*/
-        $postArr = $GLOBALS['HTTP_RAW_POST_DATA'];
+        // $postArr = $GLOBALS['HTTP_RAW_POST_DATA'];
+        $postArr = file_get_contents('php://input');
+
         /*2,处理消息类型，并设置回复类型和内容*/
         $postObj = simplexml_load_string($postArr);
         /*判断用户发送消息的类型(普通消息、事件推送)*/
         $MsgType = strtolower($postObj->MsgType);
         $Event = strtolower($postObj->Event);
-        if(isset($Event)){  /*事件推送*/
+        // var_dump($MsgType);
+        if(!empty($Event)){  /*事件推送*/
+
             switch($Event){
                 case 'subscribe'            : /*return '订阅事件（扫描带参数二维码事件(用户未关注)）';*/
                     $template = '<xml>
@@ -268,6 +272,7 @@ class Wechat{
             switch($MsgType){
                 case 'text'       : /*return '文本信息';*/
                     $Content = '您发送的为文本，内容为:'.$postObj->Content;
+                    if($postObj->Content == 'test') $Content = "http://sj.71mh.com/";
                     break;
                 case 'image'      : /*return '图片消息';*/
                     $Content = '您发送的为图片，图片链接为:'.$postObj->PicUrl;

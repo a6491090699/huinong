@@ -1,5 +1,5 @@
 <?php
-
+//yyyyyyyyyyyyyyyyyyy中间件的问题 导致了收不到回调!
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -354,14 +354,15 @@ Route::get('test',function(){
 });
 //微信支付测试
 
-Route::group(['prefix'=>'wx', 'middleware'=>'wechat.oauth' ] ,function (){
+
+Route::group(['prefix'=>'wx' ] ,function (){
     Route::any('index', 'WxController@index');
     Route::any('jsapi', 'WxController@jsapi');
 
     Route::any('notify', 'WxController@notify');
     Route::any('wantnotify', 'WxController@wantnotify');
 
-    Route::get('vip', 'WxController@vip');
+    Route::any('vip', 'WxController@vip');
     Route::any('member-notify', 'WxController@memberNotify');
     Route::any('supply-notify', 'WxController@supplyNotify');
 

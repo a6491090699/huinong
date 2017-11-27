@@ -61,6 +61,7 @@ class WxController extends Controller
     public function vip()
     {
         $user = session('wechat.oauth_user');
+        // dd($user);
         $options=require config_path().'/wechat.php';
         $app = new Application($options);
         $js = $app->js;
@@ -84,6 +85,8 @@ class WxController extends Controller
             'openid'           => $user->id, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
             // ...
         ];
+        // dump($attributes);
+        // dd($user->id);
         $order = new Order($attributes);
 
         $result = $payment->prepare($order);
@@ -95,7 +98,7 @@ class WxController extends Controller
         }
 
         $out_trade_no = $attributes['out_trade_no'];
-        \Log::info('myopenid :' .$user->id);
+
         // return view('wx.paybutton',['js'=>$js,'config'=>$config]);
 
 
@@ -108,11 +111,14 @@ class WxController extends Controller
 
     public function memberNotify()
     {
+        // file_put_contents(public_path.'/123.txt','213213213213213');
+        \Log::info('123213213');
 
         $options=require config_path().'/wechat.php';
         $app = new Application($options);
         $response = $app->payment->handleNotify(function($notify, $successful){
             \Log::info('receive-openid:'.$notify->openid);
+            \Log::info('receive-successful:'.$successful);
             \Log::info('receive-package:'.$notify);
             // 使用通知里的 "微信支付订单号" 或者 "商户订单号" 去自己的数据库找到订单
             $member = Member::where('openid',$notify->openid)->first();
@@ -140,6 +146,7 @@ class WxController extends Controller
 
             }
             $member->save(); // 保存订单
+            \Log::info('Memberinfo='.$member);
             return true; // 返回处理完成
         });
         return $response;

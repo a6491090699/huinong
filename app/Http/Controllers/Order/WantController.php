@@ -184,6 +184,7 @@ class WantController extends Controller
 
         $data = \App\Model\MemberAddress::where('mid' , session('mid'))->get(['full_address','region_id','street','phone','name','id'])->toArray();
         // dd($data);
+        if(empty($data)) return response("<script>alert('请先添加你的收货人信息!');location.href='/member/address';</script>");
         $address = array();
         foreach($data as $val){
             $newarr = array();

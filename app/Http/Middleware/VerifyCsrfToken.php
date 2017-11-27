@@ -18,6 +18,6 @@ class VerifyCsrfToken extends Middleware
         '/wx/notify',   //默认的回调
         '/wx/want-notify',  //发布求购
         '/wx/supply-notify', // 发布紧急商品
-        '/wx/member-notify', //成为会员
+        '/wx/member-notify',
     ];
 }

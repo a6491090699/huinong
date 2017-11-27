@@ -202,7 +202,7 @@
         });
         $("#keyword_store").keyup(function(event){
             if(event.keyCode == 13){
-                
+
                 // var keyword = $.trim($("#keyword_store").val());
                 // var url = "/index.php?app=brand&store_name=" + keyword;
                 // location = url;

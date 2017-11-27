@@ -277,7 +277,7 @@ canvas { width: 100%; border: 1px solid #000000; }
                     console.log('upload success');
                     console.log(ret)
                         // $('#showimg').html('<img src="' + ret.img + '">');
-                    $('#showimg').append('<img src="' + ret.img + '">');
+                    $('#showimg').append('<img src="' + ret.img + '" style="width:100%">');
 
                 } else {
                     alert('upload fail');
