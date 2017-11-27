@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use EasyWeChat\Payment\Order;
 use EasyWeChat\Foundation\Application;
 use App\Model\Want;
+use App\Model\Supply;
 use App\Model\Member;
 
 class WxController extends Controller
@@ -150,34 +151,30 @@ class WxController extends Controller
         $options=require config_path().'/wechat.php';
         $app = new Application($options);
         $response = $app->payment->handleNotify(function($notify, $successful){
-            \Log::info('receive-openid:'.$notify->openid);
-            \Log::info('receive-package:'.$notify);
             // 使用通知里的 "微信支付订单号" 或者 "商户订单号" 去自己的数据库找到订单
-            $member = Member::where('openid',$notify->openid)->first();
+            $order = Supply::where('wx_out_trade_no',$notify->out_trade_no)->first();
             // $order = 查询订单($notify->out_trade_no);
-            if (!$member) { // 如果订单不存在
-                return 'member not exist.'; // 告诉微信，我已经处理完了，订单没找到，别再通知我了
+            if (!$order) { // 如果订单不存在
+                return 'Order not exist.'; // 告诉微信，我已经处理完了，订单没找到，别再通知我了
             }
             // 如果订单存在
             // 检查订单是否已经更新过支付状态
-            if ($member->rank == 1) { // 假设订单字段“支付时间”不为空代表已经支付
+            if ($order->is_emergency == 1) { // 假设订单字段“支付时间”不为空代表已经支付
                 return true; // 已经支付成功了就不再更新了
             }
             // 用户是否支付成功
             if ($successful) {
                 // 不是已经支付状态则修改为已经支付状态
                 // $order->paid_at = time(); // 更新支付时间为当前时间
-                $member->rank = 1;
-                $member->vip_addtime = time();
-                $member->vip_endtime = strtotime('+1 year');
-                // $member->save();
+                $order->is_emergency = 1;
+                $order->save();
 
             } else { // 用户支付失败
-                $member->rank = 0;
+                $order->is_pay = 0;
                 // $order->delete();
 
             }
-            $member->save(); // 保存订单
+            $order->save(); // 保存订单
             return true; // 返回处理完成
         });
         return $response;

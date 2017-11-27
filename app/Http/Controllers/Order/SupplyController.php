@@ -118,7 +118,7 @@ class SupplyController extends Controller
 
     public function create(Request $request)
     {
-        // dd($request->all());
+        dd($request->all());
         switch($request->input('expire_options')){
             case '一天':
                 # code...
@@ -181,6 +181,7 @@ class SupplyController extends Controller
         $supply->kid = $kid;
         $supply->addtime = time();
         $supply->base_region_id = $baseaddress_id;
+        $supply->minimum = $minimum;
 
 
         $supply->member_id = $member_id;

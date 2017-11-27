@@ -74,8 +74,10 @@
         </ul>
         <div id="store_sort_con">
             <ul class="sort_nav_list padding_container bg-fff bd_top_bottom-eee clearfix font_3r" style="display: block">
-                <li class="text_left " order="distance asc" >
-                    <span>距离</span><span class="iconfont font_35r">&#xe6a0;</span>
+                <li class="text_left ">
+                <!-- <li class="text_left " order="distance asc" > -->
+                    <span>筛选</span><span class="iconfont font_35r">&#xe6a0;</span>
+                    <!-- <span>距离</span><span class="iconfont font_35r">&#xe6a0;</span> -->
                     <!--  向上箭头  <span class="iconfont font_35r">&#xe6c9;</span>-->
                 </li>
                 <li class="" order="orders_count asc">
@@ -395,6 +397,7 @@
                             var nn = Math.floor(floor_num);
                             // console.log(nn);
                             var bb = 5-parseInt(nn);
+                            // console.log(bb)
                             for(var i=0 ;i<nn ;i++){
                                 star_html+= '<img src="/images/star_1.png" height="12px">';
                             }
@@ -402,7 +405,7 @@
                                 star_html+= '<img src="/images/star_1h.png" height="12px">';
                             }
                             goods.star = star_html;
-                            console.log(star_html);
+                            // console.log(star_html);
 
                             goods.store_name_info = 1;
                             attrspec = '';

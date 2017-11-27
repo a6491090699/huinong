@@ -195,16 +195,17 @@
 
         $("#keyword_goods").keyup(function(event){
             if(event.keyCode == 13){
-                var keyword = $.trim($("#keyword_goods").val());
-                var url = "/index.php?app=search&keyword=" + keyword;
-                location = url;
+                // var keyword = $.trim($("#keyword_goods").val());
+                // var url = "/index.php?app=search&keyword=" + keyword;
+                // location = url;
             }
         });
         $("#keyword_store").keyup(function(event){
             if(event.keyCode == 13){
-                var keyword = $.trim($("#keyword_store").val());
-                var url = "/index.php?app=brand&store_name=" + keyword;
-                location = url;
+                
+                // var keyword = $.trim($("#keyword_store").val());
+                // var url = "/index.php?app=brand&store_name=" + keyword;
+                // location = url;
             }
         });
 

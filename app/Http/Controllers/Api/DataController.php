@@ -307,8 +307,9 @@ class DataController extends Controller
     {
         // dump($request->all());
         $page = empty($request->input('page'))? 1: $request->input('page');
-        $kind_id = empty($request->input('page'))? 1: $request->input('kind_id');
-        $region_id = empty($request->input('page'))? 1: $request->input('region_id');
+        $kid = empty($request->input('kind_id'))? 0: $request->input('kind_id');
+        $region_id = empty($request->input('region_id'))? 0: $request->input('region_id');
+        // $region_id = empty($request->input('region_id'))? 1: $request->input('region_id');
         $orderstring =  $request->input('order');
         $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
         $mid = empty($request->input('mid'))? '':$request->input('mid') ;
@@ -329,10 +330,17 @@ class DataController extends Controller
         }
 
         if($region_id){
-
-            $obj= $obj->where('region_id' ,$region_id);
+            $data = file_get_contents(app_path().'/Common/region_level4.json');
+            $data = json_decode($data ,true);
+            // dd($region_id);
+            $in = getSonList($data['data'] , $region_id);
+            // dump(getSonList($data['data'] , 1190));
+            // dump($region_id);
+            $in = getSon($in);
+            $obj= $obj->whereIn('base_region_id' ,explode(',',$in));
         }
-        if($kind_id){
+        if($kid){
+
             $obj= $obj->where('kid' ,$kid);
         }
 

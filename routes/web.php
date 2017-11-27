@@ -272,18 +272,64 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'wantOrder'] ,function (){
 
 });
 
-function hehe($arr, $fid ){
-    foreach($arr as $val){
-        dump($val['name']);
-        if($val['id'] == $fid){
-            return $val['child'];
+function getSonList($arr, $fid){
+    // foreach($arr as $val){
+    //
+    // }
+    static $res;
+    if(is_array($arr) && isset($arr['id']) && !empty($arr['id']) && !empty($arr['child'])){
+        if($arr['id'] == $fid){
+            $res=$arr['child'];
+            return;
+
         }else{
-            if(isset($val['child'])) return hehe($val['child'] , $fid);
+            foreach($arr['child'] as $val){
+                getSonList($val,$fid);
+            }
         }
 
+    }elseif(is_array($arr) && !isset($arr['id'])){
+        foreach($arr as $val){
+
+            getSonList($val,$fid);
+        }
 
     }
+    return $res;
 
+
+    //
+    // foreach($arr as $val){
+    //     // dump($val['name']);
+    //     if($val['id'] == $fid){
+    //         return $val['child'];
+    //     }else{
+    //         if(isset($val['child'])) return getSonList($val['child'] , $fid);
+    //     }
+    //
+    //
+    // }
+
+}
+function getSon($arr,$str='')
+{
+    static $str='';
+    if(is_array($arr) && isset($arr['id']) && !empty($arr['id']) && !empty($arr['child'])){
+        $str .= $arr['id'].',';
+        foreach($arr['child'] as $val){
+            getSon($val ,$str);
+        }
+
+    }elseif(is_array($arr) && !isset($arr['id'])){
+        foreach($arr as $val){
+            // dump($val);
+            getSon($val ,$str);
+        }
+    }else{
+        // dump('here'.$arr['id']);
+        $str .= $arr['id'].',';
+    }
+    return $str;
 }
 
 
@@ -291,7 +337,13 @@ Route::get('test',function(){
     // $data = \App\Model\Kind::listToTree();
     $data = file_get_contents(app_path().'/Common/region_level4.json');
     $data = json_decode($data ,true);
-    dump(hehe($data['data'],110101));
+    // $ss = getSonList($data['data'],1190);
+    dump(getSonList($data['data'],810));
+    // dump(getSon($ss));
+    // $hehe = getSon($ss);
+    // $hehe = trim($hehe,',');
+    // dump($hehe);
+    // trim(getSon($ss) ,',');
     dd($data['data']);
     // if($member)
     dd(session('wechat.oauth_user'));
