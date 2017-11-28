@@ -16,3 +16,14 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['prefix'=>'wx' ] ,function (){
+
+
+    Route::any('notify', 'WxController@notify');
+    Route::any('wantnotify', 'WxController@wantnotify');
+    Route::any('member-notify', 'WxController@memberNotify');
+    Route::any('supply-notify', 'WxController@supplyNotify');
+
+
+});
