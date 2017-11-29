@@ -260,5 +260,3 @@ function requirement_title_changed(requirement_title){
         }
     });
 }
-
-

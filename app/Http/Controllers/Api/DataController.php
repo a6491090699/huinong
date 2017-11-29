@@ -34,6 +34,7 @@ class DataController extends Controller
     {
 
         $data = Kind::listToTree();
+        // dd($data);
         if($data){
             return json_encode(array(
                 'code'=>0,

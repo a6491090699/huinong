@@ -130,6 +130,13 @@
 		</ul>
 		<div class="user_store font_22r" style="display: block" id="hover_li-0">
 
+            @forelse(explode(';',$item->imgs) as $val)
+            <p>
+                <img class="goods_desc_img" src="{{getPic($val)}}" style="float:none;" title=""/>
+            </p>
+            @empty
+            <p>无图片</p>
+            @endforelse
 
 
 
@@ -142,8 +149,7 @@
 
 
 
-
-						<b><a href='#' target='_blank' ></a></b><p><br/></p><p><img class="goods_desc_img" src="/images/201411071502114995.jpg" style="float:none;" title="psb (1).jpg"/></p><p><img class="goods_desc_img" src="/images/201411071502146213.jpg" style="float:none;" title="psb (2).jpg"/></p><p><img class="goods_desc_img" src="/images/201411071502178786.jpg" style="float:none;" title="psb (3).jpg"/></p><p><img class="goods_desc_img" src="/images/201411071502203652.jpg" style="float:none;" title="psb (4).jpg"/></p><p><img class="goods_desc_img" src="/images/201411071502222163.jpg" style="float:none;" title="psb.jpg"/></p><p><img class="goods_desc_img" src="/images/201411071502254629.jpg" style="float:none;" title="速生<b><a href='./fenlei/10781_hongyeli.html' target='_blank' >红叶李</a></b>1.jpg"/></p><p><img class="goods_desc_img" src="/images/201411071502293297.jpg" style="float:none;" title="速生<b><a href='./fenlei/19738_hongyeli.html' target='_blank' >红叶李</a></b>.jpg"/></p><p><img class="goods_title_bar" src="/images/gp_introduction.jpg"/><br/></p><p style="text-indent: 2em;"><br/></p><p><br/><br/><br/><br/></p><p class="part_goods"><img class="goods_title_bar" src="/images/gp_images.jpg"/></p><p style="text-indent: 2em;"><br/></p><p><br/><br/><br/><br/></p><p class="part_goods"><img class="goods_title_bar" src="/images/gp_aboutus.jpg"/></p><p style="text-indent: 2em;"><br/></p><p><br/><br/><br/><br/></p>					</div>
+                    </div>
 		<ul class="goods_evaluate-list bg-fff padding_flanks bd_bottom-eee margin_bottom" id="hover_li-1" style="display: none">
 						<li class="padding_top_bottom">
 				<div class="margin_bottom evaluate_con">
@@ -200,115 +206,32 @@
 
 
 					</ul>
+
+                    <!-- 商品推荐 -->
 		<ul class="supply_information-list" id="hover_li-2" style="display: none">
-						<li>
-				<a href="./goods/1_14_19738_4022.html">
-					<dl class="clearfix">
-						<dt class="fl"><img src="/images/201411071500507139.jpg"/></dt>
-						<dd class="fl">
-							<p class="font_3r color_34">速生红叶李</p>
-							<div class="sell_information">
-								<span class="color_ff7414">¥<b class="font_35r">1.00</b>/棵</span>
-								<span class="sell_distance" data-lat="" data-lon="114.1885"></span>
-							</div>
-							<p>
-								<span class="min_sell-num">库存：97500</span>
-								<span class="fr">已售25300件</span>
-							</p>
-						</dd>
-					</dl>
-				</a>
-			</li>
-						<li>
-				<a href="./goods/1_14_19738_13660.html">
-					<dl class="clearfix">
-						<dt class="fl"><img src="/images/201510211414382877.jpg"/></dt>
-						<dd class="fl">
-							<p class="font_3r color_34">太阳李</p>
-							<div class="sell_information">
-								<span class="color_ff7414">¥<b class="font_35r">18.00</b>/棵</span>
-								<span class="sell_distance" data-lat="" data-lon="114.1885"></span>
-							</div>
-							<p>
-								<span class="min_sell-num">库存：5000</span>
-								<span class="fr">已售0件</span>
-							</p>
-						</dd>
-					</dl>
-				</a>
-			</li>
-						<li>
-				<a href="./goods/1_14_19738_65630.html">
-					<dl class="clearfix">
-						<dt class="fl"><img src="/images/201792220335774120.jpg"/></dt>
-						<dd class="fl">
-							<p class="font_3r color_34">5公分红叶李</p>
-							<div class="sell_information">
-								<span class="color_ff7414">¥<b class="font_35r">40.00</b>/棵</span>
-								<span class="sell_distance" data-lat="" data-lon="114.1885"></span>
-							</div>
-							<p>
-								<span class="min_sell-num">库存：10000</span>
-								<span class="fr">已售0件</span>
-							</p>
-						</dd>
-					</dl>
-				</a>
-			</li>
-						<li>
-				<a href="./goods/1_14_19738_34327.html">
-					<dl class="clearfix">
-						<dt class="fl"><img src="/images/201612160957478340.jpg"/></dt>
-						<dd class="fl">
-							<p class="font_3r color_34">2公分红叶李价格</p>
-							<div class="sell_information">
-								<span class="color_ff7414">¥<b class="font_35r">10.00</b>/棵</span>
-								<span class="sell_distance" data-lat="" data-lon="114.1885"></span>
-							</div>
-							<p>
-								<span class="min_sell-num">库存：100000</span>
-								<span class="fr">已售0件</span>
-							</p>
-						</dd>
-					</dl>
-				</a>
-			</li>
-						<li>
-				<a href="./goods/1_14_19738_15886.html">
-					<dl class="clearfix">
-						<dt class="fl"><img src="/images/201512091342439197.jpg"/></dt>
-						<dd class="fl">
-							<p class="font_3r color_34">红叶李各规格 基地直销 专业高效</p>
-							<div class="sell_information">
-								<span class="color_ff7414">¥<b class="font_35r">2.00</b>/棵</span>
-								<span class="sell_distance" data-lat="" data-lon="114.1885"></span>
-							</div>
-							<p>
-								<span class="min_sell-num">库存：100000</span>
-								<span class="fr">已售0件</span>
-							</p>
-						</dd>
-					</dl>
-				</a>
-			</li>
-						<li>
-				<a href="./goods/1_14_19738_32746.html">
-					<dl class="clearfix">
-						<dt class="fl"><img src="/images/201611081647196820.jpg"/></dt>
-						<dd class="fl">
-							<p class="font_3r color_34">红叶李</p>
-							<div class="sell_information">
-								<span class="color_ff7414">¥<b class="font_35r">6.00</b>/棵</span>
-								<span class="sell_distance" data-lat="" data-lon="114.1885"></span>
-							</div>
-							<p>
-								<span class="min_sell-num">库存：40000</span>
-								<span class="fr">已售0件</span>
-							</p>
-						</dd>
-					</dl>
-				</a>
-			</li>
+            @forelse($tuijian as $val)
+            <li>
+                <a href="./goods/1_14_19738_4022.html">
+                    <dl class="clearfix">
+                        <dt class="fl"><img src="/images/201411071500507139.jpg"/></dt>
+                        <dd class="fl">
+                            <p class="font_3r color_34">{{$val->goods_name}}</p>
+                            <div class="sell_information">
+                                <span class="color_ff7414">¥<b class="font_35r">{{$val->price}}</b>/{{$val->kinds->unit}}</span>
+                                <span class="sell_distance" data-lat="" data-lon="114.1885"></span>
+                            </div>
+                            <p>
+                                <span class="min_sell-num">库存：{{$val->number}}</span>
+                                <span class="fr">已售{{$val->saled_num}}件</span>
+                            </p>
+                        </dd>
+                    </dl>
+                </a>
+            </li>
+            @empty
+
+            @endforelse
+
 					</ul>
 	</div>
 
@@ -317,7 +240,7 @@
 <footer class="">
 
 	<div class="bg-02c5a3 col-xs-4">
-		<a  href="#;" class="font_3r color_fff">
+		<a  href="tel:{{$item->storeinfo->phone}}" class="font_3r color_fff">
 			<span class="iconfont font_35r icon_relative-top-2">&#xe67d;</span>
 			联系卖家
 		</a>

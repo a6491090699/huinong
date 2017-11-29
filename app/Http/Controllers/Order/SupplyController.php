@@ -71,8 +71,12 @@ class SupplyController extends Controller
 
         $is_collect = GoodCollect::where('good_id',$id)->where('member_id',session('mid'))->count();
 
+        // 商品推荐
+        $member_id = $data->member_id;
+        $tuijian = Supply::with('kinds')->where('member_id',$member_id)->where('id','<>',$id)->limit(10)->orderBy('id','desc')->get();
         // dd($data->toArray());
-        return view('home.supply.view' ,['item'=>$data ,'is_collect'=>$is_collect]);
+        // dd($tuijian->toArray());
+        return view('home.supply.view' ,['item'=>$data ,'is_collect'=>$is_collect,'tuijian'=>$tuijian]);
     }
 
     public function singleUpload($compress)

@@ -113,7 +113,7 @@
         var search_goods_tpl = '<li class="border_top_none">';
         search_goods_tpl += '<a href="{goods_url}">';
         search_goods_tpl += '    <dl class="clearfix hot_goods">';
-        search_goods_tpl += '    <dt class="fl"><img src="/images/201603031620589785.gif"/></dt>';
+        search_goods_tpl += '    <dt class="fl"><img src="{litpic}"/></dt>';
         search_goods_tpl += '    <dd class="fl position_relative">';
         search_goods_tpl += ' {store_name_info} ';
         search_goods_tpl += '<div class="goods_prop color_ff7414">{spec_info}</div>';
@@ -135,7 +135,7 @@
         goods_tpl += '<a href="{goods_url}">';
         goods_tpl += '<dl class="clearfix hot_goods">';
         goods_tpl += '<dt class="fl">';
-        goods_tpl += '<img src="/images/201603031620589785.gif">';
+        goods_tpl += '<img src="{litpic}" style="height:103.4px;width:103.4px;object-fit:cover;">';
         goods_tpl += '</dt>';
         goods_tpl += '<dd class="fl position_relative">';
         goods_tpl += '<div class="store_grade-div" style="padding-left: 0px;">';
@@ -158,7 +158,7 @@
 		var search_tuiguang_goods_tpl = '<li class="border_top_none">';
         search_tuiguang_goods_tpl += '<a href="{goods_url}">';
         search_tuiguang_goods_tpl += '    <dl class="clearfix hot_goods">';
-        search_tuiguang_goods_tpl += '    <dt class="fl"><img src="/images/201603031620589785.gif"/></dt>';
+        search_tuiguang_goods_tpl += '    <dt class="fl"><img src="{litpic}"/></dt>';
         search_tuiguang_goods_tpl += '    <dd class="fl position_relative">';
         search_tuiguang_goods_tpl += ' {store_name_info} ';
         search_tuiguang_goods_tpl += '<div class="goods_prop color_ff7414">{spec_info}</div>';
@@ -357,6 +357,10 @@
                             goods.stock = goods.number;
                             goods.sales = goods.orders_count;
                             goods.distance_val = '';
+                            var items = goods.imgs.split(';');
+                            var litpic = items[0];
+                            if(!litpic) litpic = '/images/img_default.jpg';
+                            goods.litpic = litpic.replace('public/' ,'/storage/');
 
                             myday = new Date(goods.cutday*1000);
 

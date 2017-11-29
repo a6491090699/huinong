@@ -18,4 +18,11 @@ class SupplyOrderController extends Controller
         // $mid = session('mid');
         return view('home.supply.supply-order' ,['type'=>$type]);
     }
+
+    //下单添加订单
+    //库存减相对数量 售量加相对数量
+
+
+
+    //点击收货 改变状态 
 }

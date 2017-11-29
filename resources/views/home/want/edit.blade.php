@@ -75,7 +75,7 @@
 
     //地址
     // var addresses_json = [{"id":"4717","name":"\u65b9\u680b \u6cb3\u5317\t\u90af\u90f8\t\u5927\u540d\t\u9ec4\u91d1\u5824\u4e61 \u5927\u6728\u82d7\u6728"}];
-    var addresses_json = [{!!$address_json!!}];
+    var addresses_json = {!!$address_json!!};
     // var addresses_json = {!!$address_json!!};
 
     //单位

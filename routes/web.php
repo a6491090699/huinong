@@ -1,5 +1,5 @@
 <?php
-//yyyyyyyyyyyyyyyyyyy中间件的问题 导致了收不到回调!
+//yyyyyyyyyyyyyyyyyyy中间件的问题 导致了收不到回调
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -162,7 +162,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'quote'] ,function (){
 Route::group(['namespace'=>'Order' ,'prefix'=>'supply'] ,function (){
     Route::get('index' , 'SupplyController@index');
     Route::get('add' , 'SupplyController@addSupply');
-    Route::get('edit' , 'SupplyController@addSupply');
+    // Route::get('edit' , 'SupplyController@addSupply');
     Route::get('view/{id}' , 'SupplyController@viewSupply');
     Route::post('create' , 'SupplyController@create');
 

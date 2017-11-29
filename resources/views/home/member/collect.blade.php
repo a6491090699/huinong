@@ -149,7 +149,7 @@
                 @forelse($stores as  $val)
         <dl class="clearfix goods_details_store">
           <dt class="fl">
-            <img src="{{getPic($val->stores->logo)}}" style="width:103.5px;height:103.5px"/>
+            <img src="{{getPic($val->stores->logo)}}" style="object-fit:cover;width:103.5px;height:103.5px"/>
           </dt>
           <dd class="fl color_34 padding_flanks">
             <p class="font_3r">{{$val->stores->store_name}}</p>

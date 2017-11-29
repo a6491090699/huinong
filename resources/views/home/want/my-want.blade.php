@@ -95,7 +95,7 @@
         </a>
     </div>
     <ul class="procurement_information-list" id="requirement_list">
-	<li class="bg-fff bd_top_bottom-eee padding_flanks"><a href="/index.php?app=my_requirement&amp;act=find_quote&amp;id=12820">
+	<!-- <li class="bg-fff bd_top_bottom-eee padding_flanks"><a href="/index.php?app=my_requirement&amp;act=find_quote&amp;id=12820">
 <dl class="padding_top_bottom clearfix font_22r bd_bottom-eee">
 	<dt class="procurement_information_dt" style="height: 86px;"><img src="http://img.huamu.com/data/upload/requirement/201710/27/142/201710271119026702.png"></dt>
 	<dd>
@@ -112,7 +112,7 @@
 <div class="padding_top_bottom_13 text_right">
 	<a href="/index.php?app=my_requirement&amp;act=edit&amp;requirement_id=12820" class="border_box-67 font_24r color_67"><span class="padding_flanks">编辑</span></a><a class="border_box-67 font_24r color_67 delete_req" require_id="12820"><span class="padding_flanks">删除</span></a>
 </div>
-</li>
+</li> -->
     </ul>
     <p class="text_center user_store padding_container font_2r color_9a" id="loading01" style="display: none;">点击加载更多</p>
     <div class="loadEffect" style="display: none">

@@ -18,6 +18,9 @@ $(function(){
                 var default_cate_name = first_gc1.name + ' ' +  first_gc2.name + ' ' + first_gc3.name;
                 $("#gcategory_full_id").val(default_cate_id);
                 $("#gcategory_full_text").val(default_cate_name);
+            }else{
+                var cid = $('#gcategory_full_id').val();
+                alert(cid)
             }
 
             gcategorySelect.init({trigger:$('#gcategory_full_text'),value:$('#gcategory_full_id').val(),data:gcategory_data,position:"bottom",callback:gcategory_id_changed});

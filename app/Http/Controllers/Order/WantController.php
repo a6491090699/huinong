@@ -350,12 +350,22 @@ class WantController extends Controller
     public function edit($wid)
     {
         $item = Want::where('id' , $wid)->first();
-        $data = \App\Model\MemberStoreinfo::where('member_id' , session('mid'))->first(['base_address','region_id','street'])->toArray();
-        $address = array();
-        $address['id'] = $data['region_id'];
-        $address['name'] = $data['base_address']."\t".$data['street'];
+        
 
-        $address_json = (json_encode($address));
+        $data = \App\Model\MemberAddress::where('mid' , session('mid'))->get(['full_address','region_id','street','phone','name','id'])->toArray();
+        // dd($data);
+        if(empty($data)) return response("<script>alert('请先添加你的收货人信息!');location.href='/member/address';</script>");
+        $address = array();
+        foreach($data as $val){
+            $newarr = array();
+            $newarr['id']=$val['id'];
+            // $newarr['name']=$val['full_address']."\t".$val['street'];
+            $newarr['name']=$val['name']."\t".$val['full_address'];
+            // $newarr['member_address_id']=$val['id'];
+            $address[] = $newarr;
+        }
+        $address_json = json_encode($address);
+
 
 
 
