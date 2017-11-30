@@ -123,9 +123,9 @@ class SupplyController extends Controller
     public function create(Request $request)
     {
         // dump($request->all());
-        $imgs = $this->multiUpload($request);
-        dump($imgs);exit;
-        dd($request->all());
+        // $imgs = $this->multiUpload($request);
+        // dump($imgs);exit;
+        // dd($request->all());
         switch($request->input('expire_options')){
             case '一天':
                 # code...
@@ -194,7 +194,10 @@ class SupplyController extends Controller
         $supply->member_id = $member_id;
         $supply->is_emergency = 0;
         $supply->status = 0;
-        $supply->imgs = $this->multiUpload($request);
+        $imgs_rs = $this->multiUpload($request);
+        if(empty($imgs_rs)) $imgs_rs = config('common.supply_lunbo_default');
+        $supply->imgs = $imgs_rs;
+
         $supply->wx_out_trade_no = $out_trade_no;
         // 'id',
         // 'name',
@@ -216,11 +219,19 @@ class SupplyController extends Controller
 
         foreach($attr as $key=>$val)
         {
-            $obj = new SupplyAttr;
-            $obj->attribute_id = $key;
-            $obj->supplys_id = $newid;
-            $obj->attr_value = $val;
-            $obj->save();
+            if($val){
+                $obj = new SupplyAttr;
+                $obj->attribute_id = $key;
+                $obj->supplys_id = $newid;
+                $obj->attr_value = $val;
+                $obj->save();
+            }
+
+            // $obj = new SupplyAttr;
+            // $obj->attribute_id = $key;
+            // $obj->supplys_id = $newid;
+            // $obj->attr_value = $val;
+            // $obj->save();
         }
         if($emergency){
             return response()->json(['status'=>'1','errMsg'=>'发布紧急商品成功','call_pay'=>1]);

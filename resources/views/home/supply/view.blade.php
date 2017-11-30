@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>【速生红叶李】高度200厘米地径0.8厘米红叶李价格_图片_行情_报价 - 竞苗平台</title>
+    <title>【{{$item->kinds->name}}】{{$item->goods_name}}价格_图片_行情_报价 - 竞苗平台</title>
 <meta name="keywords" content="速生红叶李,红叶李价格,高度200厘米地径0.8厘米红叶李价格,河南红叶李价格,许昌红叶李价格,速生红叶李图片" />
 <meta name="description" content="竞苗平台景轩的官方店铺为您提供最新红叶李报价、图片、价格等信息，高度200厘米地径0.8厘米红叶李价格1.00元/棵，价格更新时间：2014-11-07，所在地是河南许昌，花木在线交易，就上竞苗平台！" />
     <link rel="stylesheet"  href="/css/mobile-select-area.css">
@@ -54,9 +54,13 @@
 		<div class="slipping-area">
 			<div class="slipping-imgbox">
                 <!-- 轮播图 -->
-								<img src="/images/201411071500507139.jpg"/>
-								<img src="/images/201411071501079398.jpg"/>
-							</div>
+                @forelse(explode(';',trim($item->imgs,';')) as $val)
+                <img src="{{getPic($val)}}" style="object-fit:cover;width:100%;height:100%"/>
+                @empty
+				<img src="/images/201411071500507139.jpg"/>
+				<img src="/images/201411071501079398.jpg"/>
+                @endforelse
+			</div>
 		</div>
 	</div>
 </div>
@@ -248,7 +252,7 @@
 
 	<div class="col-xs-4 color_67 foot_left_enshrine" style="background-color:#ea8a1c">
 		<div class="border_none">
-			<a href="/wx/cart"  class="font_3r color_fff">下单</a>
+			<a href="/wx/cart/{{$item->id}}"  class="font_3r color_fff">下单</a>
 		</div>
 	</div>
 

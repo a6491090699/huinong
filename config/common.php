@@ -8,6 +8,7 @@ return [
     'fabu_want_price' => 1, //
     'fabu_supply_price' => 1, //
 
+    'supply_lunbo_default'=>'/images/201411071501079398.jpg',
 
 
 
