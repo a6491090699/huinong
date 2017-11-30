@@ -460,7 +460,7 @@
                     onfocusout : false,
                     onblur  : false,
                     ignore: '',
-                    // rules: validate_rules,
+                    rules: validate_rules,
                     messages: validate_messages,
                     submitHandler: function (form) {
                         //处理mobiselect插件的值
@@ -468,10 +468,13 @@
                                 var val_array = $(this).val().split(',');
                                 $(this).val(val_array[0]);
                             });
-                            
+                            $(".yyimg-list li").each(function(){
+                                $("#goods_form").append('<input type="hidden" name="compressValue[]" value="'+$(this).data('img')+'">');
+                                // console.log($(this).data('img'));
+                            });
 
-                            // if (!submited && check_number_value()   && check_main_spec('price') && check_main_spec('stock') && check_sys_spec() &&check_description()) {
-                            if (!submited) {
+                            if (!submited && check_number_value()   && check_main_spec('price') && check_main_spec('stock') && check_sys_spec() &&check_description()) {
+                            // if (!submited) {
                                 $.ajax({
                                     type:'post',
                                     url:'/supply/create',
@@ -510,9 +513,9 @@
                                         }else {
                                             layer.open({content:data.errMsg, time:2});
 
-                                            // setTimeout(function(){
-                                            //     window.location.href='/supply/index';
-                                            // },1000);
+                                            setTimeout(function(){
+                                                window.location.href='/supply/index';
+                                            },1000);
                                         }
                                     },
                                     complete:function(){

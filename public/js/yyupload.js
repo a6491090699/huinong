@@ -62,6 +62,7 @@ var filechooser = document.getElementById("yychoose");
                         var flag = confirm("要删除这张照片嘛")
                         if (flag) {
                             $(that).remove()
+
                             return false
                         } else {
                             $(that).removeClass('yycover')
@@ -85,11 +86,11 @@ var filechooser = document.getElementById("yychoose");
 
 
                 //如果图片大小小于100kb，则直接上传
-                if (result.length <= maxsize) {
-                    img = null;
-                    upload(result);
-                    return;
-                }
+                // if (result.length <= maxsize) {
+                //     img = null;
+                //     upload(result);
+                //     return;
+                // }
                 //      图片加载完毕之后进行压缩，然后上传
                 if (img.complete) {
                     callback();
@@ -99,7 +100,8 @@ var filechooser = document.getElementById("yychoose");
 
                 function callback() {
                     var data = compress(img);
-                    $("#goods_form").append('<input type="hidden" name="compressValue[]" value="'+data+'">');
+                    $(li).css("background-image", "url(" + data + ")").attr('data-img',data);
+                    // $("#goods_form").append('<input type="hidden" name="compressValue[]" value="'+data+'">');
                     // upload(data);
                     // img = null;
                 }
