@@ -89,7 +89,7 @@ function showImgs($string=''){
     $arr = explode(';',$string);
     $html = '';
     foreach($arr as  $val){
-        $html.= '<img src="'.getPic($val).'">';
+        $html.= '<img src="'.getPic($val).'" style="width:100%">';
     }
     return $html;
     // return str_replace('public/','/storage/', $string);
@@ -365,6 +365,9 @@ Route::group(['prefix'=>'wx' ] ,function (){
     Route::any('vip', 'WxController@vip');
     Route::any('member-notify', 'WxController@memberNotify');
     Route::any('supply-notify', 'WxController@supplyNotify');
+
+    Route::any('cart/{id}' , 'WxController@cart');
+    Route::any('buy' , 'WxController@buy');
 
 
 });

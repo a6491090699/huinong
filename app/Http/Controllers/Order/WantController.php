@@ -350,7 +350,7 @@ class WantController extends Controller
     public function edit($wid)
     {
         $item = Want::where('id' , $wid)->first();
-        
+
 
         $data = \App\Model\MemberAddress::where('mid' , session('mid'))->get(['full_address','region_id','street','phone','name','id'])->toArray();
         // dd($data);

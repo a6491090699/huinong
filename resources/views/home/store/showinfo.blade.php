@@ -47,7 +47,7 @@ canvas { width: 100%; border: 1px solid #000000; }
     <span class="tips" style="color:red">请全部选好图片再点击上传!</span>
     <a id="uploadimg">上传</a>
     <a id="finished" href="/store/index" style="border-color:black;text-decoration:none;color:black">完成编辑</a>
-    <p class="showimg" id="showimg">
+    <p class="showimg" id="showimg" style="width:100%">
         {!!showImgs($imgs)!!}
     </p>
     <script src="http://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>

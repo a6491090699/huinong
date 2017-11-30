@@ -113,7 +113,7 @@
     </a>
     <h1>发布商品</h1>
 </header>
-<form id="goods_form" method="POST" action="/supply/create" style="padding-top:1rem;" enctype="multipart/form-data">
+<form id="goods_form" method="POST" action="/supply/create" style="padding-top:1rem;">
     {{csrf_field()}}
 <input type="hidden" name="out_trade_no" value="{{$out_trade_no}}">
     <div class="padding_flanks">
@@ -460,7 +460,7 @@
                     onfocusout : false,
                     onblur  : false,
                     ignore: '',
-                    rules: validate_rules,
+                    // rules: validate_rules,
                     messages: validate_messages,
                     submitHandler: function (form) {
                         //处理mobiselect插件的值
@@ -468,9 +468,10 @@
                                 var val_array = $(this).val().split(',');
                                 $(this).val(val_array[0]);
                             });
+                            
 
-                            if (!submited && check_number_value()   && check_main_spec('price') && check_main_spec('stock') && check_sys_spec() &&check_description()) {
-                            // if (!submited) {
+                            // if (!submited && check_number_value()   && check_main_spec('price') && check_main_spec('stock') && check_sys_spec() &&check_description()) {
+                            if (!submited) {
                                 $.ajax({
                                     type:'post',
                                     url:'/supply/create',

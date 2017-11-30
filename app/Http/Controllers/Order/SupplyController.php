@@ -122,6 +122,9 @@ class SupplyController extends Controller
 
     public function create(Request $request)
     {
+        // dump($request->all());
+        $imgs = $this->multiUpload($request);
+        dump($imgs);exit;
         dd($request->all());
         switch($request->input('expire_options')){
             case '一天':

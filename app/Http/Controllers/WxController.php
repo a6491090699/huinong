@@ -13,11 +13,34 @@ use App\Model\Member;
 class WxController extends Controller
 {
     //
-    public function index()
+    // public function index()
+    // {
+    //     $user = session('wechat.oauth_user'); // 拿到授权用户资料
+    //     // dd($user->id);
+    //     return view('wx.index');
+    // }
+
+    // 下单跳到购物车界面
+    public function cart($id)
     {
-        $user = session('wechat.oauth_user'); // 拿到授权用户资料
-        // dd($user->id);
-        return view('wx.index');
+
+        // $user = session('wechat.oauth_user'); // 拿到授权用户资料
+
+        $data = Supply::with('supplyAttrs.attrs','kinds','storeinfo')->withCount('yuyue')->where('id' ,$id)->first();
+        // dd($data);
+
+        return view('home.cart',['item'=>$data]);
+    }
+    // 生成订单
+    public function buy(Request $request)
+    {
+        dd($request->all());
+        // $user = session('wechat.oauth_user'); // 拿到授权用户资料
+
+        $data = Supply::with('supplyAttrs.attrs','kinds','storeinfo')->withCount('yuyue')->where('id' ,$id)->first();
+        // dd($data);
+
+        return view('home.cart',['item'=>$data]);
     }
     public function notify()
     {

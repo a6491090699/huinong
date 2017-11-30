@@ -77,11 +77,12 @@ var filechooser = document.getElementById("yychoose");
 
             // console.log( $('.img-list li').length)
             reader.onload = function() {
+                console.info(this);
                 var result = this.result;
                 var img = new Image();
                 img.src = result;
                 $(li).css("background-image", "url(" + result + ")");
-                $("#goods_form").append('<input type="hidden" name="compressValue[]" value="'+result+'">');
+
 
                 //如果图片大小小于100kb，则直接上传
                 if (result.length <= maxsize) {
@@ -98,8 +99,9 @@ var filechooser = document.getElementById("yychoose");
 
                 function callback() {
                     var data = compress(img);
-                    upload(data);
-                    img = null;
+                    $("#goods_form").append('<input type="hidden" name="compressValue[]" value="'+data+'">');
+                    // upload(data);
+                    // img = null;
                 }
             };
             reader.readAsDataURL(file);
@@ -110,6 +112,7 @@ var filechooser = document.getElementById("yychoose");
 
     //    使用canvas对大图片进行压缩
     function compress(img) {
+
         var initSize = img.src.length;
         var width = img.width;
         var height = img.height;

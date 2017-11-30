@@ -248,7 +248,7 @@
 
 	<div class="col-xs-4 color_67 foot_left_enshrine" style="background-color:#ea8a1c">
 		<div class="border_none">
-			<a href="#"  class="font_3r color_fff">下单</a>
+			<a href="/wx/cart"  class="font_3r color_fff">下单</a>
 		</div>
 	</div>
 
