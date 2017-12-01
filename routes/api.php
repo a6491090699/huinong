@@ -24,6 +24,7 @@ Route::group(['prefix'=>'wx' ] ,function (){
     Route::any('wantnotify', 'WxController@wantnotify');
     Route::any('member-notify', 'WxController@memberNotify');
     Route::any('supply-notify', 'WxController@supplyNotify');
+    Route::any('buy-notify', 'WxController@buyNotify');
 
 
 });

@@ -79,7 +79,8 @@
     </ul>
     <ul class="user_means_list">
         <li><a href="/supplyorder/index">供货订单<b class="right_arrows fr">&#xe614;</b></a></li>
-        <li><a href="/want/order">采购订单<b class="right_arrows fr">&#xe614;</b></a></li>
+        <li><a href="/buyorder/index">采购订单<b class="right_arrows fr">&#xe614;</b></a></li>
+        <!-- <li><a href="/want/order">采购订单<b class="right_arrows fr">&#xe614;</b></a></li> -->
         <li><a href="/member/my-goods">我的商品<b class="right_arrows fr">&#xe614;</b></a></li>
         <li><a href="/want/my-want">我的求购<b class="right_arrows fr">&#xe614;</b></a></li>
         <li><a href="/quote/my">我的报价<b class="right_arrows fr">&#xe614;</b></a></li>

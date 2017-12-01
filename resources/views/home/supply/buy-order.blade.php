@@ -97,64 +97,29 @@
 <div>
     <ul class="order_nav-list bg-fff bd_top_bottom-eee font_3r clearfix">
         <li class="hover_list all_orders">
-        <div><a href="/supplyorder/index?type=all_orders">全部</a></div>
+        <div><a href="/buyorder/index?type=all_orders">全部</a></div>
         </li>
         <li class="confirm">
-        <div><a href="/supplyorder/index?type=confirm">待确认</a></div>
+        <div><a href="/buyorder/index?type=confirm">待确认</a></div>
         </li>
         <li class="pending">
-        <div><a href="/supplyorder/index?type=pending">待付款</a></div>
+        <div><a href="/buyorder/index?type=pending">待付款</a></div>
         </li>
         <li class="accepted">
-        <div><a href="/supplyorder/index?type=accepted">待发货</a></div>
+        <div><a href="/buyorder/index?type=accepted">待发货</a></div>
         </li>
         <li class="shipped">
-        <div><a href="/supplyorder/index?type=shipped">已发货</a></div>
+        <div><a href="/buyorder/index?type=shipped">待收货</a></div>
         </li>
         <li class="finished">
-        <div><a href="/supplyorder/index?type=finished">待评价</a></div>
+        <div><a href="/buyorder/index?type=finished">待评价</a></div>
         </li>
 
     </ul>
 
 
     <ul id="order_list">
-	  <!-- <li class="user_store">
-   <div class="goods_status bg-fff padding_flanks">
-    <span class="font_28r color_34" onclick="location='#?app=store&amp;store_id=7239';">景轩的官方店铺<b class="iconfont fontWeight_4 padding_flanks color_9a"></b></span>
-    <span class="font_24r color_ff863a fr">待付款</span>
-   </div> <a href="#?app=buyer_order&amp;act=view&amp;order_id=137347"></a>
-   <div class="padding_container goods_details clearfix">
-    <a href="#?app=buyer_order&amp;act=view&amp;order_id=137347"></a>
-    <dl class="clearfix fl">
-     <a href="#?app=buyer_order&amp;act=view&amp;order_id=137347"> </a>
-     <dt class="fl">
-      <a href="#?app=buyer_order&amp;act=view&amp;order_id=137347"></a>
-      <a href="//goods/1_14_19738_4022.html"><img src="http://img.huamu.com/data/upload/goods/201411/07/50/201411071500507139.jpg?x-oss-process=image/resize,m_fill,h_122,w_122" /></a>
-     </dt>
-     <dd class="fl">
-      <p class="font_28r color_34">速生红叶李</p>
-      <p class="font_24r color_9a">高度:200厘米 地径:0.8厘米</p>
-     </dd>
-    </dl>
-    <div class="fr">
-     <p class="font_28r color_34">&yen;1.00</p>
-     <p class="font_24r color_9a"><span class="iconfont font_23r"></span>2500</p>
-    </div>
-   </div>
-   <div class="goods_total font_28r bg-fff padding_flanks">
-    <p>合计&yen;2500.00</p>
-   </div>
-   <div class="padding_flanks bg-fff">
-    <div class="text_right bd_top-eee order_btn_padding order_ops">
-     <a class="border_box-9a font_24r color_67" href="#?app=buyer_order&amp;act=view&amp;order_id=137347">查看订单</a>
-     <a class="border_box-9a font_24r color_67 receive" order_id="137347" order_sn="1729968676" amount="2500.00" store_name="景轩的官方店铺" style="display:none;">确认收货</a>
-     <a class="border_box-9a font_24r color_67" href="#?app=buyer_order&amp;act=evaluate&amp;order_id=137347" style="display:none;">评价</a>
-     <a class="border_box-9a font_24r color_67" href="index.php?app=buyer_order&amp;act=refund_order&amp;order_id=137347" style="display:none;">申请退款</a>
-     <a class="border_box-9a font_24r color_67" href="index.php?app=buyer_order&amp;act=cancel_order&amp;order_id=137347">取消订单</a>
-     <a class="border_box-02c5a3 font_24r color_02c5a3" href="#?app=cashier&amp;order_id=137347">付款</a>
-    </div>
-   </div></li> -->
+
     </ul>
     <div id="loading01" class='load_more' style="display: none;">
         <a class="a_full text_center margin_top margin_bottom padding_container font_24r color_9a" href="javascript:void(0);">加载更多</a>
@@ -164,11 +129,31 @@
 <script type="text/javascript">
     $('.{!!$type!!}').siblings().removeClass('hover_list');
     $('.{!!$type!!}').addClass('hover_list');
-    function order_cancel(id)
+    function order_pay(id)
     {
-        if(confirm("确定取消该订单?")){
+        location.href="/buyorder/pay/"+id;
+        // if(confirm("确定取消该订单?")){
+        //     $.ajax({
+        //         url:'/buyorder/cancel',
+        //         type:'post',
+        //         data:{id:id},
+        //         success:function(d){
+        //
+        //             layer.open({content:d.msg, time:2});
+        //
+        //             setTimeout(function(){
+        //                 window.location.reload();
+        //             },1000);
+        //
+        //         }
+        //     })
+        // }
+    }
+    function order_received(id)
+    {
+        if(confirm("确认已收货?")){
             $.ajax({
-                url:'/supplyorder/cancel',
+                url:'/buyorder/received',
                 type:'post',
                 data:{id:id},
                 success:function(d){
@@ -183,53 +168,31 @@
             })
         }
     }
-    function order_edit(id)
+    function order_comment(id)
     {
-        location.href="/supplyorder/edit/"+id;
-    }
-    function order_confirm(id)
-    {
-        if(confirm("确定接受该订单?")){
-            $.ajax({
-                url:'/supplyorder/confirm',
-                type:'post',
-                data:{id:id},
-                success:function(d){
-
-                    layer.open({content:d.msg, time:2});
-
-                    setTimeout(function(){
-                        window.location.reload();
-                    },1000);
-
-                }
-            })
-        }
-    }
-    function order_sended(id)
-    {
-        if(confirm("确定发货?")){
-            $.ajax({
-                url:'/supplyorder/sended',
-                type:'post',
-                data:{id:id},
-                success:function(d){
-
-                    layer.open({content:d.msg, time:2});
-
-                    setTimeout(function(){
-                        window.location.reload();
-                    },1000);
-
-                }
-            })
-        }
+        location.href="/buyorder/comment/"+id;
+        // if(confirm("确定发货?")){
+        //     $.ajax({
+        //         url:'/supplyorder/sended',
+        //         type:'post',
+        //         data:{id:id},
+        //         success:function(d){
+        //
+        //             layer.open({content:d.msg, time:2});
+        //
+        //             setTimeout(function(){
+        //                 window.location.reload();
+        //             },1000);
+        //
+        //         }
+        //     })
+        // }
     }
     function order_del(id)
     {
         if(confirm("确定删除?")){
             $.ajax({
-                url:'/supplyorder/del',
+                url:'/buyorder/del',
                 type:'post',
                 data:{id:id},
                 success:function(d){
@@ -246,7 +209,7 @@
     }
 
 
-    var order_goods_tpl = '<div class="padding_container goods_details clearfix"><dl class="clearfix fl"> <dt class="fl"><a href="{goods_url}"><img src="{logo}" style="width:80px;height:80px"/></a></dt><dd class="fl"><p class="font_28r color_34">{goods_name}</p><p class="font_24r color_9a">{specification}</p></dd></dl><div class="fr"><p class="font_28r color_34">¥{price}</p><p class="font_24r color_9a"><span class="iconfont font_23r">&#xe689;</span>{quantity}</p></div></div>';
+    var order_goods_tpl = '<div class="padding_container goods_details clearfix"><dl class="clearfix fl"> <dt class="fl"><a href="{goods_url}"><img src="{logo}" style="width:80px;height:80px;object-fit:cover"/></a></dt><dd class="fl"><p class="font_28r color_34">{goods_name}</p><p class="font_24r color_9a">{specification}</p></dd></dl><div class="fr"><p class="font_28r color_34">¥{price}</p><p class="font_24r color_9a"><span class="iconfont font_23r">&#xe689;</span>{quantity}</p></div></div>';
     // var order_goods_tpl = '<div class="padding_container goods_details clearfix"><dl class="clearfix fl"> <dt class="fl"><a href="{goods_url}"><img src="/images/7f24bfff2e17405284c673bdb5786431.gif"/></a></dt><dd class="fl"><p class="font_28r color_34">{goods_name}</p><p class="font_24r color_9a">{specification}</p></dd></dl><div class="fr"><p class="font_28r color_34">¥{price}</p><p class="font_24r color_9a"><span class="iconfont font_23r">&#xe689;</span>{quantity}</p></div></div>';
 
     var order_tpl = '<li class="user_store">';
@@ -322,7 +285,7 @@
                     }
                     item.store_url = '/store/view/'+item.member_id;
                     item.seller_name = item.storeinfo.store_name;
-                    item.order_url = '/supplyorder//view/'+item.id;
+                    item.order_url = '/buyorder/view/'+item.id;
                     item.order_amount = item.total_price;
 
 
@@ -342,8 +305,11 @@
                         case 4:
                             item.status_text = '已收货,待评价';
                             break;
+                        case 5:
+                            item.status_text = '已完成';
+                            break;
                         case 9:
-                            item.status_text = '已取消';
+                            item.status_text = '订单被商家取消';
                             break;
 
                         default:
@@ -353,23 +319,25 @@
                     var buttons = '<a class="border_box-9a font_24r color_67" href="'+item.order_url+'" >查看订单</a>';
                     switch (item.status) {
                         case 0:
-                        buttons += '    <a class="border_box-9a font_24r color_67" href="javascript:void(0)" onclick="order_cancel('+item.id+')">取消接单</a>  <a class="border_box-9a font_24r color_67" href="javascript:void(0)" onclick="order_edit('+item.id+')">修改订单</a>    <a class="border_box-9a font_24r color_67" href="javascript:void(0)" onclick="order_confirm('+item.id+')">确认接单</a>';
+                        buttons += '';
                         // buttons += '    <a class="border_box-9a font_24r color_67" href="javascript:void(0)" onclick="order_cancel('+item.id+')">取消接单</a>     <a class="border_box-9a font_24r color_67" >确认接单</a>';
 
                             break;
                         case 1:
-                        buttons += ' ';
+                        buttons += ' <a class="border_box-9a font_24r color_67" href="javascript:void(0)" onclick="order_pay('+item.id+')">付款</a>';
                             break;
                         case 2:
                         // buttons += '    <a class="border_box-9a font_24r color_67 receive" >确认发货</a>';
-                        buttons += '    <a class="border_box-9a font_24r color_67" href="javascript:void(0)" onclick="order_sended('+item.id+')">确认发货</a>';
-
+                        buttons += '    ';
                             break;
                         case 3:
-                            buttons += '    <a class="border_box-9a font_24r color_67 " >已发货</a>';
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_received('+item.id+')">确认收货</a>';
                             break;
                         case 4:
-                            buttons += '    <a class="border_box-9a font_24r color_67 ">已收货</a>';
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_comment('+item.id+')">评价</a>';
+                            break;
+                        case 5:
+                            buttons += '    ';
                             break;
                         case 9:
                             buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_del('+item.id+')">删除</a>';

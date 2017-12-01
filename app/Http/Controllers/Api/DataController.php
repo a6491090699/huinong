@@ -383,8 +383,84 @@ class DataController extends Controller
 
 
     }
-    //获取用户供货订单
+    //获取用户供货被购买的订单
     public function getSupplyOrder(Request $request)
+    {
+        // dd(session('mid'));
+        $page = empty($request->input('page'))? 1: $request->input('page');
+        $type = empty($request->input('type'))? 1: $request->input('type');
+        $kind_id = empty($request->input('page'))? 1: $request->input('kind_id');
+        $region_id = empty($request->input('page'))? 1: $request->input('region_id');
+        $orderstring =  $request->input('order');
+        $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
+        $store_member_id = session('mid') ;
+        $pagenum = 10; //每页显示数
+        $obj = SupplyOrder::with('supply.supplyAttrs.attrs','supply.kinds','storeinfo');
+
+
+        if($store_member_id) $obj= $obj->where('store_member_id' , $store_member_id);
+        if($keyword) $obj= $obj->where('goods_name' ,'like','%'.$keyword.'%');
+
+        if($orderstring){
+            $orderstring = explode(' ',$orderstring);
+            $order = $orderstring[0];
+            $orderway = $orderstring[1];
+            $obj= $obj->orderBy($order ,$orderway);
+        }else{
+            $obj= $obj->orderBy('id' ,'desc');
+        }
+
+        if($type){
+            switch ($type) {
+                case 'all_orders':
+                    # code...
+
+                    break;
+                case 'confirm':
+                    # code...待确认
+                    $obj->where('status',0);
+                    break;
+                case 'pending':
+                    # code...待付款
+                    $obj->where('status',1);
+                    break;
+                case 'accepted':
+                    # code...
+                    //已付款 待发货
+                    $obj->where('status',2);
+                    break;
+                case 'shipped':
+                    # code...已发货 待收货
+                    $obj->where('status',3);
+                    break;
+                case 'finished':
+                    # code...已收货 待评价
+                    $obj->where('status',4);
+                    break;
+
+                default:
+                    # code...    yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+                    break;
+            }
+
+        }
+
+        if($region_id){
+
+            $obj= $obj->where('region_id' ,$region_id);
+        }
+        if($kind_id){
+            $obj= $obj->where('kid' ,$kid);
+        }
+
+
+        $return = $obj->paginate($pagenum);
+
+        return response()->json($return);
+    }
+
+    //获取用户购买的订单
+    public function getBuyOrder(Request $request)
     {
         $page = empty($request->input('page'))? 1: $request->input('page');
         $type = empty($request->input('type'))? 1: $request->input('type');

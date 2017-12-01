@@ -22,6 +22,11 @@ class SupplyOrderController extends Controller
         return view('home.supply.supply-order' ,['type'=>$type]);
     }
 
+    public function edit($id){
+        dd(12321);
+        return view('home.supply.supply-order-edit');
+    }
+
     //下单添加订单
     //库存减相对数量 售量加相对数量
 

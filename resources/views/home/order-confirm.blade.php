@@ -304,6 +304,7 @@
   <input type="hidden" name="price_one" value="{{$item->price}}"/>
   <input type="hidden" name="buy_num" value="{{$buy_num}}"/>
   <input type="hidden" name="supplys_id" value="{{$item->id}}"/>
+  <input type="hidden" name="store_member_id" value="{{$item->storeinfo->member_id}}"/>
   <script type="text/javascript">
       $('.user_address-list li').click(function(){
           var name = $(this).find('.addr_name').html()
@@ -498,7 +499,7 @@
                              layer.open({content:d.msg, time:2});
 
                              setTimeout(function(){
-                                 window.location.href='/supplyorder/index';
+                                 window.location.href='/buyorder/index';
                              },1000);
                          }else{
                              layer.open({content:'发生错误! 请重试!', time:2});

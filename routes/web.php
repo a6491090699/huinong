@@ -246,6 +246,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'supplyorder'] ,function (){
     //supply Order list
     //全部订单
     Route::get('index' , 'SupplyOrderController@index');
+    Route::get('edit/{id}' , 'SupplyOrderController@edit');
 
     //商家销售订单操作
     Route::post('cancel' , 'SupplyOrderController@cancel');
@@ -265,18 +266,27 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'supplyorder'] ,function (){
 
 
 });
-
-Route::group(['namespace'=>'Order' ,'prefix'=>'wantOrder'] ,function (){
+Route::group(['namespace'=>'Order' ,'prefix'=>'buyorder'] ,function (){
 
 
     //supply Order list
     //全部订单
-    // Route::get('index' , 'WantOrderController@index');
-    //处理发货
-    // Route::get('supply-order-pending' , 'MemberController@supplyOrderPending');
-    // Route::get('supply-order-accepted' , 'MemberController@supplyOrderAccepted');
-    // Route::get('supply-order-shipped' , 'MemberController@supplyOrderShipped');
-    // Route::get('supply-order-finished' , 'MemberController@supplyOrderFinished');
+    Route::get('index' , 'BuyOrderController@index');
+
+
+    //商家销售订单操作
+    Route::get('pay/{id}' , 'BuyOrderController@pay');
+    Route::post('received' , 'BuyOrderController@received');
+    Route::get('comment/{id}', 'BuyOrderController@comment' );
+    Route::post('del', 'BuyOrderController@del' );
+
+
+
+});
+
+Route::group(['namespace'=>'Order' ,'prefix'=>'wantOrder'] ,function (){
+
+
 
 
 });
@@ -402,6 +412,7 @@ Route::group(['namespace'=>'Api' ,'prefix'=>'api'] ,function (){
     Route::get('cancel-collect-good' , 'DataController@cancelCollectGood');
     Route::get('get-kind-unit/{kid}' , 'DataController@getKindUnit');
     Route::get('get-supply-order' , 'DataController@getSupplyOrder');
+    Route::get('get-buy-order' , 'DataController@getBuyOrder');
     Route::get('get-yuyue' , 'DataController@getYuyue');
     // Route::get('get-my-want' , 'DataController@getMyWant');
 
