@@ -6,10 +6,12 @@
     <title>全部订单 - 我的订单</title>
 <meta name="keywords" content="中国花木网,花木网,花木,中国苗木网,花木交易,花木求购,花木资讯,花木论坛,花木销售,绿化苗木" />
 <meta name="description" content="中国花木网，中国苗木网，中国花木在线交易专业平台，致力于为花木行业从业者提供更真实的花木在线交易平台，让您没有买不到的，没有卖不掉的。" />
+<meta name="_token" content="{{csrf_token()}}">
+
     <link rel="stylesheet"  href="/css/mobile-select-area.css">
     <!--<link rel="stylesheet" href="/css/larea.css">-->
     <link rel="stylesheet" href="/css/style.css"/>
-    <link rel="stylesheet" href="/css/index.css"/>
+    <link rel="stylesheet" href="/css/index.css?{{time()}}"/>
     <!--<link rel="stylesheet" href="/css/sm.min.css">-->
     <!--<script type='text/javascript' src='/js/zepto.min.js' charset='utf-8'></script>-->
     <!--<script type='text/javascript' src='/js/sm.min.js' charset='utf-8'></script>-->
@@ -39,6 +41,11 @@
 
     </script>
     <script type="text/javascript">
+    $.ajaxSetup({
+        headers:{
+            'X-CSRF-TOKEN':$('meta[name="_token"]').attr('content')
+        }
+    });
         var lat = 0;
         var lon = 0;
         function getCookie(c_name)
@@ -91,6 +98,9 @@
     <ul class="order_nav-list bg-fff bd_top_bottom-eee font_3r clearfix">
         <li class="hover_list all_orders">
         <div><a href="/supplyorder/index?type=all_orders">全部</a></div>
+        </li>
+        <li class="confirm">
+        <div><a href="/supplyorder/index?type=confirm">待确认</a></div>
         </li>
         <li class="pending">
         <div><a href="/supplyorder/index?type=pending">待付款</a></div>
@@ -154,6 +164,82 @@
 <script type="text/javascript">
     $('.{!!$type!!}').siblings().removeClass('hover_list');
     $('.{!!$type!!}').addClass('hover_list');
+    function order_cancel(id)
+    {
+        if(confirm("确定取消该订单?")){
+            $.ajax({
+                url:'/supplyorder/cancel',
+                type:'post',
+                data:{id:id},
+                success:function(d){
+
+                    layer.open({content:d.msg, time:2});
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+
+                }
+            })
+        }
+    }
+    function order_confirm(id)
+    {
+        if(confirm("确定接受该订单?")){
+            $.ajax({
+                url:'/supplyorder/confirm',
+                type:'post',
+                data:{id:id},
+                success:function(d){
+
+                    layer.open({content:d.msg, time:2});
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+
+                }
+            })
+        }
+    }
+    function order_sended(id)
+    {
+        if(confirm("确定发货?")){
+            $.ajax({
+                url:'/supplyorder/sended',
+                type:'post',
+                data:{id:id},
+                success:function(d){
+
+                    layer.open({content:d.msg, time:2});
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+
+                }
+            })
+        }
+    }
+    function order_del(id)
+    {
+        if(confirm("确定删除?")){
+            $.ajax({
+                url:'/supplyorder/del',
+                type:'post',
+                data:{id:id},
+                success:function(d){
+
+                    layer.open({content:d.msg, time:2});
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+
+                }
+            })
+        }
+    }
 
 
     var order_goods_tpl = '<div class="padding_container goods_details clearfix"><dl class="clearfix fl"> <dt class="fl"><a href="{goods_url}"><img src="{logo}" style="width:80px;height:80px"/></a></dt><dd class="fl"><p class="font_28r color_34">{goods_name}</p><p class="font_24r color_9a">{specification}</p></dd></dl><div class="fr"><p class="font_28r color_34">¥{price}</p><p class="font_24r color_9a"><span class="iconfont font_23r">&#xe689;</span>{quantity}</p></div></div>';
@@ -238,16 +324,22 @@
 
                     switch (item.status) {
                         case 0:
-                            item.status_text = '待付款';
+                            item.status_text = '待确认';
                             break;
                         case 1:
-                            item.status_text = '待发货';
+                            item.status_text = '已确认,待付款';
                             break;
                         case 2:
-                            item.status_text = '待收货';
+                            item.status_text = '已付款,待发货';
                             break;
                         case 3:
-                            item.status_text = '待评价';
+                            item.status_text = '已发货,待收货';
+                            break;
+                        case 4:
+                            item.status_text = '已收货,待评价';
+                            break;
+                        case 9:
+                            item.status_text = '已取消';
                             break;
 
                         default:
@@ -257,17 +349,26 @@
                     var buttons = '<a class="border_box-9a font_24r color_67" href="'+item.order_url+'" >查看订单</a>';
                     switch (item.status) {
                         case 0:
-                        buttons += '';
-                            break;
-                        case 1:
-                        buttons += '    <a class="border_box-9a font_24r color_67 receive" >确认发货</a>';
+                        buttons += '    <a class="border_box-9a font_24r color_67" href="javascript:void(0)" onclick="order_cancel('+item.id+')">取消接单</a>     <a class="border_box-9a font_24r color_67" href="javascript:void(0)" onclick="order_confirm('+item.id+')">确认接单</a>';
+                        // buttons += '    <a class="border_box-9a font_24r color_67" href="javascript:void(0)" onclick="order_cancel('+item.id+')">取消接单</a>     <a class="border_box-9a font_24r color_67" >确认接单</a>';
 
                             break;
+                        case 1:
+                        buttons += ' ';
+                            break;
                         case 2:
-                            buttons += '    <a class="border_box-9a font_24r color_67 receive" href="/supplyorder/post">已发货</a>';
+                        // buttons += '    <a class="border_box-9a font_24r color_67 receive" >确认发货</a>';
+                        buttons += '    <a class="border_box-9a font_24r color_67" href="javascript:void(0)" onclick="order_sended('+item.id+')">确认发货</a>';
+
                             break;
                         case 3:
-                            buttons += '    <a class="border_box-9a font_24r color_67 receive">已收货</a>';
+                            buttons += '    <a class="border_box-9a font_24r color_67 " >已发货</a>';
+                            break;
+                        case 4:
+                            buttons += '    <a class="border_box-9a font_24r color_67 ">已收货</a>';
+                            break;
+                        case 9:
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_del('+item.id+')">删除</a>';
                             break;
 
                         default:

@@ -415,22 +415,26 @@ class DataController extends Controller
                     # code...
 
                     break;
+                case 'confirm':
+                    # code...待确认
+                    $obj->where('status',0);
+                    break;
                 case 'pending':
                     # code...待付款
-                    $obj->where('status',0);
+                    $obj->where('status',1);
                     break;
                 case 'accepted':
                     # code...
                     //已付款 待发货
-                    $obj->where('status',1);
+                    $obj->where('status',2);
                     break;
                 case 'shipped':
                     # code...已发货 待收货
-                    $obj->where('status',2);
+                    $obj->where('status',3);
                     break;
                 case 'finished':
                     # code...已收货 待评价
-                    $obj->where('status',3);
+                    $obj->where('status',4);
                     break;
 
                 default:

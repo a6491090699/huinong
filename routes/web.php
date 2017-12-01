@@ -247,6 +247,15 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'supplyorder'] ,function (){
     //全部订单
     Route::get('index' , 'SupplyOrderController@index');
 
+    //商家销售订单操作
+    Route::post('cancel' , 'SupplyOrderController@cancel');
+    Route::post('confirm' , 'SupplyOrderController@confirm');
+    Route::post('sended', 'SupplyOrderController@sended' );
+    Route::post('del', 'SupplyOrderController@del' );
+    // Route::get('comment-view/{id}' , 'SupplyOrderController@commentView');
+
+
+
 
     //处理发货
     // Route::get('supply-order-pending' , 'MemberController@supplyOrderPending');
@@ -367,7 +376,8 @@ Route::group(['prefix'=>'wx' ] ,function (){
     Route::any('supply-notify', 'WxController@supplyNotify');
 
     Route::any('cart/{id}' , 'WxController@cart');
-    Route::any('buy' , 'WxController@buy');
+    Route::post('buy' , 'WxController@buy');
+    Route::post('supply-order-create' , 'WxController@supplyOrderCreate');
 
 
 });

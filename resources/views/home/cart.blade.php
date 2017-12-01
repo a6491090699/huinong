@@ -48,7 +48,9 @@
   </a>
   <h1>购物车</h1>
 </header>
-<form action="/wx/buy" id="cart_form">
+<form action="/wx/buy" id="cart_form" method="post">
+    {{csrf_field()}}
+    <input type="hidden" name="id" value="{{$item->id}}">
       <div class="bg-fff bd_bottom-eee margin_bottom_16 " id="cart_store_7239">
     <div class="padding_flanks position_relative">
       <a class="input_radio a_full padding_top_bottom input_radio_select">
@@ -97,7 +99,7 @@
       </a>
       -->
       <dl class="clearfix fr">
-          <dt class="fl"><a href="./goods/1_14_19738_4022.html"><img src="/images/201411071500507139.jpg"/></a></dt>
+          <dt class="fl"><a href="/supply/view/{{$item->id}}"><img src="{{ getPic( explode(';',$item->imgs)[0] ) }}" style="width:79px;height:79px;object-fit:cover;"/></a></dt>
         <dd class="fl compile_no" style="display: block">
           <p class="font_28r color_34">{{$item->goods_name}}</p>
           <p class="font_24r color_9a">

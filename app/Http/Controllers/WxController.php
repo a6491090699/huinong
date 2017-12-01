@@ -8,6 +8,7 @@ use EasyWeChat\Payment\Order;
 use EasyWeChat\Foundation\Application;
 use App\Model\Want;
 use App\Model\Supply;
+use App\Model\SupplyOrder;
 use App\Model\Member;
 
 class WxController extends Controller
@@ -26,6 +27,7 @@ class WxController extends Controller
 
         // $user = session('wechat.oauth_user'); // 拿到授权用户资料
 
+
         $data = Supply::with('supplyAttrs.attrs','kinds','storeinfo')->withCount('yuyue')->where('id' ,$id)->first();
         // dd($data);
 
@@ -34,14 +36,91 @@ class WxController extends Controller
     // 生成订单
     public function buy(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
         // $user = session('wechat.oauth_user'); // 拿到授权用户资料
+        $supplys_id = $request->input('id');
+        $price_one = $request->input('price');
+        $buy_num = $request->input('buy_num');
 
-        $data = Supply::with('supplyAttrs.attrs','kinds','storeinfo')->withCount('yuyue')->where('id' ,$id)->first();
+
+
+        // $order = new SupplyOrder;
+        //
+        // $order->supplys_id =$supplys_id;
+        // $order->member_id = session('mid');
+        // $order->status = 0;
+        // $order->addtime = time();
+        // $order->number = $buy_num;
+        // $order->total_price = 12
+
+        //地址
+        // $data = \App\Model\MemberAddress::where('mid' , session('mid'))->get(['full_address','region_id','street','phone','name','id'])->toArray();
+        $address_data = \App\Model\MemberAddress::where('mid' , session('mid'))->get()->toArray();
+        $default_addr = \App\Model\MemberAddress::where('mid' , session('mid'))->where('is_default',1)->first();
+        // dd($data);
+        if(empty($address_data)) return response("<script>alert('请先添加你的收货人信息!');location.href='/member/address';</script>");
+        $address = array();
+        foreach($address_data as $val){
+            $newarr = array();
+            $newarr['id']=$val['id'];
+            // $newarr['name']=$val['full_address']."\t".$val['street'];
+            $newarr['name']=$val['name']."\t".$val['full_address'];
+            // $newarr['member_address_id']=$val['id'];
+            $address[] = $newarr;
+        }
+        $address_json = json_encode($address);
+
+
+
+        // dd($address_data);
+        $data = Supply::with('supplyAttrs.attrs','storeinfo')->where('id' ,$supplys_id)->first();
         // dd($data);
 
-        return view('home.cart',['item'=>$data]);
+
+        return view('home.order-confirm',['item'=>$data,'buy_num'=>$buy_num ,'address_json'=>$address_json,'addr'=>$address_data ,'default_addr'=>$default_addr] );
     }
+
+    //创建订单
+    public function supplyOrderCreate(Request $request)
+    {
+        // dd($request->all());
+
+        $address_id = $request->input('address_id');
+        $price_one = $request->input('price_one');
+        $buy_num = $request->input('buy_num');
+        $postscript = $request->input('postscript');//留言
+        $supplys_id = $request->input('supplys_id');//留言
+
+        //地址信息 address
+        $addr = \App\Model\MemberAddress::where('id' , $address_id)->first();
+
+
+
+
+        // 把信息写入订单表
+        $obj = new SupplyOrder;
+        $obj->supplys_id = $supplys_id;
+        $obj->member_id = session('mid');
+        $obj->status = 0;
+        $obj->addtime = time();
+        $obj->number = $buy_num;
+        $obj->total_price = round($buy_num*$price_one,2);
+        // $obj->ship_price = 0;
+        // $obj->ship_type = 1;
+        $obj->tip = $postscript;
+        $obj->reciever = $addr->name;
+        $obj->reciever_phone =  $addr->phone;
+        $obj->reciever_address =  $addr->full_address;
+        $obj->order_sn =  date('Ymdhis').strrand(5);
+
+        if($obj->save()) return response()->json(['status'=>'success','msg'=>'提交订单成功!联系商家确定订单,然后付款!']);
+        return response()->json(['status'=>'error']);
+
+
+
+    }
+
+
     public function notify()
     {
 

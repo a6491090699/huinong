@@ -1465,9 +1465,11 @@ input.messages_input{
 }
 .order_nav-list li{
     float: left;
-    width:20%;
+    width:16.6%;
+    /*width:20%;*/
     height:100%;
-    padding:0 2.5%;
+    padding:0 0.5%;
+    /*padding:0 2.5%;*/
 }
 .message_nav-list li{
     float: left;
