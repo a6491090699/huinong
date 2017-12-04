@@ -305,7 +305,7 @@ class WxController extends Controller
             }
             // 如果订单存在
             // 检查订单是否已经更新过支付状态
-            if ($order->is_pay =1 && $order->status=2) { // 假设订单字段“支付时间”不为空代表已经支付
+            if ($order->is_pay =1 && $order->status>1) { // 假设订单字段“支付时间”不为空代表已经支付
                 return true; // 已经支付成功了就不再更新了
             }
             // 用户是否支付成功
@@ -391,4 +391,159 @@ class WxController extends Controller
 
         // return view('wx.jsapi');
     }
+
+    //求购发布页面
+    public function wantFabu(){
+        //调用我的地址里面的联系人
+
+        $data = \App\Model\MemberAddress::where('mid' , session('mid'))->get(['full_address','region_id','street','phone','name','id'])->toArray();
+        // dd($data);
+        if(empty($data)) return response("<script>alert('请先添加你的收货人信息!');location.href='/member/address';</script>");
+        $address = array();
+        foreach($data as $val){
+            $newarr = array();
+            $newarr['id']=$val['id'];
+            // $newarr['name']=$val['full_address']."\t".$val['street'];
+            $newarr['name']=$val['name']."\t".$val['full_address'];
+            // $newarr['member_address_id']=$val['id'];
+            $address[] = $newarr;
+        }
+        $address_json = json_encode($address);
+
+
+
+
+        //支付sdk 信息包
+        $user = session('wechat.oauth_user');
+        $options=require config_path().'/wechat.php';
+        $app = new Application($options);
+        $js = $app->js;
+
+        //订单详情
+        $payment = $app->payment;
+
+
+        $attributes = [
+            'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
+            'body'             => '求购信息佣金',
+            'detail'           => '求购信息佣金十块钱',
+            // 'out_trade_no'     => '1217752501201407033233368019',
+            'out_trade_no'     => date('Ymdhis').strrand(5),
+            'total_fee'        => config('common.fabu_want_price'), // 单位：分
+            'notify_url'       => 'http://sj.71mh.com/api/wx/notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+            'openid'           => $user->id, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
+            // ...
+        ];
+        $order = new Order($attributes);
+
+        $result = $payment->prepare($order);
+
+        // dd($result);
+        if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
+            $prepayId = $result->prepay_id;
+            $config = $payment->configForJSSDKPayment($prepayId);
+        }
+
+        $out_trade_no = $attributes['out_trade_no'];
+
+        // return view('wx.paybutton',['js'=>$js,'config'=>$config]);
+
+
+
+        return view('home.want.fabu',['address_json'=>$address_json,'out_trade_no'=>$out_trade_no,'js'=>$js,'config'=>$config]);
+    }
+
+    //商品发布页面
+    public function supplyFabu()
+    {
+        // dump(session('mid'));
+        $base_address = MemberStoreinfo::where('member_id' ,session('mid'))->select('base_address','region_id')->get()->toJson();
+        // dd($base_address->region_id);
+        //支付sdk 信息包
+        $user = session('wechat.oauth_user');
+        $options=require config_path().'/wechat.php';
+        $app = new Application($options);
+        $js = $app->js;
+
+        //订单详情
+        $payment = $app->payment;
+
+        $attributes = [
+            'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
+            'body'             => '发布商品信息佣金',
+            'detail'           => '发布商品信息佣金十块钱',
+            // 'out_trade_no'     => '1217752501201407033233368019',
+            'out_trade_no'     => date('Ymdhis').strrand(5),
+            'total_fee'        => config('common.fabu_supply_price'), // 单位：分
+            'notify_url'       => 'http://sj.71mh.com/api/wx/supply-notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+            'openid'           => $user->id, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
+            // ...
+        ];
+        $order = new Order($attributes);
+
+        $result = $payment->prepare($order);
+
+        if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
+            $prepayId = $result->prepay_id;
+            $config = $payment->configForJSSDKPayment($prepayId);
+        }
+
+        $out_trade_no = $attributes['out_trade_no'];
+
+
+        return view('home.supply.add',['base_address'=>$base_address,'out_trade_no'=>$out_trade_no,'js'=>$js,'config'=>$config]);
+    }
+
+
+    // 下单支付页面
+    public function buyGoodPage(Request $request){
+        if(!$request->has('id')) return response()->view('home.common.404',['msg'=>'传参发生错误!']);
+        $id= $request->input('id');
+        $orderinfo = SupplyOrder::with('supply')->where('id',$id)->first();
+        // dd($orderinfo);
+
+
+        //支付sdk 信息包
+        $user = session('wechat.oauth_user');
+        $options=require config_path().'/wechat.php';
+        $app = new Application($options);
+        $js = $app->js;
+
+        //订单详情
+        $payment = $app->payment;
+
+
+        $attributes = [
+            'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
+            'body'             => $orderinfo->supply->goods_name.'['.$orderinfo->supplys_id.']',
+            'detail'           => $orderinfo->supply->goods_name.'[id:'.$orderinfo->supplys_id.',数目:'.$orderinfo->number.',总价格:'.$orderinfo->total_price.']',
+            'out_trade_no'     => $orderinfo->order_sn,
+            // 'total_fee'        => $orderinfo->total_price*100, // 单位：分
+            'total_fee'        => 1, // 单位：分
+            'notify_url'       => 'http://sj.71mh.com/api/wx/buy-notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+            'openid'           => $user->id, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
+            // ...
+        ];
+        $order = new Order($attributes);
+
+        $result = $payment->prepare($order);
+
+        // dd($result);
+        if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
+            $prepayId = $result->prepay_id;
+            $config = $payment->configForJSSDKPayment($prepayId);
+        }
+
+        $out_trade_no = $attributes['out_trade_no'];
+
+        // return view('wx.paybutton',['js'=>$js,'config'=>$config]);
+
+
+
+        return view('wx.pay-page',['orderinfo'=>$orderinfo,'out_trade_no'=>$out_trade_no,'js'=>$js,'config'=>$config]);
+    }
+
+
+
+
 }

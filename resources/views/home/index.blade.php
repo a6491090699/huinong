@@ -134,12 +134,12 @@
 
     <ul class="sell_nav-list bg-fff clearfix bd_top_bottom-eee" style="margin-top: 9px;">
         <li class="fl" style="width:49%">
-            <a href="/supply/add">
+            <a href="/wx/supply-fabu">
 			<img src="/images/sydfl_07.jpg" width=100%>
             </a>
         </li>
         <li class="fl" style="width:49%">
-            <a href="/want/fabu">
+            <a href="/wx/want-fabu">
 			<img src="/images/sydfl_09.jpg" width=100%>
             </a>
         </li>

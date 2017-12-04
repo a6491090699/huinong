@@ -134,7 +134,7 @@
 </div>
 
 <footer class="font_3r">
-    <a class="footer_btn color_fff bg-02c5a3" href="/want/fabu">发布求购</a>
+    <a class="footer_btn color_fff bg-02c5a3" href="/wx/want-fabu">发布求购</a> 
 </footer>
 
 <script type="text/javascript">

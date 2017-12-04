@@ -5,6 +5,7 @@ namespace App\Http\Controllers\order;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\SupplyOrder;
+use App\Model\Supply;
 use EasyWeChat\Payment\Order;
 use EasyWeChat\Foundation\Application;
 
@@ -69,10 +70,25 @@ class BuyOrderController extends Controller
     {
         if(!$request->has('id')) return response()->json(['status'=>'error','msg'=>'参数发生错误!']);
         $id = $request->input('id');
+        \DB::beginTransaction();
         $obj =SupplyOrder::where('id',$id)->first();
-
+        $supplys_id = $obj->supplys_id;
+        $buy_num = $obj->number;
         $obj->status = 4;
-        if($obj->save()) return response()->json(['status'=>'success','msg'=>'确认收货操作成功!']);
+        if($obj->save()){
+
+            //库存减少 销量上升
+            $good = Supply::where('id',$supplys_id)->first();
+            $good->number -= $buy_num;
+            $good->saled_num += $buy_num;
+            if($good->save()){
+                \DB::commit();
+                return response()->json(['status'=>'success','msg'=>'确认收货操作成功!']);
+            }else{
+                \DB::rollback();
+                return response()->json(['status'=>'success','msg'=>'确认收货操作成功!']);
+            }
+        }
         return response()->json(['status'=>'fail','msg'=>'确认收货操作失败!']);
     }
 

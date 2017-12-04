@@ -131,7 +131,8 @@
     $('.{!!$type!!}').addClass('hover_list');
     function order_pay(id)
     {
-        location.href="/buyorder/pay/"+id;
+        location.href="/wx/buy-good-page?id="+id;
+        // location.href="/buyorder/pay/"+id;
         // if(confirm("确定取消该订单?")){
         //     $.ajax({
         //         url:'/buyorder/cancel',

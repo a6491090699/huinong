@@ -353,21 +353,16 @@ function getSon($arr,$str='')
 
 
 Route::get('test',function(){
-    // $data = \App\Model\Kind::listToTree();
-    $data = file_get_contents(app_path().'/Common/region_level4.json');
-    $data = json_decode($data ,true);
-    // $ss = getSonList($data['data'],1190);
-    dump(getSonList($data['data'],810));
-    // dump(getSon($ss));
-    // $hehe = getSon($ss);
-    // $hehe = trim($hehe,',');
-    // dump($hehe);
-    // trim(getSon($ss) ,',');
-    dd($data['data']);
-    // if($member)
-    dd(session('wechat.oauth_user'));
-
-    return response()->view('home.common.404',['msg'=>'出现错误'], 404);
+    $a = false;
+    DB::beginTransaction();
+    $obj = Supply::where('id',1)->first();
+    $obj->is_emergency = 1;
+    $obj->save();
+    if($a){
+        DB::commit();
+    }else{
+        DB::rollBack();
+    }
 
 
 });
@@ -388,6 +383,13 @@ Route::group(['prefix'=>'wx' ] ,function (){
     Route::any('cart/{id}' , 'WxController@cart');
     Route::post('buy' , 'WxController@buy');
     Route::post('supply-order-create' , 'WxController@supplyOrderCreate');
+
+
+    Route::get('want-fabu' , 'WxController@wantFabu');
+    Route::get('supply-fabu' , 'WxController@supplyFabu');
+    Route::get('buy-good-page' , 'WxController@buyGoodPage');
+
+    Route::get('buy-notify' , 'WxController@buyNotify');
 
 
 });
