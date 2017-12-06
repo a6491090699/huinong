@@ -161,13 +161,11 @@ class StoreController extends Controller
     }
     public function resizeUpload(Request $request)
     {
+        if(!$request->has('compressValue')) return config('common.logo_default');
         $base64_image_content = $request->input('compressValue');
         if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)){
             $type = $result[2];
-            // $root =
-            // dump(public_path());
-            // dump($_SERVER['DOCUMENT_ROOT']);
-            // dd($_SERVER);
+
             $new_file = storage_path().'/app/public/logo/'.session('mid').'/';
 
             //如果文件不存在,则创建

@@ -134,7 +134,7 @@
 </div>
 
 <footer class="font_3r">
-    <a class="footer_btn color_fff bg-02c5a3" href="/wx/want-fabu">发布求购</a> 
+    <a class="footer_btn color_fff bg-02c5a3" href="/wx/want-fabu">发布求购</a>
 </footer>
 
 <script type="text/javascript">
@@ -236,6 +236,10 @@
                         item.status_text = '待审';
                     }
 
+                    myday = new Date(item.cutday*1000);
+                    nstring = myday.getFullYear() +'-'+(myday.getMonth()+1) +'-'+myday.getDate();
+
+                    item.cutday = nstring;
 
                     item.source = item.source != '' ? item.source : '不限';
 

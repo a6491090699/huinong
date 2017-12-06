@@ -160,7 +160,7 @@
 				<a href="#">
 					<dl class="clearfix goods_details_store">
 						<dt class="fl" style="width:60px">
-							<img src="/images/201710161706347527.jpg"/>
+							<img src="{{getPic( explode(';',$val->imgs)[0] )}}" style="width:60px;height:60px;object-fit:cover;"/>
 						</dt>
 						<dd class="fl color_67 padding_flanks">
 							<div class="store_grade-div" style="    padding-left: 0px;">
@@ -198,7 +198,7 @@
 							<a href="/supply/view/{{$val->id}}">
 								<dl class="clearfix goods_details_store">
 									<dt class="fl" style="width:70px;">
-										<img src="/images/201502081354294549.jpg"/>
+										<img src="{{getPic( explode(';',$val->imgs)[0] )}}" style="width:70px;height:65.6px;object-fit:cover;"/>
 									</dt>
 									<dd class="fl color_67 padding_flanks">
 																<div class="store_grade-div">
@@ -207,10 +207,18 @@
 											<p class="font_3r overflow_omit">{{$val->goods_name}}</p>
 										</div>
 
-																<p class="font_24r overflow_omit color_9a" style="margin-top:8px;">胸径：12厘米</p>
-										<p class="font_24r color_9a" style="margin-bottom: 5px;">供应商信用：<img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1h.png" height="12px"></p>
+																<p class="font_24r overflow_omit color_9a" style="margin-top:8px;">
+                                                                    @foreach($val->supplyAttrs as $v)
+                                                                    {{$v->attrs->attr_name}}: {{$v->attr_value}}{{$v->attrs->unit}}
+                                                                    @endforeach
+                                                                </p>
+										<p class="font_24r color_9a" style="margin-bottom: 5px;">供应商信用：
+                                            {!!str_repeat('<img src="/images/star_1.png" height="12px">' ,floor($val->storeinfo->xinyong))!!}{!!str_repeat('<img src="/images/star_1h.png" height="12px">' ,5-floor($val->storeinfo->xinyong))!!}
+
+                                        </p>
 										<div>
-											山东聊城
+                                            {{$val->storeinfo->base_address}}
+
 										</div>
 										<span class="enter_store_btn font_18r" style="top: -40px;border: 0px solid #02c5a3;color:#727272;right: -15px;">{{formate_time($val->addtime)}}</span>
 										<span class="enter_store_btn border_color-67 font_18r" style="top: 40px;padding: 0 5px;right: -15px;">查看详情</span>

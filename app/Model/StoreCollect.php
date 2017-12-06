@@ -26,7 +26,7 @@ class StoreCollect extends Model
 
     public function stores()
     {
-        return $this->belongsTo('App\Model\MemberStoreinfo','store_id');
+        return $this->belongsTo('App\Model\MemberStoreinfo','store_id','member_id');
     }
 
     public function goods()
@@ -34,5 +34,7 @@ class StoreCollect extends Model
         //  $this->hasManyThrough('App\Post', 'App\User', 'country_id', 'user_id', 'id');
         return $this->hasMany('App\Model\Supply', 'member_id', 'store_id');
     }
+
+    
 
 }

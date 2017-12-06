@@ -266,7 +266,7 @@ class DataController extends Controller
         $obj->withCount('quotes');
 
         //是否过期
-        // $obj->where('cutday','>=',time());
+        $obj->where('cutday','>=',time());
         $obj->where('is_pay',1);
         $return = $obj->paginate($pagenum);
 
@@ -310,6 +310,7 @@ class DataController extends Controller
         $page = empty($request->input('page'))? 1: $request->input('page');
         $kid = empty($request->input('kind_id'))? 0: $request->input('kind_id');
         $region_id = empty($request->input('region_id'))? 0: $request->input('region_id');
+        $good_type = empty($request->input('good_type'))? '': $request->input('good_type');
         // $region_id = empty($request->input('region_id'))? 1: $request->input('region_id');
         $orderstring =  $request->input('order');
         $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
@@ -320,7 +321,8 @@ class DataController extends Controller
 
         if($mid) $obj= $obj->where('member_id' , $mid);
         if($keyword) $obj= $obj->where('goods_name' ,'like','%'.$keyword.'%');
-
+        if($good_type== 'normal') $obj= $obj->where('is_emergency' ,0 );
+        if($good_type== 'emergency') $obj= $obj->where('is_emergency' ,1 );
         if($orderstring){
             $orderstring = explode(' ',$orderstring);
             $order = $orderstring[0];
@@ -344,10 +346,14 @@ class DataController extends Controller
 
             $obj= $obj->where('kid' ,$kid);
         }
+        //是否过期
+        $obj = $obj->where('cutday','>=',time());
+
 
         $obj->withCount(['orders'=>function($query){
             $query->where('status',3);//完成的状态量
         }]);
+
 
         $return = $obj->paginate($pagenum);
 

@@ -14,10 +14,11 @@ use EasyWeChat\Foundation\Application;
 class SupplyController extends Controller
 {
     //
-    public function index()
+    public function index(Request $request)
     {
-
-        return view('home.supply.index');
+        $type = '';
+        if($request->has('type')) $type = $request->input('type');
+        return view('home.supply.index',['type'=>$type]);
     }
 
     public function addSupply()

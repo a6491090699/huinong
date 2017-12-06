@@ -15,8 +15,39 @@ use Henter\WeChat\OAuth;
 use App\Model\Want;
 use App\Model\Supply;
 use App\Model\Member;
+use App\Model\Kind;
 
 // session(['mid'=>1]);
+
+//从kid 获取 全名称
+function getFullCate($kid)
+{
+    static $arr=array();
+
+    $data = Kind::where('id',$kid)->first(['pid','name']);
+    // dump($data->name.'|'.$data->pid);
+    array_unshift($arr , $data->name);
+    if($data->pid){
+        getFullCate($data->pid);
+    }
+    // dump(implode("\t",$arr));
+    return implode(" ",$arr);
+}
+//从kid 获取 全名称
+function getFullId($kid)
+{
+    static $arr=array();
+
+    $data = Kind::where('id',$kid)->first(['pid','name','id']);
+    // dump($data->name.'|'.$data->pid);
+    array_unshift($arr , $data->id);
+    if($data->pid){
+        getFullId($data->pid);
+    }
+    // dump(implode(",",$arr));
+    return implode(",",$arr);
+}
+
 //在这边获取openid
 function getOpenid()
 {
@@ -110,7 +141,7 @@ Route::get('/', function () {
 
 
     $wdata = Want::with('wantAttrs.attrs','kinds','quotes')->limit(6)->OrderBy('id','desc')->get();
-    $supplys = Supply::with('supplyAttrs.attrs','kinds','member')->limit(6)->OrderBy('id','desc')->get();
+    $supplys = Supply::with('supplyAttrs.attrs','kinds','member','storeinfo')->limit(6)->OrderBy('id','desc')->get();
     return view('home.index' , ['wdata'=>$wdata , 'supplys'=>$supplys]);
 });
 Route::get('/home' , function(){
@@ -135,6 +166,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'want'] ,function (){
 
     Route::get('my-want' , 'WantController@myWant');
     Route::get('edit/{id}' , 'WantController@edit');
+    Route::post('save' , 'WantController@save');
     Route::get('delete/{id}' , 'WantController@delete');
     Route::get('view/{id}' , 'WantController@view');
 
@@ -353,16 +385,7 @@ function getSon($arr,$str='')
 
 
 Route::get('test',function(){
-    $a = false;
-    DB::beginTransaction();
-    $obj = Supply::where('id',1)->first();
-    $obj->is_emergency = 1;
-    $obj->save();
-    if($a){
-        DB::commit();
-    }else{
-        DB::rollBack();
-    }
+    getFullId(11278);
 
 
 });

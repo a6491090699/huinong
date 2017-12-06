@@ -93,12 +93,12 @@
 <div class="sell_index-main">
 
   <div class="collect_nav-0">
-    <div class="text_center padding_bottom">
+    <!-- <div class="text_center padding_bottom">
       <a  class="sell_header_search_box procurement_search color_67">
         <span class="iconfont">&#xe608;</span>
         <input type="text" class="color_67" id="keyword_goods" placeholder="搜索您想要的商品"/>
       </a>
-    </div>
+    </div> -->
     <ul class="supply_information-list bg-fff list_bd_top_none">
         @forelse($goods as $val)
             <li>
@@ -138,12 +138,12 @@
 
 
   <div class="store_able-container collect_nav-1" style="display: none">
-    <div class="text_center padding_bottom">
+    <!-- <div class="text_center padding_bottom">
       <a class="sell_header_search_box procurement_search">
         <span class="iconfont color_67">&#xe608;</span>
         <input type="text" class="color_67" id="keyword_store" placeholder="搜索您想要的店铺"/>
       </a>
-    </div>
+    </div> -->
     <div>
             <div class="padding_container bg-fff margin_bottom bd_top_bottom-eee">
                 @forelse($stores as  $val)
@@ -154,9 +154,10 @@
           <dd class="fl color_34 padding_flanks">
             <p class="font_3r">{{$val->stores->store_name}}</p>
             <p class="font_27r">主营：{{$val->stores->store_sale}}</p>
-            <p class="font_24r color_9a">销量&nbsp;{{0}}&nbsp;共{{$val->goods_count}}个商品</p>
+            <p class="font_24r color_9a">销量&nbsp;{{$store_saled_total}}&nbsp;共{{$val->goods_count}}个商品</p>
             <div>
-              <img src="/images/heart_1.png"/>
+                {!!str_repeat('<img src="/images/heart_1.png" height="12px">' ,floor($val->stores->xinyong))!!}
+              <!-- <img src="/images/heart_1.png"/> -->
             </div>
             <a href="/store/view/{{$val->store_id}}" class="enter_store_btn border_color-67 font_28r" style="top: 60%;">进店</a>
           </dd>

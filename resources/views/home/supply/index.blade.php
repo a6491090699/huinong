@@ -46,6 +46,47 @@
     </a>
     <h1>商品</h1>
 </header>
+<style media="screen">
+    .topnav{
+        width:100%;
+        height:44px;
+
+    }
+    .topnav li{
+        float:left;
+        width:50%;
+        border:1px solid #eee;
+        text-align: center;
+        line-height: 44px;
+        font-size:18px;
+        border-top:0;
+
+
+    }
+    .cur_nav{
+        background-color:#ff7414;
+        color:#fff;
+        border-radius: 3%;
+    }
+
+</style>
+<input type="hidden" name="good_type" value="{{$type}}">
+
+<div class="topnav" style="">
+    <ul>
+        <a href="/supply/index?type=normal"><li class="normal_good">商品</li></a>
+        <a href="/supply/index?type=emergency"><li class="emergency_good">加急商品</li></a>
+    </ul>
+</div>
+<script type="text/javascript">
+    var good_type_val = $('input[name=good_type]').val();
+    if(good_type_val == 'emergency'){
+        $('.emergency_good').addClass('cur_nav');
+    }else{
+        $('.normal_good').addClass('cur_nav');
+    }
+</script>
+
 <div class="sell_index-main">
     <div class="store_able-container" style="display: block">
         <div class="text_center">
@@ -80,7 +121,8 @@
                     <!-- <span>距离</span><span class="iconfont font_35r">&#xe6a0;</span> -->
                     <!--  向上箭头  <span class="iconfont font_35r">&#xe6c9;</span>-->
                 </li>
-                <li class="" order="orders_count asc">
+                <li class="" order="saled_num asc">
+                <!-- <li class="" order="orders_count asc"> -->
                     <span>销量</span><span class="iconfont font_35r">&#xe6a0;</span>
                     <!--  向上箭头  <span class="iconfont font_35r">&#xe6c9;</span>-->
                 </li>
@@ -279,12 +321,13 @@
                 var region_id = $("#region_id").val();
                 var price = $("#price").val();
                 var order = $("#order").val();
+                var good_type = $("input[name=good_type]").val();
                 lat = parseFloat($("#lat").val());
                 lon = parseFloat($("#lon").val());
                 page++;
 
                 // var url = SITE_URL + '/index.php?app=search&act=index&ajax&cate_id=' + cate_id + '&region_id=' + region_id + '&price=' + price + '&keyword=' + keyword + '&page=' + page + '&order=' + order + '&lat=' + lat + '&lon=' + lon;
-                var url = '/api/supply-all?keyword=' + keyword + '&page=' + page+'&order='+order+'&region_id='+region_id;
+                var url = '/api/supply-all?keyword=' + keyword + '&page=' + page+'&order='+order+'&region_id='+region_id+'&good_type='+good_type;
                 $.getJSON(url, function (result) {
                     if (result.tuiguang_goods_list) {
                         //加载推广商品列表
@@ -489,17 +532,17 @@
                             $("#order").val('price asc') ;
                             $(this).find('span').eq(1).html(' &#xe6c9;');
                         }
-                    }else if(order == 'orders_count asc'){
+                    }else if(order == 'saled_num asc'){
                         if($(this).hasClass("color_02c5a3")){
-                            if($("#order").val() == 'orders_count asc'){
-                                $("#order").val('orders_count desc');
+                            if($("#order").val() == 'saled_num asc'){
+                                $("#order").val('saled_num desc');
                                 $(this).find('span').eq(1).html('&#xe6a0;');
                             }else{
-                                $("#order").val('orders_count asc');
+                                $("#order").val('saled_num asc');
                                 $(this).find('span').eq(1).html(' &#xe6c9;');
                             }
                         }else{
-                            $("#order").val('orders_count asc') ;
+                            $("#order").val('saled_num asc') ;
                             $(this).find('span').eq(1).html(' &#xe6c9;');
                         }
                     }else{

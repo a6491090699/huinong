@@ -162,11 +162,15 @@ class MemberController extends Controller
     {
         //收藏的店铺
         $stores = StoreCollect::with('stores')->withCount(['goods'])->where('member_id',session('mid'))->get();
+        $saled_total = \DB::table('supplys')->where('member_id',session('mid'))->sum('saled_num');
+        // dd($saled_total);
+        // dd($stores->toArray());
 
 
 
         // 收藏的商品
         $goods = GoodCollect::with('goods.kinds')->where('member_id',session('mid'))->get();
+        // dd($goods->toArray());
         //销量
         // dump($this->mid);
         // dump(session('mid'));
@@ -174,7 +178,7 @@ class MemberController extends Controller
         // dd($stores->toArray());
 
 
-        return view('home.member.collect',['stores'=>$stores ,'goods'=>$goods ]);
+        return view('home.member.collect',['stores'=>$stores ,'goods'=>$goods ,'store_saled_total'=>$saled_total]);
     }
 
 

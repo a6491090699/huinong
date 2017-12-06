@@ -139,6 +139,14 @@
     <p class="font_28r color_67"><a class="color_02c5a3">点击此处</a>去选购商品吧!</p>
   </div>
 </form>
+@if($errors->has('stock'))
+<div class="stockerror" style="max-width: 640px;width: 100%;position: fixed;z-index: 99;bottom: 50px;height: 50px;line-height: 50px;text-align: center;background-color: #ff7414;color:#fff;">
+    <p>{{$errors->first('stock')}}</p>
+</div>
+<script type="text/javascript">
+    $('.stockerror').fadeOut(3000);
+</script>
+@endif
 
 <footer class="foot_border-top pay_btn" id="pay_btn_7239" >
   <div class="strength_show_img padding_flanks text_right bg-f8">

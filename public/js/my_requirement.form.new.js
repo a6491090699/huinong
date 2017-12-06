@@ -18,9 +18,6 @@ $(function(){
                 var default_cate_name = first_gc1.name + ' ' +  first_gc2.name + ' ' + first_gc3.name;
                 $("#gcategory_full_id").val(default_cate_id);
                 $("#gcategory_full_text").val(default_cate_name);
-            }else{
-                var cid = $('#gcategory_full_id').val();
-                alert(cid)
             }
 
             gcategorySelect.init({trigger:$('#gcategory_full_text'),value:$('#gcategory_full_id').val(),data:gcategory_data,position:"bottom",callback:gcategory_id_changed});
@@ -29,7 +26,13 @@ $(function(){
         }
     });
 
+
     //初始化过期时间
+    // if($("#expire").val() != null){
+    //     $('#expire_options').val('');
+    //     // $('#expire_option_id').attr('value','1,0,0')
+    // }
+
     expireSelect.init({trigger:$('#expire_options'),value:$('#expire_option_id').val(),data:expire_options,position:"bottom",level:1,callback:expire_option_changed});
     //触发过期时间改变
     expire_option_changed();
@@ -114,6 +117,7 @@ function gcategory_id_changed(){
         console.log('load new category');
         var cate_id = new_value[2];
         var cate_name = new_text[0] + ' ' + new_text[1] + ' ' + new_text[2];
+        console.log(new_text)
 
 
         $("#cate_id").val(cate_id);

@@ -41,6 +41,11 @@ class WxController extends Controller
         $supplys_id = $request->input('id');
         $price_one = $request->input('price');
         $buy_num = $request->input('buy_num');
+        $good = Supply::where('id',$supplys_id)->first(['number']);
+        $stock = $good->number;
+        if($stock<$buy_num){
+            return back()->withErrors(['stock'=>"库存不足,库存只剩下{$stock},请重新选择数量!"]);
+        }
 
 
 

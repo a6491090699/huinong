@@ -349,9 +349,9 @@ class WantController extends Controller
 
     public function edit($wid)
     {
-        $item = Want::where('id' , $wid)->first();
+        $item = Want::with('address')->where('id' , $wid)->first();
 
-
+        // dd($item);
         $data = \App\Model\MemberAddress::where('mid' , session('mid'))->get(['full_address','region_id','street','phone','name','id'])->toArray();
         // dd($data);
         if(empty($data)) return response("<script>alert('请先添加你的收货人信息!');location.href='/member/address';</script>");
@@ -366,10 +366,156 @@ class WantController extends Controller
         }
         $address_json = json_encode($address);
 
+        //old_cate json
+        $cate_full_name = getFullCate($item->kid);
+        $cate_full_id = getFullId($item->kid);
+
+        $cutday = date('Y-m-d',$item->cutday);
+
+        $days = ceil(($item->cutday-$item->addtime)/(3600*24));
+        // $addday = date('Y-m-d',$item->addtime);
+        //
+        // dump($cutday);
+        // dump($item->kid);
+        // dump($cate_full_id);
+        // dump($cate_full_name);
 
 
 
-        if($item) return view('home.want.edit' ,['item'=>$item,'address_json'=>$address_json]);
+
+        if($item) return view('home.want.edit' ,[
+            'item'=>$item,
+            'address_json'=>$address_json,
+            'cate_full_name'=>$cate_full_name ,
+            'cate_full_id'=>$cate_full_id,
+            'cutday'=>$cutday,
+            'days'=>$days,
+        ]);
+    }
+
+    //保存编辑
+    public function save(Request $request)
+    {
+        // dd($request->all());
+        $miaoy = '';
+        if($request->has('miaoy')) $miaoy = $request->input('miaoy');
+        $want_id = $request->input('want_id');
+        $from_region_names = $request->input('from_region_names');
+        $from_region_id = $request->input('from_region_id');
+        $cate_id = $request->input('cate_id');
+        $cate_name = $request->input('cate_name');
+        $title = $request->input('title');
+        if($request->has('requirement_spec')) $requirement_spec = $request->input('requirement_spec');
+        $address_option = $request->input('address_option');
+        $address_id = $request->input('address_id');
+        $description = $request->input('description');
+        $expire = $request->input('expire');
+        $expire_options = $request->input('expire_options');
+
+
+        // 地址 自填 还是选择
+        // if($miaoy == '1')
+        // {
+        //     //自己填写
+        //     $from_region_id = $request->input('from_region_id');
+        //     $from_region_names = $request->input('from_region_names');
+        //
+        //
+        // }elseif($miaoy == '2'){
+        //     //选择框
+        //     $from_region_id = $request->input('from_region_id');
+        //     $from_region_names = $request->input('from_region_names');
+        //     $region_name_select = $request->input('region_name_select');
+        //
+        //
+        // }else{
+        //     dd('error');
+        // }
+
+        // $imgs
+
+
+        // $imgs = $this->uploadfile($request);
+        if($request->has('compressValue') && !empty($request->input('compressValue'))){
+            if(!$imgs=$this->resizeUpload($request)) $imgs=config('common.img_default');
+        }
+
+        if($request->has('requirement_spec')){
+            $number = $requirement_spec['num'][0];
+        }
+
+
+        $obj = Want::where('id',$want_id)->first();
+        if($from_region_names) $obj->source = $from_region_names;
+        if($title) $obj->title = $title;
+        if($request->has('compressValue') && !empty($request->input('compressValue'))) $obj->imgs= $imgs;
+        if($description) $obj->tip = $description;
+        // if($expire)  $obj->cutday = strtotime($expire);
+        if($cate_id) $obj->kid = $cate_id;
+
+        if($expire && $expire_options){
+            $newd = filter_var($expire_options , FILTER_SANITIZE_NUMBER_INT );
+            $newt = strtotime('+ '.$newd.' day',$obj->addtime);
+            $obj->cutday = $newt;
+            // $obj->cutday =
+        }
+        if($request->has('requirement_spec') && $number){
+            $obj->number = $number;
+        }
+        if($address_id) $obj->address_id = $address_id;
+        if($from_region_id) $obj->region_id = $from_region_id;
+
+
+        // $obj->title = $title;
+        // $obj->number =$number;
+        // $obj->imgs = $imgs;
+        // $obj->tip =$description;
+        // // $obj->is_emergency = $emergency;
+        // $obj->cutday = strtotime($expire);
+        // $obj->status = 0;
+        // $obj->kid = $cate_id;
+        // $obj->member_id = session('mid');
+        // $obj->addtime = time();
+        // $obj->region_id = $from_region_id;
+        //
+        // $obj->address_id = $address_id;
+        //
+        // // $obj->address = $address_option;
+        // // $obj->address_id = $address_id;
+        // $obj->wx_out_trade_no = $out_trade_no;
+
+        if($request->has('requirement_spec') && $requirement_spec){
+            $attr = $requirement_spec['attr'];
+            \DB::beginTransaction();
+            if($obj->save() && $attr){
+                WantAttr::where('wants_id',$obj->id)->delete();
+                $wants_id = $obj->id;
+
+                foreach($attr as $key=>$v){
+                    if($v[0]){
+                        $att = new WantAttr;
+                        $att->attribute_id = $key;
+                        $att->attr_value = $v[0];
+                        $att->wants_id = $wants_id;
+                        if($att->save()){
+                            \DB::commit();
+                        }else{
+                            \DB::rollback();
+                        }
+                    }
+
+                }
+            }
+        }else{
+            $obj->save();
+        }
+
+
+        // $attr = $requirement_spec['attr'];
+
+
+        return response()->json(['errMsg'=>'编辑成功!','errNum'=>0]);
+
     }
 
     //删除求购

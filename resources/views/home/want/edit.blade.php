@@ -53,13 +53,16 @@
     <a class="go_back_btn" href="javascript:history.go(-1)">
         <span class="iconfont">&#xe698;</span>
     </a>
-    <h1>编辑求购</h1>
+    <h1>编辑</h1>
 </header>
 <script src="/js/common.js" type="text/javascript"></script>
 <script type="text/javascript">
+
+
+
     var page_initialized = false;
 
-    var require_id = '';
+    var require_id = '{{$item->address_id}}';
 
     //过期时间
     var expire_options = [];
@@ -168,9 +171,33 @@
                 }
             },
             submitHandler:function(form){
-                if(!submited && check_spec_value()){
+                $url = $('#requirement_form').attr('action');
+                // var formData = new FormData($( "#requirement_form" )[0]);
+                // if (!submited ){
+                if (!submited){
+                    $.ajax({
+                        type:'post',
+                        url:$url,
+                        data:$('#requirement_form').serialize(),
+                        beforeSend:function(){
+                            //
+                        },
+                        error:function(){
+                            layer.open({content:'网络不给力', time:2});
+                        },
+                        success:function(data){
+
+                            layer.open({content:data.errMsg, time:2});
+                            setTimeout(function(){
+                                window.location.href='/want/index';
+                            },1000);
+
+                        },
+                        complete:function(){
+                            //
+                        }
+                    });
                     submited = true;
-                    form.submit();
                     $(this).attr('disabled', "true");
                 }else{
                     return false;
@@ -310,27 +337,36 @@
 <script type="text/javascript" src="/js/my_requirement.form.new.js?{{time()}}"></script>
 
 
-<form action="/want/fabu" method="post" id="requirement_form" enctype="multipart/form-data">
+<form action="/want/save" method="post" id="requirement_form" >
 
 {{csrf_field()}}
     <div class="padding_flanks bg-fff bd_bottom-eee">
-	        <div class="form_item">
-                <span class="font_3r color_34 goods_name-title">用苗地</span>
-                <!--<label style=""><input id="bxian" name="miaoy" type="radio"/>不限</label>-->
-                <label style="font-size: 10px"><input id="zdy" name="miaoy" type="radio" onclick="$('#zdytxt').css('display','inline');$('#region_name_select').css('display','none')" value="1" />自定义 <input id="zdytxt" class="color_67  border_none" type="text" style="display: none;font-size: 10px" /></label>
-                <label style="font-size: 10px"><input id="xdq" name="miaoy" type="radio" onclick="$('#region_name_select').click();$('#zdytxt').css('display','none');$('#region_name_select').css('display','inline')" value='2'/>选地区
-                    <input class="color_67  border_none" style="display: inline;font-size: 10px" type="text" name="region_name_select" id="region_name_select" placeholder="" value=""/>
-                </label>
-                <input type="hidden" name="from_region_id" id="from_region_id" value="" class="region_id" />
-                <input type="hidden" name="from_region_id_full" id="from_region_id_full" value="" class="region_id" />
-                <input type="hidden" name="from_region_names" id="from_region_names" value="" class="region_names" />
-            </div>
+        <div class="form_item">
+            <span class="font_3r color_34 goods_name-title">用苗地</span>
+            <input class="color_67  border_none font_26r goods_name" type="text" name="source_old"  value="{{$item->source}}"/>
+        </div>
+        <div class="form_item">
+            <span class="font_3r color_34 goods_name-title"></span>
+            <!--<label style=""><input id="bxian" name="miaoy" type="radio"/>不限</label>-->
+            <label style="font-size: 10px"><input id="zdy" name="miaoy" type="radio" onclick="$('#zdytxt').css('display','inline');$('#region_name_select').css('display','none')" value="1" />自定义 <input id="zdytxt" class="color_67  border_none" type="text" style="display: none;font-size: 10px" /></label>
+            <label style="font-size: 10px"><input id="xdq" name="miaoy" type="radio" onclick="$('#region_name_select').click();$('#zdytxt').css('display','none');$('#region_name_select').css('display','inline')" value='2'/>选地区 (修改为)
+                <input class="color_67  border_none" style="display: inline;font-size: 10px" type="text" name="region_name_select" id="region_name_select" placeholder="" value=""/>
+            </label>
+            <input type="hidden" name="from_region_id" id="from_region_id" value="" class="region_id" />
+            <input type="hidden" name="from_region_id_full" id="from_region_id_full" value="" class="region_id" />
+            <input type="hidden" name="from_region_names" id="from_region_names" value="" class="region_names" />
+            <input type="hidden" name="want_id" value="{{$item->id}}" class="region_names" />
+        </div>
+        <!-- <div class="form_item border_none">
+            <span class="font_3r color_34 goods_name-title">商品种类</span>
+            <input class="color_67  border_none font_26r goods_name" type="text" name="kind_old"  value="{{$item->source}}"/>
+        </div> -->
 		<div class="form_item border_none">
             <span class="font_3r color_34 goods_name-title">商品种类</span>
             <a href="#" class="color_67 font_26r">
-                <input class="color_67  border_none font_26r goods_kind" type="text"   name="gcategory_full_text" id="gcategory_full_text" placeholder="请选择商品种类" value=""/>
+                <input class="color_67  border_none font_26r goods_kind" type="text"   name="gcategory_full_text" id="gcategory_full_text" placeholder="请选择商品种类" value="{{$cate_full_name}}"/>
                 <!-- <input type="hidden" id="gcategory_full_id" value=",,"/> -->
-                <input type="hidden" id="gcategory_full_id" value=",,"/>
+                <input type="hidden" id="gcategory_full_id" value="{{$cate_full_id}}"/>
                 <b class="iconfont select_arrows-icon">&#xe614;</b>
             </a>
             <input type="hidden" name="cate_id" id="cate_id" value=""/>
@@ -339,7 +375,7 @@
 
         <div class="form_item">
             <span class="font_3r color_34 goods_name-title">求购标题</span>
-            <input class="color_67  border_none font_26r goods_name" type="text" name="title" id="title" value="" placeholder='请输入求购标题'/>
+            <input class="color_67  border_none font_26r goods_name" type="text" name="title" id="title" value="{{$item->title}}" placeholder='请输入求购标题'/>
         </div>
          <!-- <div class="form_item">
             <span class="font_3r color_34 goods_name-title">求购数量</span>
@@ -351,27 +387,36 @@
         <div class="form_item">
             <span class="font_3r color_34 goods_name-title">商品规格</span>
             <a href="#" class="font_26r" id="goods_specification">
-                <span class="color_9a">添加商品规格</span>
+                <span class="color_9a">编辑商品规格(没选择即不修改)</span>
                 <b class="iconfont select_arrows-icon color_02c5a3">&#xe604;</b>
             </a>
+        </div>
+        <div class="bg-fff last_child-border" >
+            <div class="goods_norms_con clearfix font_26r">
+                @foreach($item->wantAttrs as $val)
+                <span>{{$val->attrs->attr_name}}({{$val->attrs->unit}})</span>
+
+                @endforeach
+                <span>采购量</span>
+            </div>
+            <div class="goods_norms_con clearfix font_26r">
+                @foreach($item->wantAttrs as $val)
+                <span>{{$val->attr_value}}</span>
+
+                @endforeach
+                <span>{{$item->number}}</span>
+            </div>
         </div>
         <div class="form_item">
                 <span class="font_3r color_34 goods_name-title">截止日期</span>
                 <a href="#" class="color_67 font_26r">
-                    <input class="color_67  border_none font_24r goods_kind" type="text" readonly="readonly" name="expire_options" id="expire_options" placeholder="请选择截止日期" value="">
-                    <input type="hidden" id="expire_option_id" value="1">
-                    <input type="hidden" id="expire" name="expire" default_value="" value="2017-11-17">
+                    <input class="color_67  border_none font_24r goods_kind" type="text" readonly="readonly" name="expire_options" id="expire_options" placeholder="请选择截止日期" value="{{$days}}天">
+                    <input type="hidden" id="expire_option_id" value="">
+                    <input type="hidden" id="expire" name="expire" default_value="" value="">
                     <b class="iconfont select_arrows-icon"></b>
                 </a>
             </div>
-        <div class="form_item">
-            <span class="font_3r color_34 goods_name-title">悬赏加急</span>
 
-            <label style="font-size: 10px"><input  name="emergency" type="radio" value='1'/>是</label>&nbsp;&nbsp;&nbsp;&nbsp;
-            <label style="font-size: 10px"><input  name="emergency" type="radio" value='0'/>否
-            </label>
-
-        </div>
         <div class="bg-fff last_child-border" id="specs_value_div">
             <div class="goods_norms_con clearfix font_26r color_67">
                             </div>
@@ -392,13 +437,15 @@
             <div class="form_item">
                 <span class="font_3r color_34 goods_name-title">联系人</span>
                 <a href="#" class="color_67 font_26r">
-                    <input class="color_67  border_none font_24r goods_kind" type="text"  readonly name="address_options" id="address_options" placeholder="请选择联系人" value=""/>
-                    <input type="hidden" id="address_id" name="address_id" value=""/>
+                    <input class="color_67  border_none font_24r goods_kind" type="text"  readonly name="address_options" id="address_options" placeholder="请选择联系人" value="{{$item->Address->name." ".$item->Address->full_address}}"/>
+                    <input type="hidden" id="address_id" name="address_id" value="{{$item->address_id}}"/>
                     <b class="iconfont select_arrows-icon">&#xe614;</b>
                 </a>
             </div>
 
             <div class="upimg padding_flanks margin_bottom_16" >
+
+                <input type="text" name="compressValue" id="compressValue" style="display:none;" value=""/><br/>
                 <div id="upimgs" style="position: relative;    width: auto;    height: 11rem;margin-bottom:60px;">
                     <a href="javascript:;" class="file">
                         <input id="file_upload" type="file" name="imgs" multiple="multiple" accept="image/*;capture=camera">
@@ -408,7 +455,7 @@
                 <div id="imglist"></div>
             </div>
         <div class="padding_top_bottom">
-            <textarea name="description" class="add_remarks bg-f8 text_center font_28r" placeholder="添加备注"></textarea>
+            <textarea name="description" class="add_remarks bg-f8 text_center font_28r" placeholder="编辑备注">{{$item->tip}}</textarea>
         </div>
 
     </div>
@@ -423,7 +470,7 @@
 
 
     <div class="buy_release_btn text_center padding_flanks">
-        <button class="footer_btn color_fff bg-02c5a3" type="submit">确定发布</button>
+        <button class="footer_btn color_fff bg-02c5a3" type="submit">确定编辑</button>
     </div>
 
     <div class="mask_layer" id="mask_layer" style="display: none">
@@ -495,6 +542,69 @@
 
 
 <script>
+
+function uploadBtnChange(){
+    var scope = this;
+    if(window.File && window.FileReader && window.FileList && window.Blob){
+        //获取上传file
+        var filefield = document.getElementById('file_upload'),
+            file = filefield.files[0];
+        //获取用于存放压缩后图片base64编码
+        var compressValue = document.getElementById('compressValue');
+        processfile(file,compressValue);
+    }else{
+        alert("此浏览器不完全支持压缩上传图片");
+    }
+}
+
+function processfile(file,compressValue) {
+    var reader = new FileReader();
+    reader.onload = function (event) {
+        var blob = new Blob([event.target.result]);
+        window.URL = window.URL || window.webkitURL;
+        var blobURL = window.URL.createObjectURL(blob);
+        var image = new Image();
+        image.src = blobURL;
+        image.onload = function() {
+            var resized = resizeMe(image);
+            compressValue.value = resized;
+        }
+    };
+    reader.readAsArrayBuffer(file);
+}
+
+function resizeMe(img) {
+    //压缩的大小
+    var max_width = 1920;
+    var max_height = 1080;
+
+    var canvas = document.createElement('canvas');
+    var width = img.width;
+    var height = img.height;
+
+    if(width > height) {
+        if(width > max_width) {
+            height = Math.round(height *= max_width / width);
+
+            width = max_width;
+
+        }
+    }else{
+        if(height > max_height) {
+            width = Math.round(width *= max_height / height);
+            height = max_height;
+        }
+    }
+    console.log('width:'+width+'||height'+height)
+    canvas.width = width;
+    canvas.height = height;
+
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(img, 0, 0, width, height);
+    //压缩率
+    return canvas.toDataURL("image/jpeg",0.7);
+}
+
     //商品规格输入
     $("#goods_specification").click(function(){
         popup_bg();
@@ -533,12 +643,14 @@
     });
     $("#file_upload").change(function() {
 
+                uploadBtnChange();
+                $('.file').hide();
+				// $('.file').css('background', 'url(/images/upbutton.png)  no-repeat');
+				// $('.file').css('width', '100%');
+				// $('.file').css('height', '11rem');
+				// $('.file').css('background-size', '80% 80%');
+				// $('.file').css('top', '0.5rem');
 
-				$('.file').css('background', 'url(/images/upbutton.png)  no-repeat');
-				$('.file').css('width', '100%');
-				$('.file').css('height', '11rem');
-				$('.file').css('background-size', '80% 80%');
-				$('.file').css('top', '0.5rem');
 				$('.upimg').css('height', 'auto');
 				$('#upimgs').css('float', 'left');
 				$('#upimgs').css('width', '30%');
