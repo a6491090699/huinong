@@ -115,7 +115,7 @@
                 <span class="">已售{{$val->goods->saled_num}}件</span>
                 <span class="fr">截止日期:{{date('Y-m-d',$val->goods->cutday)}}</span>
               </p>
-              <span class="color_ff7414 distance_icon font_26r distance_info" data-lat="34.1005" data-lon="114.1885"></span>
+              <span class="" data-lat="34.1005" data-lon="114.1885"></span>
             </dd>
           </a>
         </dl>
