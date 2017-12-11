@@ -136,192 +136,6 @@ function xinyongStar($number){
 
 }
 
-Route::get('/', function () {
-
-
-
-    $wdata = Want::with('wantAttrs.attrs','kinds','quotes')->limit(6)->OrderBy('id','desc')->get();
-    $supplys = Supply::with('supplyAttrs.attrs','kinds','member','storeinfo')->limit(6)->OrderBy('id','desc')->get();
-    return view('home.index' , ['wdata'=>$wdata , 'supplys'=>$supplys]);
-});
-Route::get('/home' , function(){
-    $appid = config('wechat.appid');
-    $secret = config('wechat.appsecret');
-    $oauth = new \Henter\WeChat\OAuth($appid, $secret);
-    $callback_url = 'http://your_site.com/your_callback_url';
-    $url = $oauth->getAuthorizeURL($callback_url);
-
-});
-Route::get('uploadform' , function(){
-    // echo asset('storage/hehe.png');exit;
-    return view('upload');
-});
-
-//发布求购
-Route::group(['namespace'=>'Order' ,'prefix'=>'want'] ,function (){
-    Route::get('index' , 'WantController@index');
-    Route::get('fabu' , 'WantController@fabu');
-    Route::post('fabu' , 'WantController@fabu');
-    Route::post('create' , 'WantController@create');
-
-    Route::get('my-want' , 'WantController@myWant');
-    Route::get('edit/{id}' , 'WantController@edit');
-    Route::post('save' , 'WantController@save');
-    Route::get('delete/{id}' , 'WantController@delete');
-    Route::get('view/{id}' , 'WantController@view');
-
-
-    Route::any('notify', 'WantController@notify');
-    Route::any('jsapi', 'WantController@jsapi');
-    Route::any('wantindex', 'WantController@wantindex');
-
-
-
-});
-//报价
-Route::group(['namespace'=>'Order' ,'prefix'=>'quote'] ,function (){
-    Route::get('add/{id}' , 'QuoteController@addQuote');
-    Route::post('create' , 'QuoteController@createQuote');
-    Route::get('my' , 'QuoteController@myQuote');
-    Route::get('my-pass' , 'QuoteController@myQuotePass');
-    Route::get('my-nopass' , 'QuoteController@myQuoteNopass');
-    Route::get('my-lose' , 'QuoteController@myQuoteLose');
-
-
-});
-
-//商品供应
-Route::group(['namespace'=>'Order' ,'prefix'=>'supply'] ,function (){
-    Route::get('index' , 'SupplyController@index');
-    Route::get('add' , 'SupplyController@addSupply');
-    // Route::get('edit' , 'SupplyController@addSupply');
-    Route::get('view/{id}' , 'SupplyController@viewSupply');
-    Route::post('create' , 'SupplyController@create');
-
-
-
-});
-
-//商品预约看货
-Route::group(['namespace'=>'Order' ,'prefix'=>'yuyue'] ,function (){
-    Route::post('create' , 'YuyueController@create');
-    Route::get('my-yuyue' , 'YuyueController@myYuyue');
-    Route::get('others-yuyue' , 'YuyueController@othersYuyue');
-    Route::get('delete/{id}' , 'YuyueController@delete');
-    Route::get('cancel/{id}' , 'YuyueController@cancel');
-    Route::get('confirm' , 'YuyueController@confirm');
-
-    Route::get('looked/{id}' , 'YuyueController@looked');
-    Route::get('comment/{id}' , 'YuyueController@comment');
-    // Route::get('add/' , 'YuyueController@add');
-
-
-
-});
-
-//店铺操作
-Route::group(['namespace'=>'Order' ,'prefix'=>'store'] ,function (){
-    Route::get('edit' , 'StoreController@editStore');
-    Route::post('save' , 'StoreController@saveStore');
-    Route::get('index' , 'StoreController@index');
-    Route::get('showinfo' , 'StoreController@showinfo');
-    Route::get('add' , 'StoreController@addStoreinfo');
-    Route::get('view/{id}' , 'StoreController@view');
-    Route::post('create' , 'StoreController@create');
-    Route::post('check-name' , 'StoreController@checkName');
-    Route::post('upload-imgs' , 'StoreController@uploadImgs');
-    Route::post('reset-imgs' , 'StoreController@resetImgs');
-
-
-
-
-});
-// /index.php?app=mlselection&act=regions4app&up_level=4
-//会员中心
-Route::group(['namespace'=>'Order' ,'prefix'=>'member'] ,function (){
-    Route::get('address', 'MemberController@address');
-    Route::get('collect', 'MemberController@collect');
-    Route::get('id-valid', 'MemberController@idValid');
-    Route::get('index', 'MemberController@index');
-    Route::get('info', 'MemberController@info');
-    Route::get('setting', 'MemberController@setting');
-    // Route::get('vip', 'MemberController@vip');
-    Route::get('jingying-valid', 'MemberController@jingyingValid');
-    Route::get('valid-index', 'MemberController@validIndex');
-    Route::get('xieyi', 'MemberController@xieyi');
-
-    //地址编辑
-    Route::get('address-edit/{id}', 'MemberController@addressEdit');
-    Route::get('address-add', 'MemberController@addressAdd');
-    Route::any('address-del', 'MemberController@addressDel');
-    Route::post('address-create', 'MemberController@addressCreate');
-    Route::post('address-save', 'MemberController@addressSave');
-    Route::post('address-setdefault', 'MemberController@setdefault');
-
-    //Order list
-    Route::get('want-order' , 'MemberController@wantOrder');
-
-    //supply Order list
-    //全部订单
-    Route::get('supply-order' , 'MemberController@supplyOrder');
-    // Route::get('supply-order-pending' , 'MemberController@supplyOrderPending');
-    // Route::get('supply-order-accepted' , 'MemberController@supplyOrderAccepted');
-    // Route::get('supply-order-shipped' , 'MemberController@supplyOrderShipped');
-    // Route::get('supply-order-finished' , 'MemberController@supplyOrderFinished');
-
-    Route::get('my-goods' , 'MemberController@myGoods');
-
-});
-Route::group(['namespace'=>'Order' ,'prefix'=>'supplyorder'] ,function (){
-
-
-    //supply Order list
-    //全部订单
-    Route::get('index' , 'SupplyOrderController@index');
-    Route::get('edit/{id}' , 'SupplyOrderController@edit');
-
-    //商家销售订单操作
-    Route::post('cancel' , 'SupplyOrderController@cancel');
-    Route::post('confirm' , 'SupplyOrderController@confirm');
-    Route::post('sended', 'SupplyOrderController@sended' );
-    Route::post('del', 'SupplyOrderController@del' );
-    // Route::get('comment-view/{id}' , 'SupplyOrderController@commentView');
-
-
-
-
-    //处理发货
-    // Route::get('supply-order-pending' , 'MemberController@supplyOrderPending');
-    // Route::get('supply-order-accepted' , 'MemberController@supplyOrderAccepted');
-    // Route::get('supply-order-shipped' , 'MemberController@supplyOrderShipped');
-    // Route::get('supply-order-finished' , 'MemberController@supplyOrderFinished');
-
-
-});
-Route::group(['namespace'=>'Order' ,'prefix'=>'buyorder'] ,function (){
-
-
-    //supply Order list
-    //全部订单
-    Route::get('index' , 'BuyOrderController@index');
-
-
-    //商家销售订单操作
-    Route::get('pay/{id}' , 'BuyOrderController@pay');
-    Route::post('received' , 'BuyOrderController@received');
-    Route::get('comment/{id}', 'BuyOrderController@comment' );
-    Route::post('del', 'BuyOrderController@del' );
-
-
-
-});
-
-Route::group(['namespace'=>'Order' ,'prefix'=>'wantOrder'] ,function (){
-
-
-
-
-});
 
 function getSonList($arr, $fid){
     // foreach($arr as $val){
@@ -384,6 +198,190 @@ function getSon($arr,$str='')
 }
 
 
+Route::get('/', function () {
+
+
+
+    $wdata = Want::with('wantAttrs.attrs','kinds','quotes')->where('cutday','>',time())->limit(6)->OrderBy('id','desc')->get();
+    $supplys = Supply::with('supplyAttrs.attrs','kinds','member','storeinfo')->where('cutday','>',time())->limit(6)->OrderBy('id','desc')->get();
+    return view('home.index' , ['wdata'=>$wdata , 'supplys'=>$supplys]);
+});
+// Route::get('/home' , function(){
+//     $appid = config('wechat.appid');
+//     $secret = config('wechat.appsecret');
+//     $oauth = new \Henter\WeChat\OAuth($appid, $secret);
+//     $callback_url = 'http://your_site.com/your_callback_url';
+//     $url = $oauth->getAuthorizeURL($callback_url);
+//
+// });
+// Route::get('uploadform' , function(){
+//     // echo asset('storage/hehe.png');exit;
+//     return view('upload');
+// });
+
+//发布求购
+Route::group(['namespace'=>'Order' ,'prefix'=>'want' ] ,function (){
+    Route::get('index' , 'WantController@index');
+    Route::get('fabu' , 'WantController@fabu');
+    Route::post('fabu' , 'WantController@fabu');
+    Route::post('create' , 'WantController@create');
+
+    Route::get('my-want' , 'WantController@myWant');
+    Route::get('edit/{id}' , 'WantController@edit');
+    Route::post('save' , 'WantController@save');
+    Route::get('delete/{id}' , 'WantController@delete');
+    Route::get('view/{id}' , 'WantController@view');
+
+
+    Route::any('notify', 'WantController@notify');
+    Route::any('jsapi', 'WantController@jsapi');
+    Route::any('wantindex', 'WantController@wantindex');
+
+
+
+});
+//报价
+Route::group(['namespace'=>'Order' ,'prefix'=>'quote'] ,function (){
+    Route::get('add/{id}' , 'QuoteController@addQuote');
+    Route::post('create' , 'QuoteController@createQuote');
+    Route::get('my' , 'QuoteController@myQuote');
+    Route::get('my-pass' , 'QuoteController@myQuotePass');
+    Route::get('my-nopass' , 'QuoteController@myQuoteNopass');
+    Route::get('my-lose' , 'QuoteController@myQuoteLose');
+
+
+});
+
+//商品供应
+Route::group(['namespace'=>'Order' ,'prefix'=>'supply'] ,function (){
+    Route::get('index' , 'SupplyController@index');
+    Route::get('add' , 'SupplyController@addSupply')->middleware('no.storeinfo');
+    // Route::get('edit' , 'SupplyController@addSupply');
+    Route::get('view/{id}' , 'SupplyController@viewSupply');
+    Route::post('create' , 'SupplyController@create')->middleware('no.storeinfo');
+
+
+
+});
+
+//商品预约看货
+Route::group(['namespace'=>'Order' ,'prefix'=>'yuyue'] ,function (){
+    Route::post('create' , 'YuyueController@create');
+    Route::get('my-yuyue' , 'YuyueController@myYuyue');
+    Route::get('others-yuyue' , 'YuyueController@othersYuyue')->middleware('no.storeinfo');
+    Route::get('delete/{id}' , 'YuyueController@delete');
+    Route::get('cancel/{id}' , 'YuyueController@cancel');
+    Route::get('confirm' , 'YuyueController@confirm');
+
+    Route::get('looked/{id}' , 'YuyueController@looked');
+    Route::get('comment/{id}' , 'YuyueController@comment');
+    // Route::get('add/' , 'YuyueController@add');
+
+
+
+});
+
+//店铺操作
+// Route::get('store/add' , 'Order\StoreController@addStoreinfo');
+Route::group(['namespace'=>'Order' ,'prefix'=>'store'] ,function (){
+    Route::get('add' , 'StoreController@addStoreinfo');
+    Route::get('edit' , 'StoreController@editStore')->middleware('no.storeinfo');
+    Route::post('save' , 'StoreController@saveStore')->middleware('no.storeinfo');
+    Route::get('index' , 'StoreController@index');
+    Route::get('showinfo' , 'StoreController@showinfo');
+
+    Route::get('view/{id}' , 'StoreController@view');
+    Route::post('create' , 'StoreController@create')->middleware('no.storeinfo');
+    Route::post('check-name' , 'StoreController@checkName');
+    Route::post('upload-imgs' , 'StoreController@uploadImgs');
+    Route::post('reset-imgs' , 'StoreController@resetImgs');
+
+
+
+
+});
+// /index.php?app=mlselection&act=regions4app&up_level=4
+//会员中心
+Route::group(['namespace'=>'Order' ,'prefix'=>'member'] ,function (){
+    Route::get('address', 'MemberController@address');
+    Route::get('collect', 'MemberController@collect');
+    Route::get('id-valid', 'MemberController@idValid');
+    Route::get('index', 'MemberController@index');
+    Route::get('info', 'MemberController@info');
+    Route::get('setting', 'MemberController@setting');
+    // Route::get('vip', 'MemberController@vip');
+    Route::get('jingying-valid', 'MemberController@jingyingValid');
+    Route::get('valid-index', 'MemberController@validIndex');
+    Route::get('xieyi', 'MemberController@xieyi');
+
+    //地址编辑
+    Route::get('address-edit/{id}', 'MemberController@addressEdit');
+    Route::get('address-add', 'MemberController@addressAdd');
+    Route::any('address-del', 'MemberController@addressDel');
+    Route::post('address-create', 'MemberController@addressCreate');
+    Route::post('address-save', 'MemberController@addressSave');
+    Route::post('address-setdefault', 'MemberController@setdefault');
+
+    //Order list
+    Route::get('want-order' , 'MemberController@wantOrder');
+
+    //supply Order list
+    //全部订单
+    Route::get('supply-order' , 'MemberController@supplyOrder');
+    // Route::get('supply-order-pending' , 'MemberController@supplyOrderPending');
+    // Route::get('supply-order-accepted' , 'MemberController@supplyOrderAccepted');
+    // Route::get('supply-order-shipped' , 'MemberController@supplyOrderShipped');
+    // Route::get('supply-order-finished' , 'MemberController@supplyOrderFinished');
+
+    Route::get('my-goods' , 'MemberController@myGoods')->middleware('no.storeinfo');
+
+});
+Route::group(['namespace'=>'Order' ,'prefix'=>'supplyorder','middleware'=>'no.storeinfo'] ,function (){
+
+
+    //supply Order list
+    //全部订单
+    Route::get('index' , 'SupplyOrderController@index');
+    Route::get('edit/{id}' , 'SupplyOrderController@edit');
+
+    //商家销售订单操作
+    Route::post('cancel' , 'SupplyOrderController@cancel');
+    Route::post('confirm' , 'SupplyOrderController@confirm');
+    Route::post('sended', 'SupplyOrderController@sended' );
+    Route::post('del', 'SupplyOrderController@del' );
+    // Route::get('comment-view/{id}' , 'SupplyOrderController@commentView');
+
+
+
+
+    //处理发货
+    // Route::get('supply-order-pending' , 'MemberController@supplyOrderPending');
+    // Route::get('supply-order-accepted' , 'MemberController@supplyOrderAccepted');
+    // Route::get('supply-order-shipped' , 'MemberController@supplyOrderShipped');
+    // Route::get('supply-order-finished' , 'MemberController@supplyOrderFinished');
+
+
+});
+Route::group(['namespace'=>'Order' ,'prefix'=>'buyorder'] ,function (){
+
+
+    //supply Order list
+    //全部订单
+    Route::get('index' , 'BuyOrderController@index');
+
+
+    //商家销售订单操作
+    Route::get('pay/{id}' , 'BuyOrderController@pay');
+    Route::post('received' , 'BuyOrderController@received');
+    Route::get('comment/{id}', 'BuyOrderController@comment' );
+    Route::post('del', 'BuyOrderController@del' );
+
+
+
+});
+
+
+
 Route::get('test',function(){
     getFullId(11278);
 
@@ -409,7 +407,7 @@ Route::group(['prefix'=>'wx' ] ,function (){
 
 
     Route::get('want-fabu' , 'WxController@wantFabu');
-    Route::get('supply-fabu' , 'WxController@supplyFabu');
+    Route::get('supply-fabu' , 'WxController@supplyFabu')->middleware('no.storeinfo');
     Route::get('buy-good-page' , 'WxController@buyGoodPage');
 
     Route::get('buy-notify' , 'WxController@buyNotify');

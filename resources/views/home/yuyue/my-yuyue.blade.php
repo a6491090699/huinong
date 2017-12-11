@@ -79,6 +79,12 @@
         }
     </script>
 
+    <style media="screen">
+        .order_nav-list li{
+            width: 19.8%;
+        }
+    </style>
+
 </head>
 <body class="bg-f8">
 <header class="user_center_header bg-02c5a3">
@@ -233,11 +239,11 @@ $('.{!!$type!!}').addClass('hover_list');
                         jtem = item.supply.supply_attrs[j];
                         item.specification += jtem.attrs.attr_name+':'+jtem.attr_value+jtem.attrs.unit;
                     }
-                    item.store_url = '/store/view/'+item.member_id;
-                    item.seller_name = item.storeinfo.store_name;
+                    item.store_url = '/store/view/'+item.supply.member_id;
+                    item.seller_name = item.supply.storeinfo.store_name;
                     item.order_url = '/supplyorder//view/'+item.id;
                     item.order_amount = item.total_price;
-                    item.store_phone = item.storeinfo.phone;
+                    item.store_phone = item.supply.storeinfo.phone;
                     if(item.message == null){
                         item.message = '无';
                     }

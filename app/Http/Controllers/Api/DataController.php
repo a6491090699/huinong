@@ -552,7 +552,7 @@ class DataController extends Controller
         $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
         $mid = session('mid') ;
         $pagenum = 10; //每页显示数
-        $obj = Yuyue::with('supply.supplyAttrs.attrs','storeinfo');
+        $obj = Yuyue::with('supply.supplyAttrs.attrs','supply.storeinfo');
 
         if($type){
             switch ($type) {

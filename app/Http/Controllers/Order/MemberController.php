@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Order;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\Member;
 use App\Model\MemberStoreinfo;
 use App\Model\MemberAddress;
 use App\Model\Supply;
@@ -194,12 +195,17 @@ class MemberController extends Controller
     {
         //logo 名字
         $store = MemberStoreinfo::with('member')->where('member_id' ,session('mid'))->first();
+        $member = Member::where('id' ,session('mid'))->first();
+
         if($store){
             if(empty($store->logo)) $store->logo = session('avatar');
-            return view('home.member.index',['store'=>$store]);
+            return view('home.member.index',['store'=>$store,'member'=>$member]);
 
         }else{
-            return redirect('/store/add');
+            //没注册店铺的个人页面
+            $logo = session('avatar');
+            $name = session('nickname');
+            return view('home.member.index2',['member'=>$member,'logo'=>$logo,'name'=>$name]);
         }
 
         // if(!$store || empty($store->logo)) $store->logo = session('avatar');

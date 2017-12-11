@@ -28,6 +28,10 @@ class QuoteController extends Controller
         // if(!$request->isMethod('post')) die(404);
         // dd($request->all());
         $mid = session('mid');
+        $want = Want::where('id',$request->input('wid'))->first(['member_id']);
+        if($want->member_id == $mid){
+            return response()->json(['errMsg' => '你不能给自己报价!']);
+        }
         $new = new Quote();
         if($new->where('member_id',$mid)->where('wants_id',$request->input('wid'))->count()) {
             // return json_encode(array(

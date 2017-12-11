@@ -72,7 +72,7 @@ class StoreController extends Controller
         //你是否收藏了该用户
         $is_collect = StoreCollect::where('store_id',$id)->where('member_id',session('mid'))->count();
 
-
+        // dump($info);
         return view('home.store.view' ,['info'=>$info ,'supplys'=>$supplys ,'wants'=>$wants ,'collect_num'=>$collect_num,'is_collect'=>$is_collect,'order_count'=>$order_count]);
     }
 
