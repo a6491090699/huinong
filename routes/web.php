@@ -117,6 +117,7 @@ function getPic($string=''){
     return str_replace('public/','/storage/', $string);
 }
 function showImgs($string=''){
+    $string = trim($string , ';');
     $arr = explode(';',$string);
     $html = '';
     foreach($arr as  $val){
@@ -255,6 +256,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'quote'] ,function (){
 //商品供应
 Route::group(['namespace'=>'Order' ,'prefix'=>'supply'] ,function (){
     Route::get('index' , 'SupplyController@index');
+    Route::get('search' , 'SupplyController@search');
     Route::get('add' , 'SupplyController@addSupply')->middleware('no.storeinfo');
     // Route::get('edit' , 'SupplyController@addSupply');
     Route::get('view/{id}' , 'SupplyController@viewSupply');
@@ -275,6 +277,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'yuyue'] ,function (){
 
     Route::get('looked/{id}' , 'YuyueController@looked');
     Route::get('comment/{id}' , 'YuyueController@comment');
+    Route::post('add-comment' , 'YuyueController@addComment');
     // Route::get('add/' , 'YuyueController@add');
 
 

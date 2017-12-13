@@ -72,14 +72,27 @@ class YuyueController extends Controller
         return response()->view('home.common.404', ['msg'=>'已完成看货发生错误!'] ,404);
     }
 
-    //评价
+    //评价页面
     public function comment($id)
     {
         $item = Yuyue::where('id' , $id)->first();
         $item->status = 3;
+
+        //test
         if($item->save()) return response('<script>alert("评价成功!");location.href="/yuyue/my-yuyue"</script>');
         return response()->view('home.common.404', ['msg'=>'评价发生错误!'] ,404);
+        // return view('home.yuyue.comment');
     }
+
+    //评价
+    public function addComment(Request $request)
+    {
+        // $item = Yuyue::where('id' , $id)->first();
+        // $item->status = 3;
+        // if($item->save()) return response('<script>alert("评价成功!");location.href="/yuyue/my-yuyue"</script>');
+        // return response()->view('home.common.404', ['msg'=>'评价发生错误!'] ,404);
+    }
+
 
 
 

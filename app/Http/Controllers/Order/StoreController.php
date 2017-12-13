@@ -87,7 +87,6 @@ class StoreController extends Controller
     public function saveStore(Request $request){
         // dd($request);
         $data = MemberStoreinfo::where('member_id' , session('mid'))->first();
-
         $store_name = $request->input('store_name');
         $store_sale = $request->input('biz_scope');
         $base_address = $request->input('region_name');
@@ -108,6 +107,7 @@ class StoreController extends Controller
         $data->phone = $phone;
         $data->tel = $tel;
         $data->qq = $qq;
+        $data->desc = $description;
         $rs = $data->save();
 
         if($rs) return response()->json(['status'=>0 , 'info'=>'更新成功!']);

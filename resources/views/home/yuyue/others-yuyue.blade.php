@@ -78,11 +78,16 @@
             }
         }
     </script>
+    <style media="screen">
+        .order_nav-list li{
+            width: 19.8%;
+        }
+    </style>
 
 </head>
 <body class="bg-f8">
 <header class="user_center_header bg-02c5a3">
-    <a class="go_back_btn" href="/index.php?app=member">
+    <a class="go_back_btn" href="javascript:history.back()">
         <span class="iconfont color_fff">&#xe698;</span>
     </a>
     <h1 class="color_fff">预约看货</h1>
@@ -241,10 +246,10 @@
                         item.specification += jtem.attrs.attr_name+':'+jtem.attr_value+jtem.attrs.unit;
                     }
                     item.store_url = '/store/view/'+item.member_id;
-                    item.seller_name = item.storeinfo.store_name;
+                    item.seller_name = item.supply.storeinfo.store_name;
                     item.order_url = '/supplyorder//view/'+item.id;
                     item.order_amount = item.total_price;
-                    item.store_phone = item.storeinfo.phone;
+                    item.store_phone = item.phone;
                     if(item.message == null){
                         item.message = '无';
                     }

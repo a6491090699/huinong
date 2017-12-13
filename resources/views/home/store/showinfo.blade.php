@@ -6,7 +6,7 @@
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
     <meta name="_token" content="{{ csrf_token() }}"/>
 
-    <title>移动端图片压缩上传demo</title>
+    <title>店家展示图片编辑页面</title>
     <style>
 * { margin: 0; padding: 0; }
 li { list-style-type: none; }

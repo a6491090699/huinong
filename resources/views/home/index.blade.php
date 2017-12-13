@@ -281,7 +281,7 @@
     function search_goods(){
         var keyword = $.trim($("#keyword").val());
         // var url = "/index.php?app=search&act=index&keyword=" + keyword;
-        var url = "/supply/index?keyword=" + keyword;
+        var url = "/supply/search?keyword=" + keyword;
         location = url;
     }
     $("#keyword").keyup(function(event){

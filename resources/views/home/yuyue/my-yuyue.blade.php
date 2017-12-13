@@ -88,7 +88,7 @@
 </head>
 <body class="bg-f8">
 <header class="user_center_header bg-02c5a3">
-    <a class="go_back_btn" href="/index.php?app=member">
+    <a class="go_back_btn" href="javascript:history.back()">
         <span class="iconfont color_fff">&#xe698;</span>
     </a>
     <h1 class="color_fff">预约看货</h1>
@@ -280,7 +280,7 @@ $('.{!!$type!!}').addClass('hover_list');
                         buttons += '    <a class="border_box-02c5a3 font_24r color_02c5a3" style="color:#ff3a3a !important;border: 1px solid #ff3a3a;" href="/yuyue/looked/'+item.id+'">看货完成</a>';
                             break;
                         case 2:
-                            buttons += '    <a class="border_box-02c5a3 font_24r color_02c5a3" style="color:#ff3a3a !important;border: 1px solid #ff3a3a;" href="/yuyue/common/'+item.id+'">发表评价</a>';
+                            buttons += '    <a class="border_box-02c5a3 font_24r color_02c5a3" style="color:#ff3a3a !important;border: 1px solid #ff3a3a;" href="/yuyue/comment/'+item.id+'">发表评价</a>';
                             break;
                         case 3:
                             buttons += '    <a class="border_box-02c5a3 font_24r color_02c5a3" style="color:#ff3a3a !important;border: 1px solid #ff3a3a;">查看评价</a>';

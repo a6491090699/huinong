@@ -20,6 +20,13 @@ class SupplyController extends Controller
         if($request->has('type')) $type = $request->input('type');
         return view('home.supply.index',['type'=>$type]);
     }
+    //
+    public function search(Request $request)
+    {
+        $keyword = '';
+        if($request->has('keyword')) $keyword = $request->input('keyword');
+        return view('home.supply.search',['keyword'=>$keyword]);
+    }
 
     public function addSupply()
     {

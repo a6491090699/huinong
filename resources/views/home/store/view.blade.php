@@ -247,6 +247,10 @@
     <div class="form_item"  style="    text-align: center;">
     <span class="font_3r color_34 goods_name-title">卖家详情</span>
     <p class="font_24r color_67">{{$info->desc}}</p>
+    <span class="font_3r color_34 goods_name-title">图片展示</span>
+    @if($info->imgs)
+    {!!showImgs($info->imgs)!!}
+    @endif
 	<br>
 	<br>
   </div>
