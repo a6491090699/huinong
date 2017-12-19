@@ -290,11 +290,11 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'store'] ,function (){
     Route::get('add' , 'StoreController@addStoreinfo');
     Route::get('edit' , 'StoreController@editStore')->middleware('no.storeinfo');
     Route::post('save' , 'StoreController@saveStore')->middleware('no.storeinfo');
-    Route::get('index' , 'StoreController@index');
+    Route::get('index' , 'StoreController@index')->middleware('no.storeinfo');
     Route::get('showinfo' , 'StoreController@showinfo');
 
     Route::get('view/{id}' , 'StoreController@view');
-    Route::post('create' , 'StoreController@create')->middleware('no.storeinfo');
+    Route::post('create' , 'StoreController@create');
     Route::post('check-name' , 'StoreController@checkName');
     Route::post('upload-imgs' , 'StoreController@uploadImgs');
     Route::post('reset-imgs' , 'StoreController@resetImgs');
