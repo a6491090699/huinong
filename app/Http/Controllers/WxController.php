@@ -120,6 +120,7 @@ class WxController extends Controller
         $obj->reciever_phone =  $addr->phone;
         $obj->reciever_address =  $addr->full_address;
         $obj->order_sn =  date('Ymdhis').strrand(5);
+        $obj->bzj_order_sn =  date('Ymdhis').strrand(5);
         $obj->store_member_id =  $store_member_id;
 
         if($obj->save()) return response()->json(['status'=>'success','msg'=>'提交订单成功!联系商家确定订单,然后付款!']);
@@ -312,7 +313,7 @@ class WxController extends Controller
             }
             // 如果订单存在
             // 检查订单是否已经更新过支付状态
-            if ($order->is_pay =1 && $order->status>1) { // 假设订单字段“支付时间”不为空代表已经支付
+            if ($order->is_pay ==1 && $order->status>1) { // 假设订单字段“支付时间”不为空代表已经支付
                 return true; // 已经支付成功了就不再更新了
             }
             // 用户是否支付成功
@@ -548,6 +549,110 @@ class WxController extends Controller
 
 
         return view('wx.pay-page',['orderinfo'=>$orderinfo,'out_trade_no'=>$out_trade_no,'js'=>$js,'config'=>$config]);
+    }
+
+    public function payBzj(Request $request)
+    {
+        if(!$request->has('id')) return response()->view('home.common.404',['msg'=>'传参发生错误!']);
+        $id= $request->input('id');
+        $orderinfo = SupplyOrder::with('supply')->where('id',$id)->first();
+        //支付sdk 信息包
+        $user = session('wechat.oauth_user');
+        $options=require config_path().'/wechat.php';
+        $app = new Application($options);
+        $js = $app->js;
+
+        //订单详情
+        $payment = $app->payment;
+
+
+        $attributes = [
+            'trade_type'       => 'JSAPI', // JSAPI，NATIVE，APP...
+            'body'             => '卖家缴纳保证金!',
+            'detail'           => '卖家缴纳保证金!',
+            // 'out_trade_no'     => date('Ymdhis').strrand(5),
+            'out_trade_no'     => $orderinfo->bzj_order_sn,
+            // 'total_fee'        => $orderinfo->total_price*100, // 单位：分
+            'total_fee'        => config('common.bzj_price'), // 单位：分
+            'notify_url'       => 'http://sj.71mh.com/api/wx/pay-bzj-notify', // 支付结果通知网址，如果不设置则会使用配置里的默认地址
+            'openid'           => $user->id, // trade_type=JSAPI，此参数必传，用户在商户appid下的唯一标识，
+            // ...
+        ];
+        $order = new Order($attributes);
+
+        $result = $payment->prepare($order);
+
+        // dd($result);
+        if ($result->return_code == 'SUCCESS' && $result->result_code == 'SUCCESS'){
+            $prepayId = $result->prepay_id;
+            $config = $payment->configForJSSDKPayment($prepayId);
+        }
+
+
+        return view('wx.bzj',['orderinfo'=>$orderinfo,'js'=>$js,'config'=>$config]);
+    }
+
+    // public function payBzjNotify()
+    // {
+    //     \Log::info('yytest');
+    //     $options=require config_path().'/wechat.php';
+    //     $app = new Application($options);
+    //     $response = $app->payment->handleNotify(function($notify, $successful){
+    //         \Log::info($notify);
+    //         // 使用通知里的 "微信支付订单号" 或者 "商户订单号" 去自己的数据库找到订单
+    //         // $order = SupplyOrder::where('bzj_order_sn',$notify->out_trade_no)->first();
+    //         // // $order = 查询订单($notify->out_trade_no);
+    //         // if (!$order) { // 如果订单不存在
+    //         //     return 'Order not exist.'; // 告诉微信，我已经处理完了，订单没找到，别再通知我了
+    //         // }
+    //         // // 如果订单存在
+    //         // // 检查订单是否已经更新过支付状态
+    //         // if ($order->pay_bzj ==1) { // 假设订单字段“支付时间”不为空代表已经支付
+    //         //     return true; // 已经支付成功了就不再更新了
+    //         // }
+    //         // // 用户是否支付成功
+    //         // if ($successful) {
+    //         //     // 不是已经支付状态则修改为已经支付状态
+    //         //     // $order->paid_at = time(); // 更新支付时间为当前时间
+    //         //     $order->pay_bzj = 1;
+    //         //     $order->save();
+    //         //
+    //         // }
+    //         // // $order->save(); // 保存订单
+    //         return true; // 返回处理完成
+    //     });
+    //     return $response;
+    // }
+
+    public function payBzjNotify()
+    {
+        \Log::info('yytest');
+        $options=require config_path().'/wechat.php';
+        $app = new Application($options);
+        $response = $app->payment->handleNotify(function($notify, $successful){
+            // 使用通知里的 "微信支付订单号" 或者 "商户订单号" 去自己的数据库找到订单
+            $order = SupplyOrder::where('bzj_order_sn',$notify->out_trade_no)->first();
+            // $order = 查询订单($notify->out_trade_no);
+            if (!$order) { // 如果订单不存在
+                return 'Order not exist.'; // 告诉微信，我已经处理完了，订单没找到，别再通知我了
+            }
+            // 如果订单存在
+            // 检查订单是否已经更新过支付状态
+            if ($order->pay_bzj ==1) { // 假设订单字段“支付时间”不为空代表已经支付
+                return true; // 已经支付成功了就不再更新了
+            }
+            // 用户是否支付成功
+            if ($successful) {
+                // 不是已经支付状态则修改为已经支付状态
+                // $order->paid_at = time(); // 更新支付时间为当前时间
+                $order->pay_bzj = 1;
+                $order->save();
+
+            }
+            // $order->save(); // 保存订单
+            return true; // 返回处理完成
+        });
+        return $response;
     }
 
 

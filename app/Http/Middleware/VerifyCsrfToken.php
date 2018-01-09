@@ -19,5 +19,6 @@ class VerifyCsrfToken extends Middleware
         '/wx/want-notify',  //发布求购
         '/wx/supply-notify', // 发布紧急商品
         '/wx/member-notify',
+        '/api/wx/pay-bzj-notify',
     ];
 }

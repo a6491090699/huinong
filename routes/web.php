@@ -416,6 +416,12 @@ Route::group(['prefix'=>'wx' ] ,function (){
     Route::get('buy-notify' , 'WxController@buyNotify');
 
 
+    Route::get('pay-bzj' , 'WxController@payBzj');
+
+
+
+
+
 });
 
 

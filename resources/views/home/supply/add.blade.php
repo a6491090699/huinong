@@ -505,7 +505,7 @@
                                                     layer.open({content:data.errMsg, time:2});
 
                                                     setTimeout(function(){
-                                                        window.location.href='/supply/index';
+                                                        window.location.href='/supply/index?type=emergency';
                                                     },1000);
                                                 }
                                             });

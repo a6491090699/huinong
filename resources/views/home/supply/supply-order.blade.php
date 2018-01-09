@@ -190,20 +190,21 @@
     function order_confirm(id)
     {
         if(confirm("确定接受该订单?")){
-            $.ajax({
-                url:'/supplyorder/confirm',
-                type:'post',
-                data:{id:id},
-                success:function(d){
-
-                    layer.open({content:d.msg, time:2});
-
-                    setTimeout(function(){
-                        window.location.reload();
-                    },1000);
-
-                }
-            })
+            location.href="/wx/pay-bzj?id="+id;
+            // $.ajax({
+            //     url:'/supplyorder/confirm',
+            //     type:'post',
+            //     data:{id:id},
+            //     success:function(d){
+            //
+            //         layer.open({content:d.msg, time:2});
+            // 
+            //         setTimeout(function(){
+            //             window.location.reload();
+            //         },1000);
+            //
+            //     }
+            // })
         }
     }
     function order_sended(id)

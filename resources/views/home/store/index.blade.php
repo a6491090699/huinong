@@ -103,7 +103,7 @@
         <li>
       <a href="/supply/view/{{$val->id}}">
         <dl class="clearfix hot_goods">
-          <dt class="fl"><img src="/images/201710161710483319.jpg"/></dt>
+          <dt class="fl"><img src="{{getPic( explode(';',$val->imgs)[0] )}}"/></dt>
           <dd class="fl">
             <p class="font_3r color_34">{{$val->goods_name}}</p>
             <div class="goods_prop color_ff7414">
