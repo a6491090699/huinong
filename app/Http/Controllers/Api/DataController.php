@@ -347,7 +347,7 @@ class DataController extends Controller
             $obj= $obj->where('kid' ,$kid);
         }
         //是否过期
-        // $obj = $obj->where('cutday','>=',time());
+        $obj = $obj->where('cutday','>=',time());
 
 
         $obj->withCount(['orders'=>function($query){

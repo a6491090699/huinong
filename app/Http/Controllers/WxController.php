@@ -10,6 +10,8 @@ use App\Model\Want;
 use App\Model\Supply;
 use App\Model\SupplyOrder;
 use App\Model\Member;
+use App\Model\MemberStoreinfo;
+
 
 class WxController extends Controller
 {

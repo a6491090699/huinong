@@ -97,7 +97,9 @@
 
 
 					<div>
-						<p class="font_24r color_9a" style="margin-bottom: 5px;">信用值：<img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1h.png" height="12px"></p>
+						<p class="font_24r color_9a" style="margin-bottom: 5px;">信用值：
+                            {!!str_repeat('<img src="/images/star_1.png" height="12px">' ,floor($item->storeinfo->xinyong))!!}{!!str_repeat('<img src="/images/star_1h.png" height="12px">' ,5-floor($item->storeinfo->xinyong))!!}
+                            <!-- <img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1h.png" height="12px"></p> -->
 					</div>
 					<p class="font_24r color_9a ">主营：{{$item->storeinfo->store_sale}}</p>
 					<a href="/store/view/{{$item->member_id}}" class="enter_store_btn font_28r color_02c5a3" style="margin: 0;">进店</a>
@@ -217,7 +219,7 @@
             <li>
                 <a href="./goods/1_14_19738_4022.html">
                     <dl class="clearfix">
-                        <dt class="fl"><img src="/images/201411071500507139.jpg"/></dt>
+                        <dt class="fl"><img src="{{getPic( explode(';',$val->imgs)[0] )}}"/></dt>
                         <dd class="fl">
                             <p class="font_3r color_34">{{$val->goods_name}}</p>
                             <div class="sell_information">
