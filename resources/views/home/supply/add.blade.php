@@ -175,10 +175,10 @@
         </div>
 
         <div class="form_item">
-            <span class="font_3r color_34 goods_name-title">是否悬赏</span>
+            <span class="font_3r color_34 goods_name-title">VIP</span>
             <!--<label style=""><input id="bxian" name="miaoy" type="radio"/>不限</label>-->
-            <label style="font-size: 10px"><input  name="emergency" type="radio" value="0" checked/>&nbsp;否&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label>
-            <label style="font-size: 10px"><input  name="emergency" type="radio" value="1"/>是(悬赏加急,买家跟容易看到你的商品)
+            <label style="font-size: 10px"><input  name="emergency" type="radio" value="0" @if($rank==1)checked @endif disabled/>&nbsp;vip(发布不需要佣金)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label>
+            <label style="font-size: 10px"><input  name="emergency" type="radio" value="1" @if($rank==0)checked @endif disabled/>否(需支付十块佣金)
             </label>
 
         </div>

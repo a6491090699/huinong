@@ -498,8 +498,13 @@ class WxController extends Controller
 
         $out_trade_no = $attributes['out_trade_no'];
 
+        //判断是否会员
 
-        return view('home.supply.add',['base_address'=>$base_address,'out_trade_no'=>$out_trade_no,'js'=>$js,'config'=>$config]);
+        $rank = session('rank')?session('rank'):0;
+
+
+
+        return view('home.supply.add',['base_address'=>$base_address,'out_trade_no'=>$out_trade_no,'js'=>$js,'config'=>$config,'rank'=>$rank]);
     }
 
 

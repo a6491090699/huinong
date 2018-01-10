@@ -20,15 +20,17 @@ class SessionMid
         $member = \App\Model\Member::where('openid' , $openid)->first();
         if($member){
             $mid = $member->id;
+            $rank = $member->rank;
         }else{
             $new = new \App\Model\Member;
             $new->openid = $openid;
             $new->addtime = time();
             $new->save();
             $mid = $new->id;
+            $rank = 0;
         }
 
-        session(['mid'=>$mid,'nickname'=>$user->nickname ,'avatar'=>$user->avatar]);
+        session(['mid'=>$mid,'nickname'=>$user->nickname ,'avatar'=>$user->avatar ,'rank'=>$rank]);
 
         return $next($request);
     }
