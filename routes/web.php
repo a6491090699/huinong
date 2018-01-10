@@ -16,8 +16,20 @@ use App\Model\Want;
 use App\Model\Supply;
 use App\Model\Member;
 use App\Model\Kind;
+use EasyWeChat\Factory;
+
 
 // session(['mid'=>1]);
+
+//发送模板消息 
+
+function send_template_msg($template_id , $redirect_url , $data , $send_openid){
+
+    $app = app('wechat');
+    $notice = $app->notice;
+    $notice->uses($template_id)->withUrl($redirect_url)->andData($data)->andReceiver($send_openid)->send();
+
+}
 
 //从kid 获取 全名称
 function getFullCate($kid)
@@ -386,7 +398,57 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'buyorder'] ,function (){
 
 
 Route::get('test',function(){
-    getFullId(11278);
+    // $config = [
+    //     'app_id'=>config('wechat.app_id'),
+    //     'secret'=>config('wechat.secret'),
+    //     'response_type' => 'array',
+    //     'log' => [
+    //         'level' => 'debug',
+    //         'file' => app_path().'/wechat.log',
+    //     ],
+    // ];
+    // $app = Factory::officialAccount($config);
+
+    $user = session('wechat.oauth_user');
+
+
+
+    $app = app('wechat');
+    $notice = $app->notice;
+    //消息模板的id
+    $template_id = 'gYeuQmVMcaAQxlmMoVGT312vvoHfcJRQgVjcambMUn4';
+    //点击模板后的跳转
+    $url = 'http://www.baidu.com/';
+
+    $data = array(
+        'first'=>'我是测试标题',
+        "keyword1"=>'关键字1',
+       "keyword2"=>'关键字2',
+       "remark"=>'请及时查看公告',
+
+    );
+    $open_id = 'obsTvsiRvzP2M4EX3GF2eAnzrty0';
+
+    $notice->uses($template_id)->withUrl($url)->andData($data)->andReceiver($open_id)->send();
+
+
+    //循环给多个用户发送消息
+    //                foreach ($users as $user){
+    //                    if ($user['openid']!=""&&$user['openid']!='0'&&!empty($user['openid'])){
+    //                        $open_id = $user['openid'];
+
+    //　　　　　　　　　　　　　　注：不同的模板，$data的内容可能不太一样，具体要看你微信公众号后台所使用的模板，上面都有示例的
+    //                        $data = array(
+    //                            "first"=>$user['name']."同学你好,你的".$course_nam.'课教师'.$create_name.'发布了一个新的班级公告',
+    //                            "keyword1"=>'',
+    //                            "keyword2"=>'',
+    //                            "remark"=>'请及时查看班级公告',
+    //                        );
+    //                        $notice->uses($template_id)->withUrl($url)->andData($data)->andReceiver($open_id)->send();
+    //                    }
+    //                }
+
+    dd($app);
 
 
 });
