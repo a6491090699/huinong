@@ -70,22 +70,7 @@
     }
 
 </style>
-<input type="hidden" name="good_type" value="{{$type}}">
 
-<div class="topnav" style="">
-    <ul>
-        <a href="/supply/index?type=normal"><li class="normal_good">商品</li></a>
-        <a href="/supply/index?type=emergency"><li class="emergency_good">加急商品</li></a>
-    </ul>
-</div>
-<script type="text/javascript">
-    var good_type_val = $('input[name=good_type]').val();
-    if(good_type_val == 'emergency'){
-        $('.emergency_good').addClass('cur_nav');
-    }else{
-        $('.normal_good').addClass('cur_nav');
-    }
-</script>
 
 <div class="sell_index-main">
     <div class="store_able-container" style="display: block">
@@ -321,13 +306,13 @@
                 var region_id = $("#region_id").val();
                 var price = $("#price").val();
                 var order = $("#order").val();
-                var good_type = $("input[name=good_type]").val();
+
                 lat = parseFloat($("#lat").val());
                 lon = parseFloat($("#lon").val());
                 page++;
 
                 // var url = SITE_URL + '/index.php?app=search&act=index&ajax&cate_id=' + cate_id + '&region_id=' + region_id + '&price=' + price + '&keyword=' + keyword + '&page=' + page + '&order=' + order + '&lat=' + lat + '&lon=' + lon;
-                var url = '/api/supply-all?keyword=' + keyword + '&page=' + page+'&order='+order+'&region_id='+region_id+'&good_type='+good_type;
+                var url = '/api/supply-all?keyword=' + keyword + '&page=' + page+'&order='+order+'&region_id='+region_id;
                 $.getJSON(url, function (result) {
                     if (result.tuiguang_goods_list) {
                         //加载推广商品列表

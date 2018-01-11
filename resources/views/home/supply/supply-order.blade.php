@@ -198,7 +198,7 @@
             //     success:function(d){
             //
             //         layer.open({content:d.msg, time:2});
-            // 
+            //
             //         setTimeout(function(){
             //             window.location.reload();
             //         },1000);
@@ -210,20 +210,21 @@
     function order_sended(id)
     {
         if(confirm("确定发货?")){
-            $.ajax({
-                url:'/supplyorder/sended',
-                type:'post',
-                data:{id:id},
-                success:function(d){
-
-                    layer.open({content:d.msg, time:2});
-
-                    setTimeout(function(){
-                        window.location.reload();
-                    },1000);
-
-                }
-            })
+            location.href="/supplyorder/ship-info-page?order_id="+id;
+            // $.ajax({
+            //     url:'/supplyorder/sended',
+            //     type:'post',
+            //     data:{id:id},
+            //     success:function(d){
+            //
+            //         layer.open({content:d.msg, time:2});
+            //
+            //         setTimeout(function(){
+            //             window.location.reload();
+            //         },1000);
+            //
+            //     }
+            // })
         }
     }
     function order_del(id)

@@ -310,7 +310,7 @@ class DataController extends Controller
         $page = empty($request->input('page'))? 1: $request->input('page');
         $kid = empty($request->input('kind_id'))? 0: $request->input('kind_id');
         $region_id = empty($request->input('region_id'))? 0: $request->input('region_id');
-        $good_type = empty($request->input('good_type'))? '': $request->input('good_type');
+        // $good_type = empty($request->input('good_type'))? '': $request->input('good_type');
         // $region_id = empty($request->input('region_id'))? 1: $request->input('region_id');
         $orderstring =  $request->input('order');
         $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
@@ -321,8 +321,8 @@ class DataController extends Controller
 
         if($mid) $obj= $obj->where('member_id' , $mid);
         if($keyword) $obj= $obj->where('goods_name' ,'like','%'.$keyword.'%');
-        if($good_type== 'normal') $obj= $obj->where('is_emergency' ,0 );
-        if($good_type== 'emergency') $obj= $obj->where('is_emergency' ,1 );
+        // if($good_type== 'normal') $obj= $obj->where('is_emergency' ,0 );
+        // if($good_type== 'emergency') $obj= $obj->where('is_emergency' ,1 );
         if($orderstring){
             $orderstring = explode(' ',$orderstring);
             $order = $orderstring[0];

@@ -17,8 +17,9 @@ class SupplyController extends Controller
     public function index(Request $request)
     {
         $type = '';
-        if($request->has('type')) $type = $request->input('type');
-        return view('home.supply.index',['type'=>$type]);
+        // if($request->has('type')) $type = $request->input('type');
+        // return view('home.supply.index',['type'=>$type]);
+        return view('home.supply.index');
     }
     //
     public function search(Request $request)

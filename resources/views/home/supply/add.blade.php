@@ -281,7 +281,7 @@
 					</tr>
 					</tbody>
 					</table>
-					<div class="ui-confirm-title">
+					<!-- <div class="ui-confirm-title">
 						<div class="ui-scroller-mask">
 							<div id="scroller_03253216776680228" class="ui-scroller">
 								<div>
@@ -303,7 +303,7 @@
 								</p>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
     </div>
