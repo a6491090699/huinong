@@ -148,6 +148,7 @@ class BuyOrderController extends Controller
         $n->pay_price = $order->total_price;
         $n->status =0;
         $n->addtime = time();
+        $n->pay_out_trade_no = date('Ymdhis').strrand(5);
         if($n->save()){
             $order->status= 11;
             if($order->save()){
