@@ -239,9 +239,16 @@ class BuyOrderController extends Controller
         $price = $request->input('price');
         $obj =SupplyOrder::where('id',$id)->first();
 
-        if(OrderFight::where('supply_orders_id',$id)->count()) return response()->json(['status'=>'error','msg'=>'你已经提交过售后申请,错误代码151']);
-        $fight = OrderFight
-        //买家修改完成
+        // if(OrderFight::where('supply_orders_id',$id)->count()>0) return response()->json(['status'=>'error','msg'=>'你未提交过该订单的售后申请,错误代码151']);
+        $fight = OrderFight::where('supply_orders_id',$id)->first();
+        \DB::beginTransaction();
+        //修改ordef-fight表的money字段
+        $fight->money = $price;
+
+        if($fight->save()){
+            // $obj->status
+        }
+
         $obj->edit_price_status = 2;
         //修改订单价格
         $obj->total_price = $price;
