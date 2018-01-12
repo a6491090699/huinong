@@ -368,6 +368,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'supplyorder','middleware'=>'no.st
 
     Route::post('ship-info-add', 'SupplyOrderController@shipInfoAdd' );
     Route::get('ship-info-page', 'SupplyOrderController@shipInfoPage' );
+    Route::post('open-edit-price', 'SupplyOrderController@openEditPrice' );
 
 
 
@@ -393,6 +394,9 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'buyorder'] ,function (){
     Route::post('received' , 'BuyOrderController@received');
     Route::get('comment/{id}', 'BuyOrderController@comment' );
     Route::post('del', 'BuyOrderController@del' );
+    Route::post('fight', 'BuyOrderController@fight' );
+    Route::post('moneyback', 'BuyOrderController@moneyback' );
+    Route::post('edit-price', 'BuyOrderController@editPrice' );
 
 
 
@@ -402,7 +406,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'buyorder'] ,function (){
 
 Route::get('test',function(){
 
-    return view('home.supply.ship-info');
+    return view('home.supply.order-fight');
 
 
 });

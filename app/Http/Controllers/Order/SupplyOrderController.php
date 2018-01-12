@@ -91,7 +91,10 @@ class SupplyOrderController extends Controller
 
     // 添加物流信息 点击确认发货 跳转
     public function shipInfoAdd(Request $request){
-        $ship_no = $request->input('ship_no');
+        $driver_carno = $request->input('driver_carno');
+        $driver_id = $request->input('driver_id');
+        $driver_phone = $request->input('driver_phone');
+        $driver_price = $request->input('driver_price');
         $tip = $request->input('tip');
         $compressValue = $request->input('compressValue');
         $order_id = $request->input('order_id');
@@ -100,7 +103,11 @@ class SupplyOrderController extends Controller
         $c = ShipInfo::where('supply_orders_id',$order_id)->count();
         if($c) return response()->json(['status'=>'error','msg'=>'物流信息已经存在!']);
         $ship = new ShipInfo;
-        $ship->ship_no = $ship_no;
+
+        $ship->driver_carno = $driver_carno;
+        $ship->driver_id = $driver_id;
+        $ship->driver_phone = $driver_phone;
+        $ship->driver_price = $driver_price;
         $ship->tip = $tip;
         $ship->supply_orders_id = $order_id;
 
@@ -166,6 +173,21 @@ class SupplyOrderController extends Controller
                 return '';
             }
         }
+    }
+
+    public function openEditPrice(Request $request)
+    {
+        if(!$request->has('id')) return response()->json(['status'=>'error','msg'=>'参数发生错误!']);
+        $id = $request->input('id');
+        $obj =SupplyOrder::where('id',$id)->first();
+
+        $obj->edit_price_status = 1;
+        if($obj->save()){
+            // 推送消息给买家
+
+             return response()->json(['status'=>'success','msg'=>'请联系买家,协商后,买家修改价格!']);
+        }
+        return response()->json(['status'=>'fail','msg'=>'发生错误 错误代码121!']);
     }
 
 

@@ -443,6 +443,18 @@ class DataController extends Controller
                     # code...已收货 待评价
                     $obj->where('status',4);
                     break;
+                case 'fight':
+                    # code... 维权 双方进行交涉 不行 平台介入
+                    $obj->where('status',10);
+                    break;
+                case 'done':
+                    # code... 评价完成 订单完成
+                    $obj->where('status',5);
+                    break;
+                case 'cancel':
+                    # code..9 订单取消
+                    $obj->where('status',9);
+                    break;
 
                 default:
                     # code...    yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy

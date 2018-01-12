@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
-    <title>发布悬赏处理</title>
+    <title>物流信息</title>
 <meta name="keywords" content="竞苗平台,花木网,花木,中国苗木网,花木交易,花木求购,花木资讯,花木论坛,花木销售,绿化苗木" />
 
     <link rel="stylesheet"  href="/css/mobile-select-area.css">
@@ -131,15 +131,27 @@
     <a class="go_back_btn" href="javascript:history.go(-1)">
         <span class="iconfont">&#xe698;</span>
     </a>
-    <h1>发布商品</h1>
+    <h1>物流信息</h1>
 </header>
 <form id="goods_form" method="POST" action="/supplyorder/ship-info-add" style="padding-top:1rem;">
     {{csrf_field()}}
 
     <div class="padding_flanks">
         <div class="form_item">
-            <span class="font_3r color_34 goods_name-title">物流单号</span>
-            <input class="color_67  border_none font_24r goods_name" type="text" name="ship_no"  placeholder="请输入您的物流单号" value=""/>
+            <span class="font_3r color_34 goods_name-title">货运车牌号</span>
+            <input class="color_67  border_none font_24r goods_name" type="text" name="driver_carno"  placeholder="请输入你的车牌号" value=""/>
+        </div>
+        <div class="form_item">
+            <span class="font_3r color_34 goods_name-title">司机身份证</span>
+            <input class="color_67  border_none font_24r goods_name" type="text" name="driver_id"  placeholder="请输入你的身份证号码" value=""/>
+        </div>
+        <div class="form_item">
+            <span class="font_3r color_34 goods_name-title">司机电话</span>
+            <input class="color_67  border_none font_24r goods_name" type="number" name="driver_phone"  placeholder="请输入你的手机" value=""/>
+        </div>
+        <div class="form_item">
+            <span class="font_3r color_34 goods_name-title">运费价格</span>
+            <input class="color_67  border_none font_24r goods_name" type="text" name="driver_price"  placeholder="" value=""/>
         </div>
 
 

@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>全部订单 - 我的订单</title>
-<meta name="keywords" content="中国花木网,花木网,花木,中国苗木网,花木交易,花木求购,花木资讯,花木论坛,花木销售,绿化苗木" />
-<meta name="description" content="中国花木网，中国苗木网，中国花木在线交易专业平台，致力于为花木行业从业者提供更真实的花木在线交易平台，让您没有买不到的，没有卖不掉的。" />
-<meta name="_token" content="{{csrf_token()}}">
+    <meta name="keywords" content="中国花木网,花木网,花木,中国苗木网,花木交易,花木求购,花木资讯,花木论坛,花木销售,绿化苗木" />
+    <meta name="description" content="中国花木网，中国苗木网，中国花木在线交易专业平台，致力于为花木行业从业者提供更真实的花木在线交易平台，让您没有买不到的，没有卖不掉的。" />
+    <meta name="_token" content="{{csrf_token()}}">
 
     <link rel="stylesheet"  href="/css/mobile-select-area.css">
     <!--<link rel="stylesheet" href="/css/larea.css">-->
@@ -30,6 +30,7 @@
     <script type="text/javascript" src="/js/json2.js" ></script>
     <script type="text/javascript" src="/js/underscore-min.js" ></script>
     <script src="/js/ydbonline.js" type="text/javascript"></script>
+
     <script>
         //模板设置
         _.templateSettings = {
@@ -95,6 +96,7 @@
     <h1 class="color_fff">销售订单</h1>
 </header>
 <div>
+
     <ul class="order_nav-list bg-fff bd_top_bottom-eee font_3r clearfix">
         <li class="hover_list all_orders">
         <div><a href="/buyorder/index?type=all_orders">全部</a></div>
@@ -114,11 +116,23 @@
         <li class="finished">
         <div><a href="/buyorder/index?type=finished">待评价</a></div>
         </li>
+        <li class="fight">
+        <div><a href="/buyorder/index?type=fight">维权中</a></div>
+        </li>
+        <li class="done">
+        <div><a href="/buyorder/index?type=done">已完成</a></div>
+        </li>
+        <li class="cancel">
+        <div><a href="/buyorder/index?type=cancel">已取消</a></div>
+        </li>
+        <li class="moneyback">
+        <div><a href="/buyorder/index?type=moneyback">退款中</a></div>
+        </li>
 
     </ul>
 
 
-    <ul id="order_list">
+    <ul id="order_list" style="margin-top:47px">
 
     </ul>
     <div id="loading01" class='load_more' style="display: none;">
@@ -127,8 +141,28 @@
 </div>
 
 <script type="text/javascript">
+
     $('.{!!$type!!}').siblings().removeClass('hover_list');
     $('.{!!$type!!}').addClass('hover_list');
+    function moneyback(id)
+    {
+        if(confirm("确定申请退款?(退款可能产生手续费,请联系客服了解详情)")){
+            $.ajax({
+                url:'/buyorder/moneyback',
+                type:'post',
+                data:{id:id},
+                success:function(d){
+
+                    layer.open({content:d.msg, time:2});
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+
+                }
+            })
+        }
+    }
     function order_pay(id)
     {
         location.href="/wx/buy-good-page?id="+id;
@@ -152,7 +186,7 @@
     }
     function order_received(id)
     {
-        if(confirm("确认已收货?")){
+        if(confirm("验货满意, 确认已收货?")){
             $.ajax({
                 url:'/buyorder/received',
                 type:'post',
@@ -169,6 +203,39 @@
             })
         }
     }
+    function order_fight(id)
+    {
+        if(confirm("验货不满意 , 确认进入维权步骤?")){
+            $.ajax({
+                url:'/buyorder/fight',
+                type:'post',
+                data:{id:id},
+                success:function(d){
+
+                    layer.open({content:d.msg, time:2});
+
+                    setTimeout(function(){
+                        window.location.href="/buyorder/index?type=fight";
+                    },1000);
+
+                }
+            })
+        }
+    }
+
+    function order_fight_info(id)
+    {
+        location.href=""+id;
+    }
+    function order_fight_finish(id)
+    {
+
+    }
+    function order_fight_intervene(id)
+    {
+
+    }
+
     function order_comment(id)
     {
         location.href="/buyorder/comment/"+id;
@@ -208,6 +275,33 @@
             })
         }
     }
+    function edit_price(t){
+        if( $(t).prev('.editprice').val()!='' && confirm("确定修改该订单价格?")){
+            var a = $(t).prev('.editprice').val();
+
+            var id = $(t).data('orderid');
+            if(a){
+
+                $.ajax({
+                    url:'/buyorder/edit-price',
+                    type:'post',
+                    data:{id:id,price:a},
+                    dataType:'json',
+                    success:function(d){
+
+                        layer.open({content:d.msg, time:2});
+
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1000);
+
+                    }
+                })
+            }
+
+        }
+
+    }
 
 
     var order_goods_tpl = '<div class="padding_container goods_details clearfix"><dl class="clearfix fl"> <dt class="fl"><a href="{goods_url}"><img src="{logo}" style="width:80px;height:80px;object-fit:cover"/></a></dt><dd class="fl"><p class="font_28r color_34">{goods_name}</p><p class="font_24r color_9a">{specification}</p></dd></dl><div class="fr"><p class="font_28r color_34">¥{price}</p><p class="font_24r color_9a"><span class="iconfont font_23r">&#xe689;</span>{quantity}</p></div></div>';
@@ -222,10 +316,12 @@
     order_tpl += '{goods_list}';
     order_tpl += '    <div class="goods_total font_28r bg-fff padding_flanks">';
     order_tpl += '    <p>合计¥{order_amount}</p>';
+    order_tpl += '{edit_price}';
+
     order_tpl += '</div>';
     order_tpl += '</a>';
     order_tpl += '<div class="padding_flanks bg-fff">';
-    order_tpl += '<div class="text_right bd_top-eee order_btn_padding order_ops">{buttons_html}</div>';
+    order_tpl += '<div class="text_right bd_top-eee order_btn_padding order_ops" {editprice_style}>{buttons_html}</div>';
     order_tpl += '</div></li>';
 
     $(function(){
@@ -272,6 +368,10 @@
 
                 for(var i = 0; i < result.data.length; i++){
                     var item = result.data[i];
+
+                    item.editprice_style ='';
+                    item.edit_price ='';
+
                     item.goods_url = '/supply/view/'+item.supplys_id;
                     var imgs = item.supply.imgs.split(';');
                     item.logo = imgs[0].replace('public/','/storage/');
@@ -288,11 +388,19 @@
                     item.seller_name = item.storeinfo.store_name;
                     item.order_url = '/buyorder/view/'+item.id;
                     item.order_amount = item.total_price;
-
+                    if(item.edit_price_status==1){
+                        item.editprice_style = 'style="padding-top:40px;"';
+                        item.edit_price = '<p style="color:#FF0000;font-size:2.5rem;">总价(元) <input type="text" class="editprice" placeholder=" 原:'+item.order_amount+'" style="width: 40%;"><a class="border_box-02c5a3 font_24r color_02c5a3" href="#" onclick="edit_price(this)" data-orderid="'+item.id+'" style="color:#FF0000!important;border: 1px solid #ff0000;line-height: 2.5rem;padding: 0.1rem 0.4rem;">确认</a></p>';
+                    }
 
                     switch (item.status) {
                         case 0:
                             item.status_text = '待确认';
+                            if(item.edit_price_status==1){
+                                item.status_text += ',卖家申请改价';
+                            }else if(item.edit_price_status==2){
+                                item.status_text += ',改价提交完成';
+                            }
                             break;
                         case 1:
                             item.status_text = '已确认,待付款';
@@ -312,6 +420,12 @@
                         case 9:
                             item.status_text = '订单被商家取消';
                             break;
+                        case 10:
+                            item.status_text = '维权,双方交涉中';
+                            break;
+                        case 11:
+                            item.status_text = '申请退款, 等待卖家同意';
+                            break;
 
                         default:
                         item.status_text = '';
@@ -328,17 +442,28 @@
                         buttons += ' <a class="border_box-9a font_24r color_67" href="javascript:void(0)" onclick="order_pay('+item.id+')">付款</a>';
                             break;
                         case 2:
-                        // buttons += '    <a class="border_box-9a font_24r color_67 receive" >确认发货</a>';
+                        buttons += ' <a class="border_box-9a font_24r color_67" href="javascript:void(0)" onclick="moneyback('+item.id+')">申请退款</a>';
+
                         buttons += '    ';
                             break;
                         case 3:
                             buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_received('+item.id+')">确认收货</a>';
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight('+item.id+')">维权</a>';
                             break;
                         case 4:
                             buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_comment('+item.id+')">评价</a>';
                             break;
                         case 5:
                             buttons += '    ';
+                            break;
+                        case 10:
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_info('+item.id+')">维权详情</a>';
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_finish('+item.id+')">完成维权</a>';
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_intervene('+item.id+')">平台介入</a>';
+                            break;
+                        case 11:
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_info('+item.id+')">退款中</a>';
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_info('+item.id+')">平台介入</a>';
                             break;
                         case 9:
                             buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_del('+item.id+')">删除</a>';

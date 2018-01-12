@@ -107,5 +107,63 @@ class BuyOrderController extends Controller
         return response()->json(['status'=>'fail','msg'=>'订单删除失败!']);
     }
 
+    public function fight(Request $request)
+    {
+        if(!$request->has('id')) return response()->json(['status'=>'error','msg'=>'参数发生错误!']);
+        $id = $request->input('id');
+        \DB::beginTransaction();
+        $obj =SupplyOrder::where('id',$id)->first();
+        $supplys_id = $obj->supplys_id;
+        $buy_num = $obj->number;
+        $obj->status = 10;
+        if($obj->save()){
+
+            //库存减少 销量上升
+            $good = Supply::where('id',$supplys_id)->first();
+            $good->number -= $buy_num;
+            $good->saled_num += $buy_num;
+            if($good->save()){
+                \DB::commit();
+                return response()->json(['status'=>'success','msg'=>'请双方协商,若达不到协调,可申请平台介入!']);
+            }else{
+                \DB::rollback();
+                return response()->json(['status'=>'success','msg'=>'发生错误 错误代码119!']);
+            }
+        }
+        return response()->json(['status'=>'fail','msg'=>'发生错误 错误代码120!']);
+    }
+    public function moneyback(Request $request)
+    {
+        if(!$request->has('id')) return response()->json(['status'=>'error','msg'=>'参数发生错误!']);
+        $id = $request->input('id');
+        //生成退款表单记录
+        //把订单的状态变为退款中 10
+
+        \DB::beginTransaction();
+
+        $obj =SupplyOrder::where('id',$id)->first();
+        $supplys_id = $obj->supplys_id;
+
+    }
+    public function editPrice(Request $request)
+    {
+        if(!$request->has('id')) return response()->json(['status'=>'error','msg'=>'参数发生错误!']);
+        $id = $request->input('id');
+        $price = $request->input('price');
+        $obj =SupplyOrder::where('id',$id)->first();
+
+        //买家修改完成
+        $obj->edit_price_status = 2;
+        //修改订单价格
+        $obj->total_price = $price;
+
+        if($obj->save()){
+            // 推送消息给卖家
+
+             return response()->json(['status'=>'success','msg'=>'修改成功!']);
+        }
+        return response()->json(['status'=>'fail','msg'=>'发生错误 错误代码122!']);
+    }
+
 
 }
