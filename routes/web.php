@@ -369,6 +369,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'supplyorder','middleware'=>'no.st
     Route::post('ship-info-add', 'SupplyOrderController@shipInfoAdd' );
     Route::get('ship-info-page', 'SupplyOrderController@shipInfoPage' );
     Route::post('open-edit-price', 'SupplyOrderController@openEditPrice' );
+    Route::post('moneyback-agree', 'SupplyOrderController@moneybackAgree' );
 
 
 
@@ -397,6 +398,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'buyorder'] ,function (){
     Route::post('fight', 'BuyOrderController@fight' );
     Route::post('moneyback', 'BuyOrderController@moneyback' );
     Route::post('edit-price', 'BuyOrderController@editPrice' );
+    Route::post('order-moneyback-intervene', 'BuyOrderController@orderMoneybackIntervene' );
 
 
 

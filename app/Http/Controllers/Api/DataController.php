@@ -455,6 +455,10 @@ class DataController extends Controller
                     # code..9 订单取消
                     $obj->where('status',9);
                     break;
+                case 'moneyback':
+                    # code..申请退款
+                    $obj->whereIn('status',array(11,12));
+                    break;
 
                 default:
                     # code...    yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy

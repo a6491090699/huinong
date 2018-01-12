@@ -117,7 +117,7 @@
         <div><a href="/buyorder/index?type=finished">待评价</a></div>
         </li>
         <li class="fight">
-        <div><a href="/buyorder/index?type=fight">维权中</a></div>
+        <div><a href="/buyorder/index?type=fight">售后中</a></div>
         </li>
         <li class="done">
         <div><a href="/buyorder/index?type=done">已完成</a></div>
@@ -156,7 +156,7 @@
                     layer.open({content:d.msg, time:2});
 
                     setTimeout(function(){
-                        window.location.reload();
+                        window.location.href="/buyorder/index?type=moneyback";
                     },1000);
 
                 }
@@ -205,7 +205,7 @@
     }
     function order_fight(id)
     {
-        if(confirm("验货不满意 , 确认进入维权步骤?")){
+        if(confirm("验货不满意 , 确认进入售后步骤?")){
             $.ajax({
                 url:'/buyorder/fight',
                 type:'post',
@@ -233,6 +233,27 @@
     }
     function order_fight_intervene(id)
     {
+
+    }
+    function order_moneyback_intervene(id)
+    {
+        //退款 平台介入
+        if(confirm("确定平台介入?")){
+            $.ajax({
+                url:'/buyorder/order-moneyback-intervene',
+                type:'post',
+                data:{id:id},
+                success:function(d){
+
+                    layer.open({content:d.msg, time:2});
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+
+                }
+            })
+        }
 
     }
 
@@ -421,16 +442,21 @@
                             item.status_text = '订单被商家取消';
                             break;
                         case 10:
-                            item.status_text = '维权,双方交涉中';
+                            item.status_text = '售后处理,双方交涉中';
                             break;
                         case 11:
                             item.status_text = '申请退款, 等待卖家同意';
+                            break;
+
+                        case 12:
+                            item.status_text = '卖家同意退款, 等待平台打款';
                             break;
 
                         default:
                         item.status_text = '';
 
                     }
+
                     var buttons = '<a class="border_box-9a font_24r color_67" href="'+item.order_url+'" >查看订单</a>';
                     switch (item.status) {
                         case 0:
@@ -448,7 +474,7 @@
                             break;
                         case 3:
                             buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_received('+item.id+')">确认收货</a>';
-                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight('+item.id+')">维权</a>';
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight('+item.id+')">售后</a>';
                             break;
                         case 4:
                             buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_comment('+item.id+')">评价</a>';
@@ -457,20 +483,21 @@
                             buttons += '    ';
                             break;
                         case 10:
-                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_info('+item.id+')">维权详情</a>';
-                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_finish('+item.id+')">完成维权</a>';
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_info('+item.id+')">售后详情</a>';
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_finish('+item.id+')">完成售后</a>';
                             buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_intervene('+item.id+')">平台介入</a>';
                             break;
                         case 11:
-                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_info('+item.id+')">退款中</a>';
-                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_info('+item.id+')">平台介入</a>';
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="return false;">退款中</a>';
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_moneyback_intervene('+item.id+')">平台介入</a>';
                             break;
                         case 9:
                             buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_del('+item.id+')">删除</a>';
                             break;
 
+
                         default:
-                        item.status_text = '';
+                            buttons += '';
 
                     }
                     // buttons += '    <a class="border_box-9a font_24r color_67 receive" order_id="'+item.order_id+'" order_sn="'+item.order_sn+'" amount="'+item.order_amount+'" store_name="'+item.seller_name+'" '+item.confirm_order_style+'>确认收货</a>';

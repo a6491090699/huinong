@@ -124,7 +124,7 @@
         <div><a href="/supplyorder/index?type=cancel">已取消</a></div>
         </li>
         <li class="moneyback">
-        <div><a href="/buyorder/index?type=moneyback">退款</a></div>
+        <div><a href="/supplyorder/index?type=moneyback">退款</a></div>
         </li>
 
     </ul>
@@ -240,9 +240,30 @@
             })
         }
     }
-    function fight_info()
+    function fight_info(id)
     {
 
+    }
+
+    function moneyback_agree(id)
+    {
+        // 退款申请
+        if(confirm("确定同意买家的退款申请?")){
+            $.ajax({
+                url:'/supplyorder/moneyback-agree',
+                type:'post',
+                data:{id:id},
+                success:function(d){
+
+                    layer.open({content:d.msg, time:2});
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+
+                }
+            })
+        }
     }
 
 
@@ -266,7 +287,6 @@
 
     $(function(){
         $("div").delegate("a.receive", 'click', function(){
-            console.log(1111);
             var amount = $(this).attr('amount');
             var store_name = $(this).attr('store_name');
             var order_id = $(this).attr('order_id');
@@ -357,6 +377,12 @@
                         case 9:
                             item.status_text = '已取消';
                             break;
+                        case 11:
+                            item.status_text = '买家申请退款';
+                            break;
+                        case 12:
+                            item.status_text = '已同意退款申请,等待平台处理';
+                            break;
 
                         default:
                         item.status_text = '';
@@ -394,6 +420,9 @@
                             break;
                         case 10:
                             buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="fight_info('+item.id+')">维权详情</a>';
+                            break;
+                        case 11:
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="moneyback_agree('+item.id+')">同意退款申请</a>';
                             break;
 
                         default:

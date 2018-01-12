@@ -190,5 +190,20 @@ class SupplyOrderController extends Controller
         return response()->json(['status'=>'fail','msg'=>'发生错误 错误代码121!']);
     }
 
+    public function moneybackAgree(Request $request)
+    {
+        if(!$request->has('id')) return response()->json(['status'=>'error','msg'=>'参数发生错误!']);
+        $id = $request->input('id');
+        $obj =SupplyOrder::where('id',$id)->first();
+
+        $obj->status = 12;
+        if($obj->save()){
+            // 推送消息给买家
+
+             return response()->json(['status'=>'success','msg'=>'操作成功!']);
+        }
+        return response()->json(['status'=>'fail','msg'=>'发生错误 错误代码121!']);
+    }
+
 
 }

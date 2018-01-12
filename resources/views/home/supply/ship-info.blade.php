@@ -168,7 +168,7 @@
 
             </div>
 
-        <textarea class="goods_detailed_information"  name="tip" id="description"  placeholder="备注 ，如：物流情况、杂费情况 包装情况等"></textarea>
+        <textarea class="goods_detailed_information"  name="tip" id="description"  placeholder="备注 ，如：物流情况、如何取货、杂费情况 包装情况等"></textarea>
         </div>
 
 

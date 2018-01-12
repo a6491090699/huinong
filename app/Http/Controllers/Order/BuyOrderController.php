@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\SupplyOrder;
 use App\Model\Supply;
+use App\Model\MoneyBack;
 use EasyWeChat\Payment\Order;
 use EasyWeChat\Foundation\Application;
 
@@ -136,13 +137,31 @@ class BuyOrderController extends Controller
     {
         if(!$request->has('id')) return response()->json(['status'=>'error','msg'=>'参数发生错误!']);
         $id = $request->input('id');
+        $order = SupplyOrder::where('id',$id)->first();
         //生成退款表单记录
         //把订单的状态变为退款中 10
 
         \DB::beginTransaction();
+        if(MoneyBack::where('supply_orders_id',$id)->count()) return response()->json(['status'=>'error','msg'=>'已经提交退款申请!']);
+        $n = new MoneyBack;
+        $n->supply_orders_id = $id;
+        $n->pay_price = $order->total_price;
+        $n->status =0;
+        $n->addtime = time();
+        if($n->save()){
+            $order->status= 11;
+            if($order->save()){
+                \DB::commit();
+                return response()->json(['status'=>'success','msg'=>'成功提交申请!']);
+            }else{
+                \DB::rollback();
+                return response()->json(['status'=>'error','msg'=>'发生错误, 错误代码123!']);
+            }
 
-        $obj =SupplyOrder::where('id',$id)->first();
-        $supplys_id = $obj->supplys_id;
+        }else{
+            return response()->json(['status'=>'error','msg'=>'发生错误, 错误代码124!']);
+        }
+
 
     }
     public function editPrice(Request $request)
@@ -163,6 +182,12 @@ class BuyOrderController extends Controller
              return response()->json(['status'=>'success','msg'=>'修改成功!']);
         }
         return response()->json(['status'=>'fail','msg'=>'发生错误 错误代码122!']);
+    }
+
+    public function orderMoneybackIntervene(Request $request)
+    {
+        return response()->json(['status'=>'error','msg'=>'功能待开发!']);
+
     }
 
 
