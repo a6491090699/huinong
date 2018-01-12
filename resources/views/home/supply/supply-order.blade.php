@@ -419,7 +419,7 @@
                             buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_del('+item.id+')">删除</a>';
                             break;
                         case 10:
-                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="fight_info('+item.id+')">维权详情</a>';
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="fight_info('+item.id+')">售后详情</a>';
                             break;
                         case 11:
                             buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="moneyback_agree('+item.id+')">同意退款申请</a>';

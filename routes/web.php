@@ -395,10 +395,17 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'buyorder'] ,function (){
     Route::post('received' , 'BuyOrderController@received');
     Route::get('comment/{id}', 'BuyOrderController@comment' );
     Route::post('del', 'BuyOrderController@del' );
-    Route::post('fight', 'BuyOrderController@fight' );
+    // Route::post('fight', 'BuyOrderController@fight' );
     Route::post('moneyback', 'BuyOrderController@moneyback' );
     Route::post('edit-price', 'BuyOrderController@editPrice' );
     Route::post('order-moneyback-intervene', 'BuyOrderController@orderMoneybackIntervene' );
+
+    //售后流程
+    Route::post('order-fight', 'BuyOrderController@orderFight' );
+    // Route::any('order-fight-info', 'BuyOrderController@orderFightInfo' );
+    // Route::post('order-fight-finish', 'BuyOrderController@orderFightFinish' );
+    Route::post('order-fight-intervene', 'BuyOrderController@orderFightIntervene' );
+    Route::post('fight-price', 'BuyOrderController@fightPrice' );
 
 
 

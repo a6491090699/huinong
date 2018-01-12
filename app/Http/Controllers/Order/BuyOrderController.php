@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Model\SupplyOrder;
 use App\Model\Supply;
 use App\Model\MoneyBack;
+use App\Model\OrderFight;
 use EasyWeChat\Payment\Order;
 use EasyWeChat\Foundation\Application;
 
@@ -190,6 +191,71 @@ class BuyOrderController extends Controller
         return response()->json(['status'=>'error','msg'=>'功能待开发!']);
 
     }
+
+    //平台介入
+    public function orderFightIntervene(Request $request)
+    {
+        return response()->json(['status'=>'error','msg'=>'功能待开发!']);
+
+    }
+
+    //发起售后服务(要钱)
+    public function orderFight(Request $request)
+    {
+        if(!$request->has('id')) return response()->json(['status'=>'error','msg'=>'参数发生错误!']);
+        $id = $request->input('id');
+        $order = SupplyOrder::where('id',$id)->first();
+        //生成退款表单记录
+        //把订单的状态变为退款中 10
+
+        \DB::beginTransaction();
+        if(OrderFight::where('supply_orders_id',$id)->count()) return response()->json(['status'=>'error','msg'=>'已经发起售后申请!']);
+        $n = new OrderFight;
+        $n->supply_orders_id = $id;
+        $n->money = 0;
+        $n->status =0;
+        $n->addtime = time();
+        $n->pay_out_trade_no = date('Ymdhis').strrand(5);
+        if($n->save()){
+            $order->status= 10;
+            if($order->save()){
+                \DB::commit();
+                return response()->json(['status'=>'success','msg'=>'成功提交售后申请!']);
+            }else{
+                \DB::rollback();
+                return response()->json(['status'=>'error','msg'=>'发生错误, 错误代码131!']);
+            }
+
+        }else{
+            return response()->json(['status'=>'error','msg'=>'发生错误, 错误代码132!']);
+        }
+
+    }
+
+    public function fightPrice(Request $request)
+    {
+        if(!$request->has('id')) return response()->json(['status'=>'error','msg'=>'参数发生错误!']);
+        $id = $request->input('id');
+        $price = $request->input('price');
+        $obj =SupplyOrder::where('id',$id)->first();
+
+        if(OrderFight::where('supply_orders_id',$id)->count()) return response()->json(['status'=>'error','msg'=>'你已经提交过售后申请,错误代码151']);
+        $fight = OrderFight
+        //买家修改完成
+        $obj->edit_price_status = 2;
+        //修改订单价格
+        $obj->total_price = $price;
+
+        if($obj->save()){
+            // 推送消息给卖家
+
+             return response()->json(['status'=>'success','msg'=>'修改成功!']);
+        }
+        return response()->json(['status'=>'fail','msg'=>'发生错误 错误代码122!']);
+    }
+
+
+
 
 
 }

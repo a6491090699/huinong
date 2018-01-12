@@ -207,7 +207,7 @@
     {
         if(confirm("验货不满意 , 确认进入售后步骤?")){
             $.ajax({
-                url:'/buyorder/fight',
+                url:'/buyorder/order-fight',
                 type:'post',
                 data:{id:id},
                 success:function(d){
@@ -225,15 +225,45 @@
 
     function order_fight_info(id)
     {
-        location.href=""+id;
+        location.href="/buyorder/order-fight-info?id"+id;
     }
     function order_fight_finish(id)
     {
+        if(confirm("确定结束售后流程?")){
+            $.ajax({
+                url:'/buyorder/order-fight-finish',
+                type:'post',
+                data:{id:id},
+                success:function(d){
 
+                    layer.open({content:d.msg, time:2});
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+
+                }
+            })
+        }
     }
     function order_fight_intervene(id)
     {
+        if(confirm("确定平台介入?")){
+            $.ajax({
+                url:'/buyorder/order-fight-intervene',
+                type:'post',
+                data:{id:id},
+                success:function(d){
 
+                    layer.open({content:d.msg, time:2});
+
+                    setTimeout(function(){
+                        window.location.reload();
+                    },1000);
+
+                }
+            })
+        }
     }
     function order_moneyback_intervene(id)
     {
@@ -296,6 +326,33 @@
             })
         }
     }
+    function fight_price(t){
+
+        if( $(t).prev('.fightprice').val()!='' && confirm("确定该补偿金额为双方协调金额?")){
+            var a = $(t).prev('.fightprice').val();
+
+            var id = $(t).data('orderid');
+            if(a){
+
+                $.ajax({
+                    url:'/buyorder/fight-price',
+                    type:'post',
+                    data:{id:id,price:a},
+                    dataType:'json',
+                    success:function(d){
+
+                        layer.open({content:d.msg, time:2});
+
+                        setTimeout(function(){
+                            window.location.reload();
+                        },1000);
+
+                    }
+                })
+            }
+
+        }
+    }
     function edit_price(t){
         if( $(t).prev('.editprice').val()!='' && confirm("确定修改该订单价格?")){
             var a = $(t).prev('.editprice').val();
@@ -338,6 +395,7 @@
     order_tpl += '    <div class="goods_total font_28r bg-fff padding_flanks">';
     order_tpl += '    <p>合计¥{order_amount}</p>';
     order_tpl += '{edit_price}';
+    order_tpl += '{fight_price}';
 
     order_tpl += '</div>';
     order_tpl += '</a>';
@@ -392,6 +450,7 @@
 
                     item.editprice_style ='';
                     item.edit_price ='';
+                    item.fight_price ='';
 
                     item.goods_url = '/supply/view/'+item.supplys_id;
                     var imgs = item.supply.imgs.split(';');
@@ -412,6 +471,10 @@
                     if(item.edit_price_status==1){
                         item.editprice_style = 'style="padding-top:40px;"';
                         item.edit_price = '<p style="color:#FF0000;font-size:2.5rem;">总价(元) <input type="text" class="editprice" placeholder=" 原:'+item.order_amount+'" style="width: 40%;"><a class="border_box-02c5a3 font_24r color_02c5a3" href="#" onclick="edit_price(this)" data-orderid="'+item.id+'" style="color:#FF0000!important;border: 1px solid #ff0000;line-height: 2.5rem;padding: 0.1rem 0.4rem;">确认</a></p>';
+                    }
+                    if(item.status==10){
+                        item.editprice_style = 'style="padding-top:40px;"';
+                        item.edit_price = '<p style="color:#FF0000;font-size:2.5rem;">协商补偿(元) <input type="text" class="fightprice" placeholder="金额" style="width: 40%;"><a class="border_box-02c5a3 font_24r color_02c5a3" href="#" onclick="fight_price(this)" data-orderid="'+item.id+'" style="color:#FF0000!important;border: 1px solid #ff0000;line-height: 2.5rem;padding: 0.1rem 0.4rem;">确认</a></p>';
                     }
 
                     switch (item.status) {
@@ -483,8 +546,8 @@
                             buttons += '    ';
                             break;
                         case 10:
-                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_info('+item.id+')">售后详情</a>';
-                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_finish('+item.id+')">完成售后</a>';
+                            // buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_info('+item.id+')">售后详情</a>';
+                            // buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_finish('+item.id+')">完成售后</a>';
                             buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="order_fight_intervene('+item.id+')">平台介入</a>';
                             break;
                         case 11:
