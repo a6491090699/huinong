@@ -368,6 +368,7 @@
                     item.order_url = '/supplyorder/view/'+item.id;
                     item.order_amount = item.total_price;
                     if(item.status==13){
+                        
 
                         item.fight_money = '<p style="color:#FF0000;font-size:2.5rem;">协商补偿(元) <input type="text" class="fightprice" value="'+item.orderfight.money+'" style="width: 40%;" readonly ></p>';
 
