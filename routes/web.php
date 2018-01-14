@@ -215,7 +215,7 @@ Route::get('/', function () {
 
 
 
-    $wdata = Want::with('wantAttrs.attrs','kinds','quotes')->where('cutday','>',time())->limit(6)->OrderBy('id','desc')->get();
+    $wdata = Want::with('wantAttrs.attrs','kinds','quotes')->where('cutday','>',time())->where('is_pay',1)->limit(6)->OrderBy('id','desc')->get();
     $supplys = Supply::with('supplyAttrs.attrs','kinds','member','storeinfo')->where('cutday','>',time())->limit(6)->OrderBy('id','desc')->get();
     return view('home.index' , ['wdata'=>$wdata , 'supplys'=>$supplys]);
 });

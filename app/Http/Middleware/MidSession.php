@@ -15,12 +15,7 @@ class MidSession
      */
     public function handle($request, Closure $next)
     {
-        // dump(session('mid'));
-        // session(['mid'=>2]);
-        // session()->save();
-        // session()->forget('mid');
-        // dump(session()->all());
-
+        // 不是这个 是sessionmid 中间件
 
         if(empty(session('mid'))){
             $openid =getOpenid();

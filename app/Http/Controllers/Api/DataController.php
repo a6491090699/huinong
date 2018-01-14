@@ -404,7 +404,7 @@ class DataController extends Controller
         // $store_member_id = empty($request->input('store_member_id'))? '':$request->input('store_member_id') ;;
         // $member_id = session('mid') ;
         $pagenum = 10; //每页显示数
-        $obj = SupplyOrder::with('supply.supplyAttrs.attrs','supply.kinds','storeinfo','orderfight');
+        $obj = SupplyOrder::with('supply.supplyAttrs.attrs','supply.kinds','storeinfo','orderfight','userinfo');
 
 
 

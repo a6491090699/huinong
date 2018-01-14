@@ -22,4 +22,8 @@ class SupplyOrder extends Model
     {
         return $this->hasOne('App\Model\OrderFight','supply_orders_id');
     }
+    public function userinfo()
+    {
+        return $this->hasOne('App\Model\MemberUserinfo','mid','member_id');
+    }
 }

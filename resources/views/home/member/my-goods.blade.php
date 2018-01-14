@@ -343,7 +343,22 @@
                             goods.formate_time = formate_time(goods.addtime);
 
                             goods.address = goods.source;
-                            goods.star = '<img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1h.png" height="12px">';
+
+                            var star_html = '';
+                            // console.log(goods.storeinfo.xinyong);
+                            var floor_num = parseFloat(goods.storeinfo.xinyong);
+                            var nn = Math.floor(floor_num);
+                            // console.log(nn);
+                            var bb = 5-parseInt(nn);
+                            // console.log(bb)
+                            for(var i=0 ;i<nn ;i++){
+                                star_html+= '<img src="/images/star_1.png" height="12px">';
+                            }
+                            for(var i=0;i<bb;i++){
+                                star_html+= '<img src="/images/star_1h.png" height="12px">';
+                            }
+                            goods.star=star_html;
+                            // goods.star = '<img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1.png" height="12px"><img src="/images/star_1h.png" height="12px">';
 
                             goods.store_name_info = 1;
                             attrspec = '';

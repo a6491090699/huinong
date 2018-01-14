@@ -292,7 +292,7 @@
 
     var order_tpl = '<li class="user_store">';
     order_tpl += '    <div class="goods_status bg-fff padding_flanks">';
-    order_tpl += '    <span class="font_28r color_34" onclick="location=\'{store_url}\';">{seller_name}<b class="iconfont fontWeight_4 padding_flanks color_9a">&#xe614;</b></span>';
+    order_tpl += '    <span class="font_28r color_34">{seller_name}<b class="iconfont fontWeight_4 padding_flanks color_9a">&#xe614;</b></span>';
     order_tpl += '    <span class="font_24r color_ff863a fr">{status_text}</span>';
     order_tpl += '    </div>';
     order_tpl += '    <a href="{order_url}">';
@@ -363,12 +363,13 @@
                         jtem = item.supply.supply_attrs[j];
                         item.specification += jtem.attrs.attr_name+':'+jtem.attr_value+jtem.attrs.unit;
                     }
-                    item.store_url = '/store/view/'+item.member_id;
-                    item.seller_name = item.storeinfo.store_name;
+                    // item.store_url = '/store/view/'+item.member_id;
+                    // item.seller_name = item.storeinfo.store_name;
+                    item.seller_name = item.userinfo.wx_nickname;
                     item.order_url = '/supplyorder/view/'+item.id;
                     item.order_amount = item.total_price;
                     if(item.status==13){
-                        
+
 
                         item.fight_money = '<p style="color:#FF0000;font-size:2.5rem;">协商补偿(元) <input type="text" class="fightprice" value="'+item.orderfight.money+'" style="width: 40%;" readonly ></p>';
 

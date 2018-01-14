@@ -48,7 +48,7 @@
 <header class="user_header">
     <a href="/member/setting" class="user_settings fl">设置</a>
     <a href="#" class="user_message fr"><span class="iconfont">&#xe690;</span></a>
-    <a href="/member/index"><img src="{{getPic($store->logo)}}" width="75px" height="75px" class="user_picture"/></a>
+    <a href="/member/index"><img src="{{getPic($store->logo)}}" style="width:75px;height:75px;" class="user_picture"/></a>
     <p class="user_name">{{$store->store_name}}</p>
     <div class="user_attestation">
         <!-- <span class="iconfont attestation-color-phone">&#xe68e;</span>
