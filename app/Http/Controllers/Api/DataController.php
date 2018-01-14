@@ -400,11 +400,16 @@ class DataController extends Controller
         $orderstring =  $request->input('order');
         $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
         $store_member_id = session('mid') ;
+        //查询店铺订单
+        // $store_member_id = empty($request->input('store_member_id'))? '':$request->input('store_member_id') ;;
+        // $member_id = session('mid') ;
         $pagenum = 10; //每页显示数
-        $obj = SupplyOrder::with('supply.supplyAttrs.attrs','supply.kinds','storeinfo');
+        $obj = SupplyOrder::with('supply.supplyAttrs.attrs','supply.kinds','storeinfo','orderfight');
+
 
 
         if($store_member_id) $obj= $obj->where('store_member_id' , $store_member_id);
+        // if($member_id) $obj= $obj->where('member_id' , $member_id);
         if($keyword) $obj= $obj->where('goods_name' ,'like','%'.$keyword.'%');
 
         if($orderstring){
@@ -444,8 +449,8 @@ class DataController extends Controller
                     $obj->where('status',4);
                     break;
                 case 'fight':
-                    # code... 维权 双方进行交涉 不行 平台介入
-                    $obj->where('status',10);
+                    # code... 售后 双方进行交涉 不行 平台介入
+                    $obj->whereIn('status',array(10,13,14));
                     break;
                 case 'done':
                     # code... 评价完成 订单完成
@@ -492,7 +497,7 @@ class DataController extends Controller
         $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
         $mid = session('mid') ;
         $pagenum = 10; //每页显示数
-        $obj = SupplyOrder::with('supply.supplyAttrs.attrs','supply.kinds','storeinfo');
+        $obj = SupplyOrder::with('supply.supplyAttrs.attrs','supply.kinds','storeinfo','orderfight');
 
 
         if($mid) $obj= $obj->where('member_id' , $mid);
@@ -533,6 +538,22 @@ class DataController extends Controller
                 case 'finished':
                     # code...已收货 待评价
                     $obj->where('status',4);
+                    break;
+                case 'fight':
+                    # code... 售后 双方进行交涉 不行 平台介入
+                    $obj->whereIn('status',array(10,13,14));
+                    break;
+                case 'done':
+                    # code... 评价完成 订单完成
+                    $obj->where('status',5);
+                    break;
+                case 'cancel':
+                    # code..9 订单取消
+                    $obj->where('status',9);
+                    break;
+                case 'moneyback':
+                    # code..申请退款
+                    $obj->whereIn('status',array(11,12));
                     break;
 
                 default:

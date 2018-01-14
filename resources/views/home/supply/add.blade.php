@@ -179,6 +179,7 @@
             <!--<label style=""><input id="bxian" name="miaoy" type="radio"/>不限</label>-->
             <label style="font-size: 10px"><input  name="emergency" type="radio" value="0" @if($rank==1)checked @endif disabled/>&nbsp;vip(发布不需要佣金)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label>
             <label style="font-size: 10px"><input  name="emergency" type="radio" value="1" @if($rank==0)checked @endif disabled/>否(需支付十块佣金)
+                <input type="hidden" name="emergency" value="@if($rank==1) 0 @else 1 @endif">
             </label>
 
         </div>

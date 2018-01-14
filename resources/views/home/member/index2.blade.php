@@ -50,6 +50,17 @@
     <a href="#" class="user_message fr"><span class="iconfont">&#xe690;</span></a>
     <a href="/member/index"><img src="{{$logo}}" width="75px" height="75px" class="user_picture"/></a>
     <p class="user_name">{{$name}}</p>
+    <div class="user_attestation">
+        <!-- <span class="iconfont attestation-color-phone">&#xe68e;</span>
+        <span class="iconfont attestation-color-phone">&#xe68f;</span> -->
+        <span class="iconfont  color_9a">&#xe68e;</span>
+        <span class="iconfont  color_9a">&#xe6b9;</span>
+        <span class="iconfont  color_9a">&#xe988;</span>
+        <span class="iconfont  color_9a">&#xe6bb;</span>
+        <span class="iconfont color_9a">&#xe6ba;</span>
+        <span class="iconfont  color_9a">&#xe68f;</span>
+
+    </div>
 
 </header>
 <main class="user_main">

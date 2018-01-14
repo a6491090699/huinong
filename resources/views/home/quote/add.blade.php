@@ -231,13 +231,16 @@
                             },
                             error:function(){
                                 layer.open({content:'网络不给力', time:2});
+                                // setTimeout(function(){
+                                //     window.location.reload();
+                                // },1000);
                             },
                             success:function(data){
                                 // eval("data ="+data);
                                 layer.open({content:data.errMsg, time:2});
                                 if(data.errNum==0){
                                     setTimeout(function(){
-                                        window.location.reload();
+                                        window.location.href="/quote/my";
                                     },1000);
                                 }
                             },

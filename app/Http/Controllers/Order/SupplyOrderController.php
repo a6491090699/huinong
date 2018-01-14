@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\SupplyOrder;
 use App\Model\ShipInfo;
+use App\Model\OrderFight;
+use App\Model\MoneyBack;
 
 class SupplyOrderController extends Controller
 {
@@ -194,15 +196,63 @@ class SupplyOrderController extends Controller
     {
         if(!$request->has('id')) return response()->json(['status'=>'error','msg'=>'参数发生错误!']);
         $id = $request->input('id');
-        $obj =SupplyOrder::where('id',$id)->first();
+        \DB::beginTransaction();
 
+        $obj =SupplyOrder::where('id',$id)->first();
+        $money = MoneyBack::where('supply_orders_id',$id)->first();
         $obj->status = 12;
         if($obj->save()){
+          $money->status = 1;
+          if($money->save()){
+            \DB::commit();
+            return response()->json(['status'=>'success','msg'=>'操作成功!']);
+
+          }else{
+            \DB::rollback();
+            return response()->json(['status'=>'fail','msg'=>'发生错误 错误代码136!']);
+
+          }
             // 推送消息给买家
 
-             return response()->json(['status'=>'success','msg'=>'操作成功!']);
+        }else{
+          return response()->json(['status'=>'fail','msg'=>'发生错误 错误代码137!']);
+
         }
-        return response()->json(['status'=>'fail','msg'=>'发生错误 错误代码121!']);
+    }
+
+    public function fightMoneyAgree(Request $request)
+    {
+      if(!$request->has('id')) return response()->json(['status'=>'error','msg'=>'参数发生错误!']);
+      $id = $request->input('id');
+      \DB::beginTransaction();
+
+      $obj =SupplyOrder::where('id',$id)->first();
+      $fight = OrderFight::where('supply_orders_id',$id)->first();
+      $obj->status = 14;
+      if($obj->save()){
+          // 推送消息给买家
+          // 处理状态 0 买家发起售后 1 . 买家确认赔偿金额 发至卖家确定  2.卖家确认 发送至平台审核 3卖家不同意 4 平台审核通过 5 平台打款成功
+          $fight->status =2;
+          if($fight->save()){
+            \DB::commit();
+            return response()->json(['status'=>'success','msg'=>'操作成功!']);
+
+          }else{
+            \DB::rollback();
+            return response()->json(['status'=>'fail','msg'=>'发生错误 错误代码134!']);
+
+          }
+
+      }else{
+        return response()->json(['status'=>'fail','msg'=>'发生错误 错误代码135!']);
+
+      }
+    }
+
+    public function view($id)
+    {
+        return response()->view('home.common.404',['msg'=>'页面正在制作中!']);
+        
     }
 
 

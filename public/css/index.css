@@ -1464,9 +1464,10 @@ input.messages_input{
     padding:0 10%;
 }
 .order_nav-list li{
+    background-color: #fff;
     float: left;
-    width:16.6%;
-    /*width:20%;*/
+    /*width:16.6%;*/
+    width:20%;
     height:100%;
     padding:0 0.5%;
     /*padding:0 2.5%;*/

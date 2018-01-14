@@ -105,6 +105,9 @@ class MemberController extends Controller
         }else{
             $is_default =0;
         }
+        if(MemberAddress::where('mid',session('mid'))->count()==0){
+            $is_default = 1;
+        }
         $street = $request->input('address');
 
         //如果设为默认 查询数据库 把其他的isdefault 全变为0
@@ -198,12 +201,14 @@ class MemberController extends Controller
         $member = Member::where('id' ,session('mid'))->first();
 
         if($store){
-            if(empty($store->logo)) $store->logo = session('avatar');
+            if(empty($store->logo)) $store->logo = config('common.logo_default');
+            // if(empty($store->logo)) $store->logo = session('avatar');
             return view('home.member.index',['store'=>$store,'member'=>$member]);
 
         }else{
             //没注册店铺的个人页面
-            $logo = session('avatar');
+            $logo =  config('common.logo_default');
+            // $logo = session('avatar');
             $name = session('nickname');
             return view('home.member.index2',['member'=>$member,'logo'=>$logo,'name'=>$name]);
         }

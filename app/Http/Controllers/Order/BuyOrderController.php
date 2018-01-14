@@ -244,23 +244,27 @@ class BuyOrderController extends Controller
         \DB::beginTransaction();
         //修改ordef-fight表的money字段
         $fight->money = $price;
+        $fight->status = 1;
 
         if($fight->save()){
             // $obj->status
+            $obj->status = 13;
+            if($obj->save()){
+                \DB::commit();
+                return response()->json(['status'=>'success','msg'=>'成功发送给卖家，待卖家确认!']);
+            }else{
+                \DB::rollback();
+                return response()->json(['status'=>'error','msg'=>'发生错误, 错误代码132!']);
+            }
+
         }
 
-        $obj->edit_price_status = 2;
-        //修改订单价格
-        $obj->total_price = $price;
 
-        if($obj->save()){
-            // 推送消息给卖家
-
-             return response()->json(['status'=>'success','msg'=>'修改成功!']);
-        }
-        return response()->json(['status'=>'fail','msg'=>'发生错误 错误代码122!']);
     }
 
+    public function view($id){
+        return response()->view('home.common.404',['msg'=>'页面正在制作中!']);
+    }
 
 
 

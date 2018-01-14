@@ -32,8 +32,8 @@
         </div>
     </div>
   </div>
-  <div class="container">
-        <p>{{$msg}}</p>
+  <div class="container" style="text-align:center">
+        <h1>{{$msg}}</h1>
   </div>
 
 </section>

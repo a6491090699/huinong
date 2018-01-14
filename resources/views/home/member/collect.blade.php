@@ -104,7 +104,7 @@
             <li>
         <dl class="clearfix">
           <a href="/supply/view/{{$val->goods->id}}">
-            <dt class="fl"><img src="{{getPic(config('common.img_default'))}}" style="width:88px;height:88px"/></dt>
+            <dt class="fl"><img src="{{getPic( explode(';',$val->goods->imgs)[0] )}}" style="width:88px;height:88px"/></dt>
             <dd class="fl position_relative">
               <p class="font_3r color_34">{{$val->goods->goods_name}}</p>
               <div class="sell_information">

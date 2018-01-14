@@ -93,7 +93,7 @@
     <a class="go_back_btn" href="javascript:history.back()">
         <span class="iconfont color_fff">&#xe698;</span>
     </a>
-    <h1 class="color_fff">销售订单</h1>
+    <h1 class="color_fff">采购订单</h1>
 </header>
 <div>
 
@@ -289,23 +289,9 @@
 
     function order_comment(id)
     {
-        location.href="/buyorder/comment/"+id;
-        // if(confirm("确定发货?")){
-        //     $.ajax({
-        //         url:'/supplyorder/sended',
-        //         type:'post',
-        //         data:{id:id},
-        //         success:function(d){
-        //
-        //             layer.open({content:d.msg, time:2});
-        //
-        //             setTimeout(function(){
-        //                 window.location.reload();
-        //             },1000);
-        //
-        //         }
-        //     })
-        // }
+        alert('评价功能暂未开放！')
+        // location.href="/buyorder/comment/"+id;
+
     }
     function order_del(id)
     {
@@ -344,7 +330,7 @@
                         layer.open({content:d.msg, time:2});
 
                         setTimeout(function(){
-                            window.location.reload();
+                            window.location.href="/buyorder/index?type=fight";
                         },1000);
 
                     }
@@ -430,7 +416,7 @@
             $(this).show();
             $(this).find('a').text('加载中......');
             page++;
-            var url = '/api/get-supply-order?type={!!$type!!}&page='+page;
+            var url = '/api/get-buy-order?type={!!$type!!}&page='+page;
             // var url = '/index.php?app=buyer_order&act=index&type=all_orders&order_sn=&ajax&page='+page;
             $.getJSON(url, function(result){
                 if(result.data.length==0){
@@ -514,12 +500,19 @@
                         case 12:
                             item.status_text = '卖家同意退款, 等待平台打款';
                             break;
+                        case 13:
+                            item.status_text = '买家提交协商赔偿金额, 等待卖家确定';
+                            break;
+                        case 14:
+                            item.status_text = '卖家同意协商金额, 等待平台打款';
+                            break;
 
                         default:
                         item.status_text = '';
 
                     }
 
+                    // var buttons = '<a class="border_box-9a font_24r color_67" href="javascript:alert('+'该功能正在开发中！'+')" >查看订单</a>';
                     var buttons = '<a class="border_box-9a font_24r color_67" href="'+item.order_url+'" >查看订单</a>';
                     switch (item.status) {
                         case 0:

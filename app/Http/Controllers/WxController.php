@@ -64,6 +64,7 @@ class WxController extends Controller
         // $data = \App\Model\MemberAddress::where('mid' , session('mid'))->get(['full_address','region_id','street','phone','name','id'])->toArray();
         $address_data = \App\Model\MemberAddress::where('mid' , session('mid'))->get()->toArray();
         $default_addr = \App\Model\MemberAddress::where('mid' , session('mid'))->where('is_default',1)->first();
+        // if(!$default_addr) ;
         // dd($data);
         if(empty($address_data)) return response("<script>alert('请先添加你的收货人信息!');location.href='/member/address';</script>");
         $address = array();

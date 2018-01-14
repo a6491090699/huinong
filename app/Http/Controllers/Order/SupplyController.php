@@ -173,6 +173,7 @@ class SupplyController extends Controller
         }
         $out_trade_no = $request->input('out_trade_no');
         $emergency = $request->input('emergency');
+        // dd($request->all());
         $name = $request->input('goods_name');
         $price = $request->input('price')[0];
         $minimum = $request->input('minimum')[0];
@@ -244,7 +245,7 @@ class SupplyController extends Controller
             // $obj->save();
         }
         if($emergency){
-            return response()->json(['status'=>'1','errMsg'=>'发布紧急商品成功','call_pay'=>1]);
+            return response()->json(['status'=>'1','errMsg'=>'发布商品成功','call_pay'=>1]);
         }else{
             return response()->json(['status'=>'1','errMsg'=>'发布商品成功','call_pay'=>0]);
         }

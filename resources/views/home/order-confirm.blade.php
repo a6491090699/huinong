@@ -348,23 +348,27 @@
       </div>
     </div>
         <div class="padding_flanks bg-fff bd_top-eee">
-      <div class="form_item">
+      <!-- <div class="form_item">
         <span class="font_3r color_34 goods_name-title">配送方式</span>
         <input class="payment_id_text" id="shipping_id_text" value="请选择配送方式"/>
         <input type="hidden" name="shipping_id" id="shipping_id" value=""/>
         <b class="iconfont select_arrows-icon">&#xe614;</b>
-      </div>
+      </div> -->
       <div class="form_item">
         <span class="font_3r color_34 goods_name-title">运费</span><span>(提交订单后 ,请联系卖家商量运费)</span>
         <span class="font_28r fr color_67" id="shipping_fee_span">0.00</span>
       </div>
       <div class="form_item">
-        <span class="font_3r color_34 goods_name-title">买家留言:</span>
-        <input type="text" id="postscript" name="postscript" class="buyer_message_box"/>
+          <span class="font_3r color_34 goods_name-title">买家留言:</span>
+          <input class="color_67  border_none font_24r goods_name " type="text" name="postscript" id="postscript" placeholder="请输入您的留言" value=""/>
       </div>
+      <!-- <div class="form_item">
+        <span class="font_3r color_34 goods_name-title">买家留言:</span>
+        <input type="text" id="postscript" name="postscript" class="buyer_message_box" placeholder="留言"/>
+      </div> -->
     </div>
 
-    <div class="user_store bg-fff">
+    <div class="user_store bg-fff" style="margin-top:0px;">
       <div class="form_item padding_flanks bd_top-eee">
         <a class="a_full" id="pay_mode">
           <span class="font_3r color_34 goods_name-title">支付方式</span>

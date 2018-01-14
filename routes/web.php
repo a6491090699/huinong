@@ -358,6 +358,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'supplyorder','middleware'=>'no.st
     //全部订单
     Route::get('index' , 'SupplyOrderController@index');
     Route::get('edit/{id}' , 'SupplyOrderController@edit');
+    Route::get('view/{id}' , 'SupplyOrderController@view');
 
     //商家销售订单操作
     Route::post('cancel' , 'SupplyOrderController@cancel');
@@ -370,6 +371,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'supplyorder','middleware'=>'no.st
     Route::get('ship-info-page', 'SupplyOrderController@shipInfoPage' );
     Route::post('open-edit-price', 'SupplyOrderController@openEditPrice' );
     Route::post('moneyback-agree', 'SupplyOrderController@moneybackAgree' );
+    Route::post('fight-money-agree', 'SupplyOrderController@fightMoneyAgree' );
 
 
 
@@ -394,6 +396,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'buyorder'] ,function (){
     Route::get('pay/{id}' , 'BuyOrderController@pay');
     Route::post('received' , 'BuyOrderController@received');
     Route::get('comment/{id}', 'BuyOrderController@comment' );
+    Route::get('view/{id}','BuyOrderController@view');
     Route::post('del', 'BuyOrderController@del' );
     // Route::post('fight', 'BuyOrderController@fight' );
     Route::post('moneyback', 'BuyOrderController@moneyback' );

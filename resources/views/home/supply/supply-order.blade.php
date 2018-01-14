@@ -115,7 +115,7 @@
         <div><a href="/supplyorder/index?type=finished">待评价</a></div>
         </li>
         <li class="fight">
-        <div><a href="/supplyorder/index?type=fight">维权中</a></div>
+        <div><a href="/supplyorder/index?type=fight">售后中</a></div>
         </li>
         <li class="done">
         <div><a href="/supplyorder/index?type=done">已完成</a></div>
@@ -265,6 +265,26 @@
             })
         }
     }
+    function fight_money_agree(id)
+    {
+        // 退款申请
+        if(confirm("确定同意买家的赔偿金额?")){
+            $.ajax({
+                url:'/supplyorder/fight-money-agree',
+                type:'post',
+                data:{id:id},
+                success:function(d){
+
+                    layer.open({content:d.msg, time:2});
+
+                    setTimeout(function(){
+                        window.location.href="/supplyorder/index?type=fight";
+                    },1000);
+
+                }
+            })
+        }
+    }
 
 
     var order_goods_tpl = '<div class="padding_container goods_details clearfix"><dl class="clearfix fl"> <dt class="fl"><a href="{goods_url}"><img src="{logo}" style="width:80px;height:80px"/></a></dt><dd class="fl"><p class="font_28r color_34">{goods_name}</p><p class="font_24r color_9a">{specification}</p></dd></dl><div class="fr"><p class="font_28r color_34">¥{price}</p><p class="font_24r color_9a"><span class="iconfont font_23r">&#xe689;</span>{quantity}</p></div></div>';
@@ -279,10 +299,11 @@
     order_tpl += '{goods_list}';
     order_tpl += '    <div class="goods_total font_28r bg-fff padding_flanks">';
     order_tpl += '    <p>合计¥{order_amount}</p>';
+    order_tpl += '    {fight_money}';
     order_tpl += '</div>';
     order_tpl += '</a>';
     order_tpl += '<div class="padding_flanks bg-fff">';
-    order_tpl += '<div class="text_right bd_top-eee order_btn_padding order_ops">{buttons_html}</div>';
+    order_tpl += '<div class="text_right bd_top-eee order_btn_padding order_ops" {fight_money_style}>{buttons_html}</div>';
     order_tpl += '</div></li>';
 
     $(function(){
@@ -328,6 +349,8 @@
 
                 for(var i = 0; i < result.data.length; i++){
                     var item = result.data[i];
+                    item.fight_money = '';
+                    item.fight_money_style = '';
                     item.goods_url = '/supply/view/'+item.supplys_id;
                     var imgs = item.supply.imgs.split(';');
                     item.logo = imgs[0].replace('public/','/storage/');
@@ -342,9 +365,15 @@
                     }
                     item.store_url = '/store/view/'+item.member_id;
                     item.seller_name = item.storeinfo.store_name;
-                    item.order_url = '/supplyorder//view/'+item.id;
+                    item.order_url = '/supplyorder/view/'+item.id;
                     item.order_amount = item.total_price;
+                    if(item.status==13){
 
+                        item.fight_money = '<p style="color:#FF0000;font-size:2.5rem;">协商补偿(元) <input type="text" class="fightprice" value="'+item.orderfight.money+'" style="width: 40%;" readonly ></p>';
+
+                        item.fight_money_style = 'style="padding-top:40px;"';
+
+                    }
 
                     switch (item.status) {
                         case 0:
@@ -372,7 +401,7 @@
                             item.status_text = '已完成';
                             break;
                         case 10:
-                            item.status_text = '维权中,待交涉';
+                            item.status_text = '售后中,待交涉';
                             break;
                         case 9:
                             item.status_text = '已取消';
@@ -382,6 +411,12 @@
                             break;
                         case 12:
                             item.status_text = '已同意退款申请,等待平台处理';
+                            break;
+                        case 13:
+                            item.status_text = '买家确认赔偿金额,待处理';
+                            break;
+                        case 14:
+                            item.status_text = '确认赔偿金额成功,等待平台打款给卖家';
                             break;
 
                         default:
@@ -405,7 +440,6 @@
                             break;
                         case 2:
                         // buttons += '    <a class="border_box-9a font_24r color_67 receive" >确认发货</a>';
-                        buttons += '    <a class="border_box-9a font_24r color_67" href="javascript:void(0)" onclick="order_sended('+item.id+')">同意申请退款</a>';
                         buttons += '    <a class="border_box-9a font_24r color_67" href="javascript:void(0)" onclick="order_sended('+item.id+')">确认发货</a>';
 
                             break;
@@ -423,6 +457,9 @@
                             break;
                         case 11:
                             buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="moneyback_agree('+item.id+')">同意退款申请</a>';
+                            break;
+                        case 13:
+                            buttons += '    <a class="border_box-9a font_24r color_67 " href="javascript:void(0)" onclick="fight_money_agree('+item.id+')">确定协商金额</a>';
                             break;
 
                         default:
