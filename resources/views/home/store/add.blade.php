@@ -53,12 +53,16 @@
 <script type="text/javascript" src="/js/plupload.min.js"></script>
 
 <body class="bg-f8">
+<div class="guodu" style="position: fixed;height: 100px;width: 100%;top: 40%;text-align:center;display:none">
+    <img src="/images/loading.gif" alt="">
+    <p style="font-size:24px;">正在上传,请等待!</p>
+</div>
 <header class="user_center_header bd_bottom-ddd">
     <a class="go_back_btn" href="javascript:history.go(-1)">
         <span class="iconfont">&#xe698;</span>
     </a>
     <h1>店铺信息</h1>
-    <a href="javascript:$('#my_store_form').trigger('submit')" class="address_save">添加</a>
+    <a href="javascript:$('.guodu').show();$('#my_store_form').trigger('submit')" class="address_save">添加</a>
 </header>
 <form id="my_store_form" method="post" action="/store/create">
 {{csrf_field()}}
@@ -162,6 +166,7 @@
     <div id="imglist"></div>
 </div>
 </form>
+
 
 <div class="mask_layer" id="mask_layer" style="display: none">
 

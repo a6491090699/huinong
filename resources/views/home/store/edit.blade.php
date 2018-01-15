@@ -132,7 +132,10 @@
         </a>
     </div>
 </div>
-
+<div class="guodu" style="position: fixed;height: 100px;width: 100%;top: 40%;text-align:center;display:none">
+    <img src="/images/loading.gif" alt="">
+    <p style="font-size:24px;">正在上传,请等待!</p>
+</div>
 
 <div class="mask_layer" id="mask_layer" style="display: none">
 
@@ -175,8 +178,10 @@ headers: {
             onblur  : false,
             submitHandler: function (form) {
                 if (!submited){
+                    $('.guodu').show();
                     // $.post('index.php?app=my_store&ajax=true', $('#my_store_form').serialize(), function (json) {
                     $.post('/store/save', $('#my_store_form').serialize(), function (json) {
+                        $('.guodu').hide();
                         layer.open({content:json.info, time:3});
                         if (json.status == 0) {
                             setTimeout(function () {

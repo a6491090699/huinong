@@ -49,9 +49,7 @@
     <!-- yytest -->
     <link rel="stylesheet" href="/css/yyupload.css" />
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js" type="text/javascript" charset="utf-8"></script>
-    <script type="text/javascript" charset="utf-8">
-        wx.config(<?php echo $js->config(array('onMenuShareQQ', 'onMenuShareWeibo','chooseWXPay'), false) ?>);
-    </script>
+
 
 </head>
 <!-- <script type="text/javascript" src="/js/ueditor.config.js"></script>
@@ -113,9 +111,9 @@
     </a>
     <h1>发布商品</h1>
 </header>
-<form id="goods_form" method="POST" action="/supply/create" style="padding-top:1rem;">
+<form id="goods_form" method="POST" action="/test-img" style="padding-top:1rem;">
     {{csrf_field()}}
-<input type="hidden" name="out_trade_no" value="{{$out_trade_no}}">
+
     <div class="padding_flanks">
         <div class="form_item">
             <span class="font_3r color_34 goods_name-title">商品名称</span>
@@ -174,15 +172,7 @@
             </a>
         </div>
 
-        <div class="form_item">
-            <span class="font_3r color_34 goods_name-title">VIP</span>
-            <!--<label style=""><input id="bxian" name="miaoy" type="radio"/>不限</label>-->
-            <label style="font-size: 10px"><input  name="emergency" type="radio" value="0" @if($rank==1)checked @endif disabled/>&nbsp;vip(发布不需要佣金)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label>
-            <label style="font-size: 10px"><input  name="emergency" type="radio" value="1" @if($rank==0)checked @endif disabled/>否(需支付十块佣金)
-                <input type="hidden" name="emergency" value="@if($rank==1) 0 @else 1 @endif">
-            </label>
 
-        </div>
 
         <div id="wap_description" style="display: block">
             <div style="color: red;position: relative;top:0px;font-size: small">(必填项，优秀的商品描述为，①该苗木品种介绍②基地的优势介绍③内容排版美观。)</div>
@@ -384,8 +374,7 @@
             '</div>';
     var goods_uploaded_img_tpl = '<li ectype="handle_pic" file_id="{file_id}" thumbnail="{thumbnail}"> <img src="/images//afd736a71c714714aa99f1297d56f12f.gif" alt="" /> <input type="hidden" name="goods_file_id[]" value="{file_id}" /> <span class="iconfont close-x del_img" onclick="drop_image({file_id})">&#xe66f;</span> </li>';
 
-    // var baseaddress_list_json = [{"baseaddress_id":"35870","name":"\u9ed8\u8ba4\u57fa\u5730","region_id":"350503008","region_name":"\u798f\u5efa \u6cc9\u5dde \u4e30\u6cfd \u5317\u5cf0\u8857\u9053 ","detail":"\u6e05\u6e90\u5c71\u82b1\u535a\u56ed\u4e00\u671f","user_id":"0","store_id":"90714","lon":"118.580475","lat":"24.937429","first_letter":"","pinyin":"","main_goods":"","squre":"","phone":"","contact_name":"","region":["\u798f\u5efa","\u6cc9\u5dde","\u4e30\u6cfd","\u5317\u5cf0\u8857\u9053"],"id":"35870"},{"baseaddress_id":"35871","name":"\u9ed8\u8ba4\u57fa\u5730","region_id":"350503008","region_name":"\u798f\u5efa \u6cc9\u5dde \u4e30\u6cfd \u5317\u5cf0\u8857\u9053 ","detail":"\u6e05\u6e90\u5c71\u82b1\u535a\u56ed\u4e00\u671f","user_id":"0","store_id":"90714","lon":"118.580475","lat":"24.937429","first_letter":"","pinyin":"","main_goods":"","squre":"","phone":"","contact_name":"","region":["\u798f\u5efa","\u6cc9\u5dde","\u4e30\u6cfd","\u5317\u5cf0\u8857\u9053"],"id":"35871"}];
-    var baseaddress_list_json = {!!$base_address!!};
+
     var EARTH_RADIUS = 6378137.0; //单位M
     var PI = Math.PI;
 
@@ -466,24 +455,21 @@
                     onfocusout : false,
                     onblur  : false,
                     ignore: '',
-                    rules: validate_rules,
-                    messages: validate_messages,
+                    // rules: validate_rules,
+                    // messages: validate_messages,
                     submitHandler: function (form) {
                         //处理mobiselect插件的值
-                            $(".mobiselect_item").each(function(){
-                                var val_array = $(this).val().split(',');
-                                $(this).val(val_array[0]);
-                            });
+
                             $(".yyimg-list li").each(function(){
                                 $("#goods_form").append('<input type="hidden" name="compressValue[]" value="'+$(this).data('img')+'">');
                                 // console.log($(this).data('img'));
                             });
 
-                            if (!submited && check_number_value()   && check_main_spec('price') && check_main_spec('stock') && check_sys_spec() &&check_description()) {
-                            // if (!submited) {
+                            // if (!submited && check_number_value()   && check_main_spec('price') && check_main_spec('stock') && check_sys_spec() &&check_description()) {
+                            if (!submited) {
                                 $.ajax({
                                     type:'post',
-                                    url:'/supply/create',
+                                    url:'/test-img',
                                     data:$('#goods_form').serialize(),
                                     // data:formData,
                                     // async: false,
@@ -492,40 +478,19 @@
                                     // processData: false,
                                     beforeSend:function(){
                                         //
+                                        // alert(123)
                                         $('.guodu').show();
                                     },
                                     error:function(){
-                                        $('.guodu').hide();
                                         layer.open({content:'网络不给力', time:2});
                                     },
                                     success:function(data){
                                         $('.guodu').hide();
+                                        console.info(data)
+                                        alert('success');
                                         // eval("data ="+data);
                                         // layer.open({content:data.errMsg, time:2});
-                                        if(data.call_pay){
-                                            wx.chooseWXPay({
-                                                timestamp: <?= $config['timestamp'] ?>,
-                                                nonceStr: '<?= $config['nonceStr'] ?>',
-                                                package: '<?= $config['package'] ?>',
-                                                signType: '<?= $config['signType'] ?>',
-                                                paySign: '<?= $config['paySign'] ?>', // 支付签名
-                                                success: function (res) {
-                                                    // 支付成功后的回调函数
-                                                    layer.open({content:data.errMsg, time:2});
 
-                                                    setTimeout(function(){
-                                                        window.location.href='/supply/index?type=emergency';
-                                                    },1000);
-                                                }
-                                            });
-
-                                        }else {
-                                            layer.open({content:data.errMsg, time:2});
-
-                                            setTimeout(function(){
-                                                window.location.href='/supply/index';
-                                            },1000);
-                                        }
                                     },
                                     complete:function(){
                                         //

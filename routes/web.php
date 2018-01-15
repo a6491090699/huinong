@@ -418,8 +418,51 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'buyorder'] ,function (){
 
 Route::get('test',function(){
 
-    return view('home.supply.order-fight');
+    return view('test');
 
+
+
+});
+Route::any('test-img',function(Request $request){
+    // dd($request);
+    function singleUpload($compress){
+        if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $compress, $result)){
+            $type = $result[2];
+            // $root =
+            // dump(public_path());
+            // dump($_SERVER['DOCUMENT_ROOT']);
+            // dd($_SERVER);
+            $new_file = storage_path().'/app/public/test/';
+
+            //如果文件不存在,则创建
+            if(!file_exists($new_file))
+            {
+                mkdir($new_file, 0777, true);
+            }
+
+            $new_file = $new_file.time().strrand(5). '.' .$type;
+            if (file_put_contents($new_file, base64_decode(str_replace($result[1],'', $compress)))){
+
+                $return = str_replace(storage_path().'/app/' ,'',$new_file);
+                return $return;
+                // return 'public/'.
+
+            }else{
+                return '';
+            }
+        }
+    }
+
+
+    $base64_image_content = $request->input('compressValue');
+    if(empty($base64_image_content)) return '';
+    $return = '';
+    foreach($base64_image_content as $val){
+
+        $return .= singleUpload($val).';';
+
+    }
+    echo $return;
 
 });
 //微信支付测试

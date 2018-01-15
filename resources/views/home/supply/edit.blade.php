@@ -265,7 +265,10 @@ $(function(){
         <button class="footer_btn color_fff bg-02c5a3" type="submit">确定发布</button>
     </div>
 </form>
-
+<div class="guodu" style="position: fixed;height: 100px;width: 100%;top: 40%;text-align:center;display:none">
+    <img src="/images/loading.gif" alt="">
+    <p style="font-size:24px;">正在上传,请等待!</p>
+</div>
 <script>
     var page_initialized = false;
 
@@ -421,6 +424,7 @@ $(function(){
 
                         if (!submited && check_number_value()   && check_main_spec('price') && check_main_spec('stock') && check_sys_spec() &&check_description()) {
                             submited = true;
+                            $('.guodu').show();
                             form.submit();
                             $(this).attr('disabled', "true");
                         }

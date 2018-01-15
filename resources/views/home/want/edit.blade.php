@@ -181,12 +181,14 @@
                         data:$('#requirement_form').serialize(),
                         beforeSend:function(){
                             //
+                            $('.guodu').show();
                         },
                         error:function(){
+                            $('.guodu').hide();
                             layer.open({content:'网络不给力', time:2});
                         },
                         success:function(data){
-
+                            $('.guodu').hide();
                             layer.open({content:data.errMsg, time:2});
                             setTimeout(function(){
                                 window.location.href='/want/index';
@@ -538,7 +540,10 @@
         </div>
     </div>
 </form>
-
+<div class="guodu" style="position: fixed;height: 100px;width: 100%;top: 40%;text-align:center;display:none">
+    <img src="/images/loading.gif" alt="">
+    <p style="font-size:24px;">正在上传,请等待!</p>
+</div>
 
 
 <script>
