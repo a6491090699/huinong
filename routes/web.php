@@ -211,27 +211,48 @@ function getSon($arr,$str='')
 }
 
 
-Route::get('/', function () {
-
-
-
+Route::get('/', function(){
     $wdata = Want::with('wantAttrs.attrs','kinds','quotes')->where('cutday','>',time())->where('is_pay',1)->limit(6)->OrderBy('id','desc')->get();
     $supplys = Supply::with('supplyAttrs.attrs','kinds','member','storeinfo')->where('cutday','>',time())->limit(6)->OrderBy('id','desc')->get();
     return view('home.index' , ['wdata'=>$wdata , 'supplys'=>$supplys]);
 });
-// Route::get('/home' , function(){
-//     $appid = config('wechat.appid');
-//     $secret = config('wechat.appsecret');
-//     $oauth = new \Henter\WeChat\OAuth($appid, $secret);
-//     $callback_url = 'http://your_site.com/your_callback_url';
-//     $url = $oauth->getAuthorizeURL($callback_url);
-//
-// });
-// Route::get('uploadform' , function(){
-//     // echo asset('storage/hehe.png');exit;
-//     return view('upload');
-// });
 
+//后台管理系统
+
+Route::group(['namespace'=>'Admin' , 'prefix'=>'admin'] , function(){
+
+    Route::get('login' , 'LoginController@showLoginForm');
+    Route::post('login' , 'LoginController@login');
+
+
+});
+Route::group(['namespace'=>'Admin' , 'prefix'=>'admin' ,'middleware'=>'admin'] , function(){
+    Route::get('index' , 'HomeController@index');
+
+    Route::get('register' , 'RegisterController@registerPage');
+    Route::post('register' , 'RegisterController@register');
+
+
+    Route::post('logout' , 'LoginController@logout');
+
+    // 会员管理
+    Route::get('member' , 'HomeController@memberList');
+
+    //订单管理
+    Route::get('order' , 'HomeController@orderList');
+
+    // ta的交易
+    Route::get('trade' , 'HomeController@tradeList');
+    Route::get('trade-order' , 'HomeController@tradeOrder');
+    // Route::get('trade-order-supply' , 'HomeController@tradeOrderSupply');
+    // Route::get('trade-order-buy' , 'HomeController@tradeOrderBuy');
+    // Route::get('trade-order-good' , 'HomeController@tradeOrderGood');
+    // Route::get('trade-order-want' , 'HomeController@tradeOrderWant');
+    // Route::get('trade-order-quote' , 'HomeController@tradeOrderQuote');
+    // Route::get('trade-order-yuyue' , 'HomeController@tradeOrderYuyue');
+
+
+});
 //发布求购
 Route::group(['namespace'=>'Order' ,'prefix'=>'want' ] ,function (){
     Route::get('index' , 'WantController@index');

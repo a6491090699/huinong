@@ -395,8 +395,8 @@ class DataController extends Controller
         // dd(session('mid'));
         $page = empty($request->input('page'))? 1: $request->input('page');
         $type = empty($request->input('type'))? 1: $request->input('type');
-        $kind_id = empty($request->input('page'))? 1: $request->input('kind_id');
-        $region_id = empty($request->input('page'))? 1: $request->input('region_id');
+        $kind_id = empty($request->input('kid'))? 0: $request->input('kind_id');
+        $region_id = empty($request->input('region_id'))? 0: $request->input('region_id');
         $orderstring =  $request->input('order');
         $keyword = empty($request->input('keyword'))? '':$request->input('keyword') ;
         $store_member_id = session('mid') ;
@@ -477,7 +477,8 @@ class DataController extends Controller
             $obj= $obj->where('region_id' ,$region_id);
         }
         if($kind_id){
-            $obj= $obj->where('kid' ,$kid);
+            // $obj= $obj->where('kid' ,$kid);
+            $obj= $obj->where('kid' ,$kind_id);
         }
 
 
