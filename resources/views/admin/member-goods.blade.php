@@ -11,35 +11,27 @@
             <thead>
               <tr>
                 <th>id</th>
-                <th>订单号</th>
-                <th>用户</th>
-                <th>商品名称</th>
+                <th>商品</th>
                 <th>单价</th>
-                <th>数量</th>
-                <th>规格</th>
-                <th>总价(元)</th>
-                <th>操作</th>
+                <th>库存</th>
+                <th>截止日期</th>
+                <th>发布日期</th>
+                <th>苗源</th>
+                <th>编辑</th>
 
               </tr>
             </thead>
             <tbody>
                 @forelse($data as $val)
                 <tr>
-                  <td>{{$val['id']}}</td>
-                  <td>{{$val['order_sn']}}</td>
-                  <td>{{$val['userinfo']['wx_nickname']}}</td>
-                  <td>{{$val['supply']['goods_name']}}</td>
-                  <td>{{$val['supply']['price']}}</td>
-                  <td>{{$val['number']}}</td>
-                  <td>
-                      @foreach($val['supply']['supply_attrs'] as $v)
-                        {{$v['attrs']['attr_name']}}:{{$v['attr_value']}}{{$v['attrs']['unit']}}
-                      @endforeach
-
-                  </td>
-                  <td>{{$val['total_price']}}</td>
-                  <td><a href=""><i class="fa fa-edit"></i></a> <a href=""><span class="fa fa-delete-o"></span></a></td>
-
+                  <td>{{$val->id}}</td>
+                  <td>{{$val->goods_name}}</td>
+                  <td>{{$val->price}}</td>
+                  <td>{{$val->number}}</td>
+                  <td>{{date('Y-m-d H:i', $val->cutday)}}</td>
+                  <td>{{date('Y-m-d H:i', $val->addtime)}}</td>
+                  <td>{{$val->source}}</td>
+                  <td><a href="" title="编辑"><i class="fa fa-edit"></i></a>&nbsp;&nbsp; <a href="" title="删除"><span class="fa fa-trash-o"></span></a></td>
                 </tr>
                 @empty
                 <tr>

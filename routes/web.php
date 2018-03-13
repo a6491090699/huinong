@@ -31,6 +31,85 @@ function send_template_msg($template_id , $redirect_url , $data , $send_openid){
 
 }
 
+// 获取状态栏信息 true代表供货商状态 false 代表买房状态
+function getStatus($in=0 ,$role = true)
+{
+    if ($role) {
+        switch ($in) {
+            case 0:
+                $info = '待确认';
+                break;
+            case 1:
+                $info = '待付款';
+                break;
+            case 2:
+                $info = '待发货';
+                break;
+            case 3:
+                $info = '待收货';
+                break;
+            case 4:
+                $info = '待评价';
+                break;
+            case 5:
+                $info = '已完成';
+                break;
+            case 9:
+                $info = '已取消';
+                break;
+            case 10:
+                $info = '售后中,待交涉';
+                break;
+            case 11:
+                $info = '买家申请退款';
+                break;
+            case 12:
+                $info = '已同意退款申请,等待平台处理';
+                break;
+            case 13:
+                $info = '买家确认赔偿金额,待处理';
+                break;
+            case 14:
+                $info = '确认赔偿金额成功,等待平台打款给卖家';
+                break;
+
+            default:
+                # code...
+                break;
+        }
+
+        return $info;
+    }
+
+}
+
+// 预约状态
+function getYuyueStatus($in)
+{
+    switch ($in) {
+        case 0:
+            $out = '待确认';
+            break;
+        case 1:
+            $out = '待看货';
+            break;
+        case 2:
+            $out = '待评价';
+            break;
+        case 3:
+            $out = '已完成';
+            break;
+        case 9:
+            $out = '已取消';
+            break;
+
+        default:
+            $out = '';
+            break;
+    }
+    return $out;
+}
+
 //从kid 获取 全名称
 function getFullCate($kid)
 {
@@ -545,7 +624,21 @@ Route::group(['namespace'=>'Api' ,'prefix'=>'api'] ,function (){
     // Route::get('get-my-want' , 'DataController@getMyWant');
 
 });
+Route::get('apitest' , function(){
+    if(Cache::has('supply_info'))
+    {
+        $info = Cache::get('supply_info');
+        echo 111;
+    }else{
+        // $info =\App\Model\Supply::all();
+        Cache::put('supply_info' , 'yytest' ,10);
+        echo 222;
+    }
+    dd(Cache::get('supply_info'));
 
+    // dd($info);
+    // echo 123;
+});
 
 //处理上传图片
 Route::post('/uploadfile' , 'User\UserSettingController@uploadfile');

@@ -11,35 +11,29 @@
             <thead>
               <tr>
                 <th>id</th>
-                <th>订单号</th>
-                <th>用户</th>
-                <th>商品名称</th>
-                <th>单价</th>
-                <th>数量</th>
-                <th>规格</th>
-                <th>总价(元)</th>
-                <th>操作</th>
+                <th>预约商品名称</th>
+                <th>预约状态</th>
+                <th>开始时间</th>
+                <th>结束时间</th>
+                <th>联系人</th>
+                <th>联系号码</th>
+                <th>留言</th>
+                <th>编辑</th>
 
               </tr>
             </thead>
             <tbody>
                 @forelse($data as $val)
                 <tr>
-                  <td>{{$val['id']}}</td>
-                  <td>{{$val['order_sn']}}</td>
-                  <td>{{$val['userinfo']['wx_nickname']}}</td>
-                  <td>{{$val['supply']['goods_name']}}</td>
-                  <td>{{$val['supply']['price']}}</td>
-                  <td>{{$val['number']}}</td>
-                  <td>
-                      @foreach($val['supply']['supply_attrs'] as $v)
-                        {{$v['attrs']['attr_name']}}:{{$v['attr_value']}}{{$v['attrs']['unit']}}
-                      @endforeach
-
-                  </td>
-                  <td>{{$val['total_price']}}</td>
-                  <td><a href=""><i class="fa fa-edit"></i></a> <a href=""><span class="fa fa-delete-o"></span></a></td>
-
+                  <td>{{$val->id}}</td>
+                  <td>{{$val->supply->goods_name}}</td>
+                  <td>{{getYuyueStatus($val->status)}}</td>
+                  <td>{{$val->start_data}}</td>
+                  <td>{{$val->end_data}}</td>
+                  <td>{{$val->name}}</td>
+                  <td>{{$val->phone}}</td>
+                  <td>{{$val->message}}</td>
+                  <td><a href="" title="编辑"><i class="fa fa-edit"></i></a>&nbsp;&nbsp; <a href="" title="删除"><span class="fa fa-trash-o"></span></a></td>
                 </tr>
                 @empty
                 <tr>

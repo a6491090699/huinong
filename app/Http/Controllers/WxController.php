@@ -556,7 +556,7 @@ class WxController extends Controller
 
         return view('wx.pay-page',['orderinfo'=>$orderinfo,'out_trade_no'=>$out_trade_no,'js'=>$js,'config'=>$config]);
     }
-
+    // 保证金
     public function payBzj(Request $request)
     {
         if(!$request->has('id')) return response()->view('home.common.404',['msg'=>'传参发生错误!']);
