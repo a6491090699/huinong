@@ -311,6 +311,10 @@ Route::group(['namespace'=>'Admin' , 'prefix'=>'admin' ,'middleware'=>'admin'] ,
     Route::get('register' , 'RegisterController@registerPage');
     Route::post('register' , 'RegisterController@register');
 
+    // 管理员管理
+    Route::get('admins' , 'HomeController@admins');
+
+
 
     Route::post('logout' , 'LoginController@logout');
 
@@ -631,7 +635,7 @@ Route::get('apitest' , function(){
         echo 111;
     }else{
         // $info =\App\Model\Supply::all();
-        Cache::put('supply_info' , 'yytest' ,10);
+        Cache::put('supply_info' , 'yytest');
         echo 222;
     }
     dd(Cache::get('supply_info'));

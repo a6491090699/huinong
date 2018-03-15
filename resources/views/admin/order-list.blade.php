@@ -38,7 +38,7 @@
 
                   </td>
                   <td>{{$val['total_price']}}</td>
-                  <td><a href=""><i class="fa fa-edit"></i></a> <a href=""><span class="fa fa-delete-o"></span></a></td>
+                  <td><a href=""><i class="fa fa-edit"></i></a> <a href=""><span class="fa fa-trash-o"></span></a></td>
 
                 </tr>
                 @empty

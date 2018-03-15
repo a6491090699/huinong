@@ -6,20 +6,20 @@
 <div class="content-wrapper">
   <div class="page-title">
     <div>
-      <h1><i class="fa fa-dashboard"></i> 111Dashboard</h1>
-      <p>A free and modular admin template</p>
+      <h1><i class="fa fa-dashboard"></i> 土木网后台编辑系统</h1>
+      <p>version 1.0 @yuyi</p>
     </div>
     <div>
       <ul class="breadcrumb">
         <li><i class="fa fa-home fa-lg"></i></li>
-        <li><a href="#">Dashboard</a></li>
+        <li><a href="/admin/index">首页</a></li>
       </ul>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6">
       <div class="card">
-        <h3 class="card-title">Getting Started</h3>
+        <h3 class="card-title">操作须知</h3>
         <p>Vali is a free and responsive dashboard theme built with Bootstrap, Pug.js (templating) and SASS. It's fully customizable and modular. You don't need to add the code, you will not use.</p>
         <p>The issue with the most admin themes out there is that if you will see their source code there are a hell lot of external CSS and javascript files in there. And if you try to remove a CSS or Javascript file some things stops working.</p>
         <p>That's why I made Vali. Which is a light weight yet expendable and good looking theme. The theme has all the features required in a dashboard theme but this features are built like plug and play module. Take a look at the <a href="http://pratikborsadiya.in/blog/vali-admin" target="_blank">documentation</a> about customizing the theme.</p>
@@ -28,7 +28,7 @@
     </div>
     <div class="col-md-6">
       <div class="card">
-        <h3 class="card-title">Compatibility with frameworks</h3>
+        <h3 class="card-title">公司公告</h3>
         <p>This theme is not built for a specific framework or technology like Angular or React etc. But due to it's modular nature it's very easy to incorporate it into any front-end or back-end framework like Angular, React or Laravel.</p>
         <p>Go to <a href="http://pratikborsadiya.in/blog/vali-admin" target="_blank">documentation</a> for more details about integrating this theme with various frameworks.</p>
         <p>The source code is available on GitHub. If anything is missing or weird please report it as an issue on <a href="https://github.com/pratikborsadiya/vali-admin" target="_blank">GitHub</a>. If you want to contribute to this theme pull requests are always welcome.</p>

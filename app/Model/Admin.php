@@ -13,6 +13,11 @@ class Admin extends Authenticatable
 
     protected $guarded= [];
 
+    public function roleinfo()
+    {
+        return $this->belongsTo('App\Model\AdminRole' , 'role_id');
+    }
+
 
 
 

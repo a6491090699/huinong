@@ -13,13 +13,10 @@
             <thead>
               <tr>
                 <th>id</th>
-                <th>openid</th>
-                <th>姓名</th>
-                <th>会员等级</th>
-                <th>手机号码</th>
-                <th>收货地址</th>
-                <th>他的店铺</th>
-                <th>账户余额</th>
+                <th>账户名</th>
+                <th>身份</th>
+                <th>创建时间</th>
+                <th>上次更改时间</th>
                 <th>操作</th>
 
               </tr>
@@ -28,13 +25,10 @@
                 @forelse($data as $val)
                 <tr>
                   <td>{{$val->id}}</td>
-                  <td>{{$val->openid}}</td>
-                  <td>{{$val->memberinfo->wx_nickname}}</td>
-                  <td>@if($val->rank == 1) 会员 @else 一般用户 @endif</td>
-                  <td>@if($val->memberinfo->phone){{$val->memberinfo->phone}} @else 未认证 @endif</td>
-                  <td>@if($val->defaultaddr) {{$val->defaultaddr->full_address }} @else 未填写 @endif</td>
-                  <td>@if($val->store)<a href="/store/view/{{$val->id}}">{{$val->store->store_name}}</a>@else 未开通店铺@endif</td>
-                  <td>{{$val->money}}</td>
+                  <td>{{$val->username}}</td>
+                  <td>{{$val->roleinfo->name}}</td>
+                  <td>{{$val->created_at}}</td>
+                  <td>{{$val->updated_at}}</td>
                   <td><a href=""><i class="fa fa-edit"></i></a> <a href=""><span class="fa fa-trash-o"></span></a></td>
 
                 </tr>

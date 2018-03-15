@@ -245,39 +245,18 @@ class HomeController extends Controller
     }
 
 
+    public function admins()
+    {
+        $data = \App\Model\Admin::with('roleinfo')->get();
+        $pageconfig = array(
+            'breadcrumb_title'=>'管理员管理',
+            'breadcrumb_index'=>'/admin/admins',
+            'locate'=>'index',
 
-
-
-    // public function tradeOrderSupply(Request $request)
-    // {
-    //
-    // }
-    //
-    // public function tradeOrderBuy(Request $request)
-    // {
-    //
-    // }
-    //
-    // public function tradeOrderGood(Request $request)
-    //
-    //
-    // }
-    //
-    // public function tradeOrderWant(Request $request)
-    // {
-    //
-    // }
-    //
-    // public function tradeOrderQuote(Request $request)
-    // {
-    //
-    // }
-    //
-    // public function tradeOrderYuyue(Request $request)
-    // {
-    //
-    // }
-
+        );
+        // dump($data->toArray());
+        return view('admin.admins' ,['data'=>$data ,'pageconfig'=>$pageconfig]);
+    }
 
 
 

@@ -10,8 +10,8 @@
     </div>
     <!-- Sidebar Menu-->
     <ul class="sidebar-menu">
-      <li class="active"><a href="index.html"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-      <li class="treeview"><a href="#"><i class="fa fa-laptop"></i><span>UI Elements</span><i class="fa fa-angle-right"></i></a>
+      <li class="active"><a href="/admin/index"><i class="fa fa-dashboard"></i><span>首页</span></a></li>
+      <!-- <li class="treeview"><a href="#"><i class="fa fa-laptop"></i><span>UI Elements</span><i class="fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           <li><a href="bootstrap-components.html"><i class="fa fa-circle-o"></i> Bootstrap Elements</a></li>
           <li><a href="http://fontawesome.io/icons/" target="_blank"><i class="fa fa-circle-o"></i> Font Icons</a></li>
@@ -56,13 +56,12 @@
             </ul>
           </li>
         </ul>
-      </li>
+      </li> -->
 
       <!-- 会员管理 -->
       <li class="treeview"><a href=""><i class="fa fa-user"></i><span>会员管理</span><i class="fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
           <li><a href="/admin/member"><i class="fa fa-circle-o"></i>用户列表</a></li>
-          <li class="treeview"><a href="#"><i class="fa fa-circle-o"></i>添加用户</a></li>
         </ul>
       </li>
       <!-- 订单管理 -->
@@ -90,35 +89,35 @@
       <!-- 交易介入 -->
       <li class="treeview"><a href="#"><i class="fa fa-handshake-o"></i><span>交易介入</span><i class="fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
-          <li><a href="blank-page.html"><i class="fa fa-circle-o"></i>用户列表</a></li>
+          <li><a href="#"><i class="fa fa-circle-o"></i>用户列表</a></li>
           <li class="treeview"><a href="#"><i class="fa fa-circle-o"></i>添加用户</a></li>
         </ul>
       </li>
       <!-- 数据中心 -->
       <li class="treeview"><a href="#"><i class="fa fa-pie-chart"></i><span>数据中心</span><i class="fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
-          <li><a href="blank-page.html"><i class="fa fa-circle-o"></i>用户列表</a></li>
+          <li><a href="#"><i class="fa fa-circle-o"></i>用户列表</a></li>
           <li class="treeview"><a href="#"><i class="fa fa-circle-o"></i>添加用户</a></li>
         </ul>
       </li>
       <!-- 园林俱乐部 -->
       <li class="treeview"><a href="#"><i class="fa fa-tree"></i><span>园林俱乐部</span><i class="fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
-          <li><a href="blank-page.html"><i class="fa fa-circle-o"></i>用户列表</a></li>
+          <li><a href="#"><i class="fa fa-circle-o"></i>用户列表</a></li>
           <li class="treeview"><a href="#"><i class="fa fa-circle-o"></i>添加用户</a></li>
         </ul>
       </li>
       <!-- 分销中心 -->
       <li class="treeview"><a href="#"><i class="fa fa-cubes"></i><span>分销中心</span><i class="fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
-          <li><a href="blank-page.html"><i class="fa fa-circle-o"></i>用户列表</a></li>
+          <li><a href="#"><i class="fa fa-circle-o"></i>用户列表</a></li>
           <li class="treeview"><a href="#"><i class="fa fa-circle-o"></i>添加用户</a></li>
         </ul>
       </li>
       <!-- 添加用户 -->
       <li class="treeview"><a href="#"><i class="fa fa-share"></i><span>管理员操作</span><i class="fa fa-angle-right"></i></a>
         <ul class="treeview-menu">
-          <li><a href="blank-page.html"><i class="fa fa-circle-o"></i>管理员用户列表</a></li>
+          <li><a href="/admin/admins"><i class="fa fa-circle-o"></i>管理员用户列表</a></li>
           <li class="treeview"><a href="/admin/register"><i class="fa fa-circle-o"></i>添加用户</a></li>
         </ul>
       </li>
