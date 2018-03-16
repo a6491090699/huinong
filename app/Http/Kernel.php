@@ -37,8 +37,8 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 
             //yyedit
-            \Overtrue\LaravelWechat\Middleware\OAuthAuthenticate::class,
-            \App\Http\Middleware\SessionMid::class,
+            // \Overtrue\LaravelWechat\Middleware\OAuthAuthenticate::class,
+            // \App\Http\Middleware\SessionMid::class,
 
             // \App\Http\Middleware\MidSession::class,
         ],
@@ -46,6 +46,10 @@ class Kernel extends HttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
+        ],
+        'wechatgroup'=>[
+            \Overtrue\LaravelWechat\Middleware\OAuthAuthenticate::class,
+            \App\Http\Middleware\SessionMid::class,
         ],
     ];
 
@@ -63,7 +67,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-        'auth.wechat' => \App\Http\Middleware\Wechatauth::class,
+        // 'auth.wechat' => \App\Http\Middleware\Wechatauth::class,
         'wechat.oauth' => \Overtrue\LaravelWechat\Middleware\OAuthAuthenticate::class,
         'no.storeinfo' => \App\Http\Middleware\NoStoreinfo::class,
         'admin' => \App\Http\Middleware\Admin::class,

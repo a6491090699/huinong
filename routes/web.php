@@ -294,7 +294,7 @@ Route::get('/', function(){
     $wdata = Want::with('wantAttrs.attrs','kinds','quotes')->where('cutday','>',time())->where('is_pay',1)->limit(6)->OrderBy('id','desc')->get();
     $supplys = Supply::with('supplyAttrs.attrs','kinds','member','storeinfo')->where('cutday','>',time())->limit(6)->OrderBy('id','desc')->get();
     return view('home.index' , ['wdata'=>$wdata , 'supplys'=>$supplys]);
-});
+})->middleware('wechatgroup');
 
 //后台管理系统
 
@@ -337,7 +337,7 @@ Route::group(['namespace'=>'Admin' , 'prefix'=>'admin' ,'middleware'=>'admin'] ,
 
 });
 //发布求购
-Route::group(['namespace'=>'Order' ,'prefix'=>'want' ] ,function (){
+Route::group(['namespace'=>'Order' ,'prefix'=>'want' ,'middleware'=>'wechatgroup'] ,function (){
     Route::get('index' , 'WantController@index');
     Route::get('fabu' , 'WantController@fabu');
     Route::post('fabu' , 'WantController@fabu');
@@ -358,7 +358,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'want' ] ,function (){
 
 });
 //报价
-Route::group(['namespace'=>'Order' ,'prefix'=>'quote'] ,function (){
+Route::group(['namespace'=>'Order' ,'prefix'=>'quote','middleware'=>'wechatgroup'] ,function (){
     Route::get('add/{id}' , 'QuoteController@addQuote');
     Route::post('create' , 'QuoteController@createQuote');
     Route::get('my' , 'QuoteController@myQuote');
@@ -370,7 +370,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'quote'] ,function (){
 });
 
 //商品供应
-Route::group(['namespace'=>'Order' ,'prefix'=>'supply'] ,function (){
+Route::group(['namespace'=>'Order' ,'prefix'=>'supply','middleware'=>'wechatgroup'] ,function (){
     Route::get('index' , 'SupplyController@index');
     Route::get('search' , 'SupplyController@search');
     Route::get('add' , 'SupplyController@addSupply')->middleware('no.storeinfo');
@@ -383,7 +383,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'supply'] ,function (){
 });
 
 //商品预约看货
-Route::group(['namespace'=>'Order' ,'prefix'=>'yuyue'] ,function (){
+Route::group(['namespace'=>'Order' ,'prefix'=>'yuyue','middleware'=>'wechatgroup'] ,function (){
     Route::post('create' , 'YuyueController@create');
     Route::get('my-yuyue' , 'YuyueController@myYuyue');
     Route::get('others-yuyue' , 'YuyueController@othersYuyue')->middleware('no.storeinfo');
@@ -402,7 +402,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'yuyue'] ,function (){
 
 //店铺操作
 // Route::get('store/add' , 'Order\StoreController@addStoreinfo');
-Route::group(['namespace'=>'Order' ,'prefix'=>'store'] ,function (){
+Route::group(['namespace'=>'Order' ,'prefix'=>'store','middleware'=>'wechatgroup'] ,function (){
     Route::get('add' , 'StoreController@addStoreinfo');
     Route::get('edit' , 'StoreController@editStore')->middleware('no.storeinfo');
     Route::post('save' , 'StoreController@saveStore')->middleware('no.storeinfo');
@@ -421,7 +421,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'store'] ,function (){
 });
 // /index.php?app=mlselection&act=regions4app&up_level=4
 //会员中心
-Route::group(['namespace'=>'Order' ,'prefix'=>'member'] ,function (){
+Route::group(['namespace'=>'Order' ,'prefix'=>'member','middleware'=>'wechatgroup'] ,function (){
     Route::get('address', 'MemberController@address');
     Route::get('collect', 'MemberController@collect');
     Route::get('id-valid', 'MemberController@idValid');
@@ -455,7 +455,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'member'] ,function (){
     Route::get('my-goods' , 'MemberController@myGoods')->middleware('no.storeinfo');
 
 });
-Route::group(['namespace'=>'Order' ,'prefix'=>'supplyorder','middleware'=>'no.storeinfo'] ,function (){
+Route::group(['namespace'=>'Order' ,'prefix'=>'supplyorder','middleware'=>['wechatgroup','no.storeinfo']] ,function (){
 
 
     //supply Order list
@@ -488,7 +488,7 @@ Route::group(['namespace'=>'Order' ,'prefix'=>'supplyorder','middleware'=>'no.st
 
 
 });
-Route::group(['namespace'=>'Order' ,'prefix'=>'buyorder'] ,function (){
+Route::group(['namespace'=>'Order' ,'prefix'=>'buyorder','middleware'=>'wechatgroup'] ,function (){
 
 
     //supply Order list
@@ -572,7 +572,7 @@ Route::any('test-img',function(Request $request){
 //微信支付测试
 
 
-Route::group(['prefix'=>'wx' ] ,function (){
+Route::group(['prefix'=>'wx','middleware'=>'wechatgroup' ] ,function (){
     Route::any('index', 'WxController@index');
     Route::any('jsapi', 'WxController@jsapi');
 
@@ -607,7 +607,7 @@ Route::group(['prefix'=>'wx' ] ,function (){
 
 
 //获取数据异步接口
-Route::group(['namespace'=>'Api' ,'prefix'=>'api'] ,function (){
+Route::group(['namespace'=>'Api' ,'prefix'=>'api','middleware'=>'wechatgroup'] ,function (){
     Route::get('kinds' , 'DataController@getKinds');
     Route::get('attribute' , 'DataController@getAttribute');
     Route::get('city' , 'DataController@getCity');
